@@ -1,82 +1,76 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 
-export default function Home() {
-  const form = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = (values: any) => {
-    console.log(values);
-  };
+const Home = () => {
   return (
-    <main className="grid place-content-center h-screen">
-      <Card>
-        <CardHeader>
-          <CardTitle>SIGN UP</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your full name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Submit</Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </main>
+    <div className="h-screen grid place-content-center">
+      <SignUp />
+    </div>
   );
-}
+};
+
+export default Home;
+
+const SignUp = () => {
+  const form = useForm();
+  return (
+    <div className="shadow rounded w-[400px] p-8">
+      <h1 className="font-semibold text-3xl text-center mb-6">SIGN UP</h1>
+      <Form {...form}>
+        <FormField
+          name="name"
+          render={() => (
+            <FormItem>
+              <FormLabel>Full Name</FormLabel>
+              <Input
+                className="rounded-none"
+                id="name"
+                type="text"
+                placeholder="Enter your full name"
+              />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="email"
+          render={() => (
+            <FormItem className="mt-4">
+              <FormLabel>Email</FormLabel>
+              <Input
+                className="rounded-none"
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+              />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="password"
+          render={() => (
+            <FormItem className="mt-4">
+              <FormLabel>Password</FormLabel>
+              <Input
+                className="rounded-none"
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+              />
+            </FormItem>
+          )}
+        />
+        <Button className="w-full mt-6 rounded-none">SIGN UP</Button>
+      </Form>
+      <p className="mt-8 text-center">
+        Already have an account?{" "}
+        <Link className="font-bold" href="">
+          Log in
+        </Link>
+      </p>
+    </div>
+  );
+};
