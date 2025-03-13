@@ -12,9 +12,10 @@ import { DownOutlined } from "@ant-design/icons";
 import { Button, Drawer, Dropdown, Space } from "antd";
 import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
-
+import AppoinmentModal from './AppoinmentModal'
 const Navbar = ({ pathname }) => {
   const [open, setOpen] = useState(false);
+  const [openResponsive, setOpenResponsive] = useState(false);
   const showDrawer = () => {
     setOpen(true);
   };
@@ -25,13 +26,9 @@ const Navbar = ({ pathname }) => {
   const items = [
     {
       label: (
-        <a
-          href="https://www.antgroup.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          1st menu item
-        </a>
+        <Link href={'/profile'}>
+        My Account
+        </Link>
       ),
       key: "0",
     },
@@ -72,11 +69,11 @@ const Navbar = ({ pathname }) => {
       <div className="grid lg:grid-cols-3 md:grid-cols-2 px-4 lg:px-0">
         <div className="hidden lg:block">
           <div className="flex gap-11">
-            <div className="flex gap-2 ">
+            <Link href={'/contactUs'}><div className="flex gap-2 ">
               <MdOutlinePhone className="mt-1" />
               <h1>Contact Us</h1>
-            </div>
-            <div className="flex gap-2 ">
+            </div></Link>
+            <div onClick={() => setOpenResponsive(true)} className="flex cursor-pointer gap-2 ">
               <RiCalendar2Line className="mt-1" />
               <h1>Book an appointment</h1>
             </div>
@@ -114,8 +111,9 @@ const Navbar = ({ pathname }) => {
               </Dropdown>
             </div>
           </div>
-          <LuHeart />
-          <IoBagHandleOutline />
+          <Link href={'/favorite'}><LuHeart /> </Link>
+          
+          <Link href={'/myCart'}><IoBagHandleOutline /></Link>
           <div className="block lg:hidden">
             <div className="flex justify-end">
               <button className="text-2xl" onClick={showDrawer}>
@@ -158,6 +156,7 @@ const Navbar = ({ pathname }) => {
           ))}
         </div>
       </div>
+      <AppoinmentModal openResponsive={openResponsive} setOpenResponsive={setOpenResponsive}></AppoinmentModal>
     </div>
   );
 };

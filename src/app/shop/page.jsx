@@ -11,7 +11,7 @@ import img6 from "../../../public/ring/img6.png";
 import RingCategory from "../../components/ringSection/RingCategory";
 import CardShop from "../../components/shared/CardShop";
 import { IoFilterSharp } from "react-icons/io5";
-import { Select } from "antd";
+import { Dropdown, Select } from "antd";
 import { Filter } from "../../components/shared/Filter";
 const page = () => {
   const shops = [
@@ -75,7 +75,6 @@ const page = () => {
       title: "Willow Diamond Engagement Ring",
       price: "$10.99",
     },
-    
   ];
 
   const handleChange = (value) => {
@@ -108,16 +107,8 @@ const page = () => {
       </div>
       <RingCategory></RingCategory>
 
-      <div className="flex justify-between items-center pt-20">
-        <div>
-          <h1 className="pb-4">Showing 58 results</h1>
-          <button className="bg-black text-white px-4 py-2 flex  gap-2">
-            <span className="pt-[3px]">
-              <IoFilterSharp />
-            </span>
-            Filter
-          </button>
-        </div>
+      <div className="">
+        
         <Filter></Filter>
       </div>
 

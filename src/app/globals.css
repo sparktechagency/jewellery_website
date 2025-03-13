@@ -124,3 +124,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ant-collapse-header-text{
+  font-weight: 500;
+  font-size: 18px;
+}
+:where(.css-dev-only-do-not-override-240cud).ant-collapse-ghost >.ant-collapse-item {
+  border: 1px solid black;
+  margin: 15px 0px;
+  padding: 15px 10px;
+  border-radius: none !important;
+}
+:where(.css-dev-only-do-not-override-240cud).ant-collapse>.ant-collapse-item:first-child, :where(.css-dev-only-do-not-override-240cud).ant-collapse>.ant-collapse-item:first-child>.ant-collapse-header {
+  border-radius: 0px !important;
+}
+
+:where(.css-dev-only-do-not-override-240cud).ant-collapse>.ant-collapse-item:last-child, :where(.css-dev-only-do-not-override-240cud).ant-collapse>.ant-collapse-item:last-child>.ant-collapse-header {
+  border-radius: 0px;
+  
+}
+
+:where(.css-dev-only-do-not-override-240cud).ant-collapse .ant-collapse-item:last-child {
+  border-bottom: 1px solid black;
+}
