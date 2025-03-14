@@ -6,7 +6,11 @@ import { usePathname } from 'next/navigation';
 
 const ClientLayout = ({ children }) => {
     const pathname = usePathname();
-    const hideNavbarFooter = pathname === "/auth/signIn";
+    const hideNavbarFooter = pathname === "/auth/signIn" || 
+    pathname === "/auth/signUp" ||
+     pathname === "/auth/signIn/forgetPassword"||
+     pathname === "/auth/signIn/forgetPassword/otp" ||
+     pathname === "/auth/signIn/forgetPassword/otp/resetPassword";
 
   return (
     <>

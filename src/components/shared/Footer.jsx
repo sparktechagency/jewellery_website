@@ -8,10 +8,11 @@ import card3 from '../../../public/ring/apple.png'
 import card4 from '../../../public/ring/american.png'
 import card5 from '../../../public/ring/paypal.png'
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="mt-28">
+    <div className="md:mt-28 mt-16">
       <footer className="bg-black text-white py-10 pt-20 px-4 md:px-20">
       <div className="container m-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Our Address */}
@@ -36,10 +37,10 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Company & Legal</h3>
           <ul className="space-y-2">
-            <li>About Us</li>
-            <li>FAQs</li>
-            <li>Privacy Policy</li>
-            <li>Terms & Conditions</li>
+            <li><Link href={'/aboutUs'}>About Us</Link></li>
+            <li><Link href={'/faq'}>FAQs</Link></li>
+            <li><Link href={'/privacyPolicy'}>Privacy Policy</Link></li>
+            <li><Link href={'/termsCondition'}>Terms & Conditions</Link></li>
           </ul>
         </div>
 
@@ -47,10 +48,10 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Customer Support</h3>
           <ul className="space-y-2">
-            <li>Help & Support</li>
-            <li>Shipping & Delivery</li>
-            <li>Returns & Exchanges</li>
-            <li>Warranty & Repairs</li>
+            <li><Link href={'/helpSupport'}>Help & Support</Link></li>
+            <li><Link href={'/shippingDelivery'}>Shipping & Delivery</Link></li>
+            <li><Link href={'/returnExchange'}>Returns & Exchanges</Link></li>
+            <li><Link href={'/warrantyRepair'}>Warranty & Repairs</Link></li>
           </ul>
         </div>
 
@@ -58,11 +59,11 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
-            <li>Custom Jewelry</li>
-            <li>Earrings</li>
-            <li>Necklaces</li>
-            <li>Rings</li>
-            <li>Bracelets</li>
+            <li><Link href={'/customize'}>Custom Jewelry</Link></li>
+            <li><Link href={'/earrings'}>Earrings</Link></li>
+            <li><Link href={'/necklaces'}>Necklaces</Link></li>
+            <li><Link href={'/ring'}>Rings</Link></li>
+            <li><Link href={'/bracelets'}>Bracelets</Link></li>
           </ul>
         </div>
       </div>
@@ -95,14 +96,13 @@ const Footer = () => {
         </p>
 
        <div>
-       <div className="md:flex space-x-4">
+       <div className="flex space-x-4">
          
-         <Image className="bg-white h-[40px] rounded" width={80} height={20} src={card1} alt="Visa" />
-         
-         <Image className="bg-white h-[40px] rounded" width={80} height={20} src={card2} alt="Mastercard" />
-         <Image className="bg-white h-[40px] rounded" width={80} height={20} src={card3} alt="Apple Pay"  />
-         <Image className="bg-white h-[40px] rounded" width={80} height={20} src={card4} alt="American Express"  />
-         <Image className="bg-white h-[40px] rounded" width={80} height={20} src={card5} alt="PayPal"  />
+         <Image className="bg-white w-[50px] md:w-[70px] h-[30px] md:h-[40px] rounded" width={80} height={20} src={card1} alt="Visa" />
+         <Image className="bg-white w-[50px] md:w-[70px] h-[30px] md:h-[40px] rounded" width={80} height={20} src={card2} alt="Mastercard" />
+         <Image className="bg-white w-[50px] md:w-[70px] h-[30px] md:h-[40px] rounded" width={80} height={20} src={card3} alt="Apple Pay"  />
+         <Image className="bg-white w-[50px] md:w-[70px] h-[30px] md:h-[40px] rounded" width={80} height={20} src={card4} alt="American Express"  />
+         <Image className="bg-white w-[50px] md:w-[70px] h-[30px] md:h-[40px] rounded" width={80} height={20} src={card5} alt="PayPal"  />
        </div>
        </div>
       </div>

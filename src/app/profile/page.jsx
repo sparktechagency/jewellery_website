@@ -8,7 +8,7 @@ const page = () => {
       <div>
         <h1 className="pb-4">Home/Profile</h1>
         <div
-          className="relative bg-cover bg-center md:h-[55vh] h-[500px] -mt-[1px]"
+          className="relative bg-cover bg-center md:h-[55vh] h-[200px] -mt-[1px]"
           style={{
             width: "100%",
           }}
@@ -25,7 +25,7 @@ const page = () => {
             <div className="">
               <div className="md:pl-20">
                 <p className="text-xl">Leslie Alexander</p>
-                <div className="text-4xl font-semibold md:text-5xl ">
+                <div className="text-3xl font-semibold md:text-5xl ">
                   <h1 className="">My Account</h1>
                 </div>
               </div>

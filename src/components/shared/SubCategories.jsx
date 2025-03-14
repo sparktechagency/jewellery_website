@@ -80,8 +80,8 @@ const SubCategories = () => {
           <div className="">
             <div className="text-center max-w-2xl mx-auto mb-6 px-4 lg:px-0">
               {/* <Title head={"category"} title={"Browse By Category"}></Title> */}
-              <h1 className="text-3xl font-semibold">What Our Happy Customers Say</h1>
-              <div className=" text-[#2E2E2E] pt-3 ">Real stories of love, elegance, and unforgettable moments—discover why our customers trust us for their most precious jewelry.</div>
+              <h1 className="md:text-3xl text-xl font-semibold">What Our Happy Customers Say</h1>
+              <div className=" text-[#2E2E2E] pt-3 md:text-base text-sm">Real stories of love, elegance, and unforgettable moments—discover why our customers trust us for their most precious jewelry.</div>
             </div>
             <div></div>
           </div>

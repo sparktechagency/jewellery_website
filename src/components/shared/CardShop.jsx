@@ -15,7 +15,7 @@ const CardShop = ({item}) => {
                 src={item.img}
                 alt=""
               /></Link>
-              <div className='absolute top-0 right-0 pr-2 pt-2 text-xl'>
+              <div className='absolute cursor-pointer top-0 right-0 pr-2 pt-2 text-xl'>
               <FiHeart />
               </div>
              </div>

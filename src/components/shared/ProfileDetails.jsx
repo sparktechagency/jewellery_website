@@ -12,7 +12,7 @@ import Link from "next/link";
 
 const ProfileDetails = () => {
   return (
-    <div className=" mt-10 grid grid-cols-12 gap-6">
+    <div className=" mt-10 md:grid grid-cols-12 gap-6">
       {/* Left Section */}
       <div className="col-span-6">
         <h2 className="text-2xl font-semibold">Welcome to your account!</h2>
@@ -56,11 +56,11 @@ const ProfileDetails = () => {
 
       {/* Right Section */}
       <div className="col-span-6">
-        <h2 className="text-xl font-semibold pb-6">Account Details</h2>
+        <h2 className="text-xl font-semibold md:pb-6 pt-9 md:pt-0">Account Details</h2>
 
         {/* Login Details */}
 
-        <div className="flex justify-between">
+        <div className="md:flex justify-between">
           <p className="font-medium ">Login Details:</p>
           <div className="mt-1 space-y-4">
             <p>
@@ -85,7 +85,7 @@ const ProfileDetails = () => {
         </div>
 
         {/* Password Section */}
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 md:flex justify-between">
           <p className="font-medium ">Password:</p>
           <p className="">
             Current Password: <h1>●●●●●●●●</h1>
@@ -98,7 +98,7 @@ const ProfileDetails = () => {
         </div>
 
         {/* Address Book */}
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 md:flex justify-between">
           <p className="font-medium text-gray-700">Address Book:</p>
           <p className="">
             <span className="font-medium">Shipping Address:</span>

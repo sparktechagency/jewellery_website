@@ -33,7 +33,7 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mt-11">
+        <div className="md:grid grid-cols-2 gap-3 mt-11">
           <div>
             <h1 className="text-lg font-semibold pb-2">Available Time</h1>
             <h1>From</h1>
@@ -47,7 +47,7 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
           </div>
 
           <div>
-            <h1 className="text-lg font-semibold pb-2">Sunday, 20 March</h1>
+            <h1 className="text-lg font-semibold pb-2 pt-5 md:pt-0">Sunday, 20 March</h1>
             <h1>To</h1>
             <TimePicker
             style={{borderRadius:'0px'}}

@@ -121,7 +121,7 @@ const page = async ({ params }) => {
       <div>
         <h1 className="pb-4">Home/{componentData?.title}</h1>
         <div
-          className="relative bg-cover bg-center md:h-[55vh] h-[500px] -mt-[1px]"
+          className="relative bg-cover bg-center md:h-[55vh] h-[200px] -mt-[1px]"
           style={{
             width: "100%",
           }}
@@ -137,10 +137,10 @@ const page = async ({ params }) => {
           <div className="absolute px-4 lg:px-0 inset-0 flex items-center ">
             <div className="">
               <div className="md:pl-20">
-                <div className="text-4xl font-semibold md:text-5xl ">
+                <div className="text-3xl font-semibold md:text-5xl ">
                   <h1 className="">{componentData?.title}</h1>
                 </div>
-                <p className="py-5 text-gray-600 max-w-2xl">
+                <p className="md:py-5 py-2 text-sm  text-gray-600 max-w-2xl">
                   Discover timeless elegance with our stunning collection of
                   rings, designed for every occasion—from engagement to everyday
                   luxury.
@@ -151,16 +151,8 @@ const page = async ({ params }) => {
         </div>
       </div>
       <SubCategories></SubCategories>
-      <div className="flex justify-between items-center pt-20">
-        <div>
-          <h1 className="pb-4">Showing 58 results</h1>
-          <button className="bg-black text-white px-4 py-2 flex  gap-2">
-            <span className="pt-[3px]">
-              <IoFilterSharp />
-            </span>
-            Filter
-          </button>
-        </div>
+      <div className="">
+       
         <Filter></Filter>
       </div>
 
