@@ -29,8 +29,12 @@ const Navbar = ({ pathname }) => {
       key: "0",
     },
     {
-      label: <Link href="/auth/signIn">Log Out</Link>,
+      label: <Link href={"/myOrder"}>My Orders</Link>,
       key: "1",
+    },
+    {
+      label: <Link href="/auth/signIn">Log Out</Link>,
+      key: "2",
     },
   ];
 
@@ -84,7 +88,7 @@ const Navbar = ({ pathname }) => {
             </div>
           </div>
         </div>
-        <div className="lg:flex lg:justify-center ">
+        <div className="lg:flex lg:justify-center">
           <div className="lg:text-center">
             <h1 className="md:text-5xl text-2xl font-serif ">CATHY'S</h1>
             <div className="">

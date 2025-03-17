@@ -1,4 +1,3 @@
-
 import Hero from '../../src/components/home/Hero'
 import DiscoverCollection from '../../src/components/home/DiscoverCollection'
 import OurPopularItems from '../../src/components/home/OurPopularItems'

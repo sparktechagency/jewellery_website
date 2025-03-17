@@ -51,7 +51,7 @@ export const Filter = () => {
 
           {/* ✅ Filter Card (Show/Hide) */}
           {showFilter && (
-            <div className="absolute z-50 top-12  bg-white shadow-lg border p-4 w-72 md:w-96">
+            <div className="absolute z-50 top-12 right-0 md:left-0 bg-white shadow-lg border p-4 w-72 md:w-96">
               <div className="flex justify-between mb-5">
                 <h3 className="text-lg font-semibold ">Filter </h3>
                 <button onClick={() => setShowFilter(!showFilter)}>

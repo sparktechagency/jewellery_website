@@ -18,8 +18,8 @@ const geistMono = {
 };
 
 export const metadata = {
-  title: "Kidsknowrights",
-  description: "Kidsknowrights Website",
+  title: "Jeweller Website",
+  description: "Jeweller Website",
   icons: {
     icon: "/logo.png",
   },

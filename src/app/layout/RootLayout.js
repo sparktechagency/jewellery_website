@@ -2,11 +2,7 @@
 import React from "react";
 import localFont from "next/font/local";
 import "./globals.css";
-// import ReduxProvider from "../../provider/ReduxProvider";
-
-
-
-
+import ReduxProvider from "../../provider/ReduxProvider";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,21 +20,15 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children}) {
-  
-  
- 
+
   return (
     <html data-theme="product">
       <body
         className={`${geistSans.variable}  ${geistMono.variable} antialiased`}
       >
-        {/* <ReduxProvider> */}
-       
-      
-          <div className="  text-black">{children}</div>{" "}
-          
-
-        {/* </ReduxProvider> */}
+        <ReduxProvider>
+          <div className="  text-black">{children}</div>{""}
+        </ReduxProvider>
       </body>
     </html>
   );

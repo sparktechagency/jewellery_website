@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Form, Input, Button, Upload, Typography } from "antd";
+import { Form, Input, Button, Upload, Typography, Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import ChatBox from "./ChatBox";
 
@@ -18,26 +18,31 @@ const Custom = () => {
         <Title level={3}>How It Works?</Title>
         <ul className="list-decimal pl-6 space-y-3">
           <li>
-            <strong>Step 1:</strong> Share Your Idea – Upload a sketch, reference image, or describe your concept.
+            <strong>Step 1:</strong> Share Your Idea – Upload a sketch,
+            reference image, or describe your concept.
           </li>
           <li>
-            <strong>Step 2:</strong> Select Materials – Choose your preferred metal, gemstones, and settings.
+            <strong>Step 2:</strong> Select Materials – Choose your preferred
+            metal, gemstones, and settings.
           </li>
           <li>
-            <strong>Step 3:</strong> Approve the Design – Our expert jewelers will create a 3D design for your approval.
+            <strong>Step 3:</strong> Approve the Design – Our expert jewelers
+            will create a 3D design for your approval.
           </li>
           <li>
-            <strong>Step 4:</strong> Crafting Begins – Once approved, we bring your vision to life with expert craftsmanship.
+            <strong>Step 4:</strong> Crafting Begins – Once approved, we bring
+            your vision to life with expert craftsmanship.
           </li>
           <li>
-            <strong>Step 5:</strong> Receive Your Custom Piece – Your personalized jewelry is delivered to your doorstep.
+            <strong>Step 5:</strong> Receive Your Custom Piece – Your
+            personalized jewelry is delivered to your doorstep.
           </li>
         </ul>
       </div>
 
       {/* Right Column: Form */}
       <div className="flex-1 space-y-6">
-        <Title level={3}>Input Details</Title>
+        <Title level={3}>Input Details for Custom/Repair</Title>
         <Form
           name="customForm"
           onFinish={onFinish}
@@ -47,11 +52,32 @@ const Custom = () => {
           className="space-y-4"
         >
           <Form.Item
+            
+            name="fullName"
+            rules={[
+              { required: true, message: "Please input your full name!" },
+            ]}
+          >
+            <Radio.Group
+              name="radiogroup"
+              defaultValue={1}
+              options={[
+                { value: 1, label: "Custom" },
+                { value: 2, label: "Repair" },
+              ]}
+            />
+          </Form.Item>
+          <Form.Item
             label="Full Name"
             name="fullName"
-            rules={[{ required: true, message: "Please input your full name!" }]}
+            rules={[
+              { required: true, message: "Please input your full name!" },
+            ]}
           >
-            <Input style={{borderRadius:"0px" , padding:'10px'}} placeholder="Enter your full name"  />
+            <Input
+              style={{ borderRadius: "0px", padding: "10px" }}
+              placeholder="Enter your full name"
+            />
           </Form.Item>
 
           <Form.Item
@@ -59,23 +85,42 @@ const Custom = () => {
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input style={{borderRadius:"0px" , padding:'10px'}}  placeholder="Enter your email" className="p-2 border border-gray-300 rounded-md w-full" />
+            <Input
+              style={{ borderRadius: "0px", padding: "10px" }}
+              placeholder="Enter your email"
+              className="p-2 border border-gray-300 rounded-md w-full"
+            />
           </Form.Item>
 
           <Form.Item
             label="Phone Number"
             name="phoneNumber"
-            rules={[{ required: true, message: "Please input your phone number!" }]}
+            rules={[
+              { required: true, message: "Please input your phone number!" },
+            ]}
           >
-            <Input style={{borderRadius:"0px" , padding:'10px'}}  placeholder="Enter your phone number" className="p-2 border border-gray-300 rounded-md w-full" />
+            <Input
+              style={{ borderRadius: "0px", padding: "10px" }}
+              placeholder="Enter your phone number"
+              className="p-2 border border-gray-300 rounded-md w-full"
+            />
           </Form.Item>
 
           <Form.Item
             label="Delivery Address"
             name="address"
-            rules={[{ required: true, message: "Please input your delivery address!" }]}
+            rules={[
+              {
+                required: true,
+                message: "Please input your delivery address!",
+              },
+            ]}
           >
-            <Input style={{borderRadius:"0px" , padding:'10px'}}  placeholder="Enter your address" className="p-2 border border-gray-300 rounded-md w-full" />
+            <Input
+              style={{ borderRadius: "0px", padding: "10px" }}
+              placeholder="Enter your address"
+              className="p-2 border border-gray-300 rounded-md w-full"
+            />
           </Form.Item>
 
           <Form.Item
@@ -83,35 +128,54 @@ const Custom = () => {
             name="jewelryType"
             rules={[{ required: true, message: "Please input jewelry type!" }]}
           >
-            <Input style={{borderRadius:"0px" , padding:'10px'}}  placeholder="Enter jewelry type" className="p-2 border border-gray-300 rounded-md w-full" />
+            <Input
+              style={{ borderRadius: "0px", padding: "10px" }}
+              placeholder="Enter jewelry type"
+              className="p-2 border border-gray-300 rounded-md w-full"
+            />
           </Form.Item>
 
           <Form.Item label="Description" name="description">
-            <Input.TextArea style={{borderRadius:"0px" }}  placeholder="Write here" className="p-2 border border-gray-300 rounded-md w-full" rows={4} />
+            <Input.TextArea
+              style={{ borderRadius: "0px" }}
+              placeholder="Write here"
+              className="p-2 border border-gray-300 rounded-md w-full"
+              rows={4}
+            />
           </Form.Item>
 
-          <Form.Item  label="Upload Image" name="upload" valuePropName="fileList">
+          <Form.Item
+            label="Upload Image"
+            name="upload"
+            valuePropName="fileList"
+          >
             <Upload
-            
               name="file"
               action="/upload"
               listType="picture"
               showUploadList={{ showPreviewIcon: false }}
               maxCount={1}
             >
-              <Button style={{borderRadius:"0px" }}  icon={<UploadOutlined />} className="bg-gray-800 text-white">
+              <Button
+                style={{ borderRadius: "0px" }}
+                icon={<UploadOutlined />}
+                className="bg-gray-800 text-white"
+              >
                 Upload Image
               </Button>
             </Upload>
           </Form.Item>
 
-          <Form.Item >
-            <button type="primary" htmlType="submit" className="w-full py-3 bg-black text-white ">
+          <Form.Item>
+            <button
+              type="primary"
+              htmlType="submit"
+              className="w-full py-3 bg-black text-white "
+            >
               Place Order
             </button>
           </Form.Item>
         </Form>
-        <ChatBox></ChatBox>
       </div>
     </div>
   );

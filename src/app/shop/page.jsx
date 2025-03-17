@@ -86,7 +86,7 @@ const page = () => {
       <div>
         <h1 className="pb-4">Home/Search</h1>
         <div
-          className="relative bg-cover bg-center md:h-[50vh] h-[500px] -mt-[1px] "
+          className="relative bg-cover bg-center md:h-[50vh] h-[200px] -mt-[1px] "
           style={{
             width: "100%",
           }}
