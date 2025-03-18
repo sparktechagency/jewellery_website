@@ -68,7 +68,7 @@ const Navbar = ({ pathname }) => {
             </div>
           </div>
         </div>
-     <div className="lg:pt-7 pt-5 pb-5">
+     <div className="lg:pt-7 pt-3 pb-3">
       
       <div className="grid lg:grid-cols-3 md:grid-cols-2 px-4 lg:px-0">
         <div className="hidden lg:block">
@@ -90,15 +90,15 @@ const Navbar = ({ pathname }) => {
         </div>
         <div className="lg:flex lg:justify-center">
           <div className="lg:text-center">
-            <h1 className="md:text-5xl text-2xl font-serif ">CATHY'S</h1>
+            <h1 className="md:text-5xl text-xl font-serif ">CATHY'S</h1>
             <div className="">
-              <h1 className="md:text-3xl hidden md:block text-xl font-serif ">
+              <h1 className="md:text-3xl  text-sm font-serif ">
                 JEWELRY
               </h1>
             </div>
           </div>
         </div>
-        <div className="flex -mt-7 md:mt-0 gap-4 justify-end text-lg">
+        <div className="flex -mt-8 md:mt-0 gap-4 justify-end text-lg">
           <AiOutlineSearch />
 
           <div className="hidden md:block">
