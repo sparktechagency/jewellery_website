@@ -9,7 +9,7 @@ const Contact = () => {
     <div>
       <div>
         <div className=" mt-10 md:grid grid-cols-12 gap-6">
-          {/* Order Details */}
+          {/* Order Detail */}
           <div className="col-span-5  ">
             <h2 className="text-lg font-semibold pb-4">Contact Details</h2>
             <p className="pb-5">
