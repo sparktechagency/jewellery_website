@@ -25,7 +25,7 @@ const Footer = () => {
           <p className="flex items-center mb-2">
             <span className="mr-2">📞</span> (307) 555-0133
           </p>
-          <p className="flex items-center mb-2">
+          <p className="flex items-center mb-2"> 
             <span className="mr-2">📧</span> debra.holt@example.com
           </p>
           <p className="flex items-center">
@@ -33,7 +33,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Company & Legal */}
+        {/* Company & Le*/}
         <div>
           <h3 className="text-lg font-semibold mb-4">Company & Legal</h3>
           <ul className="space-y-2">

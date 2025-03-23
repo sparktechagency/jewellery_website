@@ -17,7 +17,6 @@ const EditAddress = () => {
               Update your details, manage addresses, store payment methods, and
               keep your account secure.
             </p>
-
             <p className="text-gray-600 mt-4">
               If you need any help{" "}
               <Link
