@@ -10,7 +10,8 @@ const ClientLayout = ({ children }) => {
     pathname === "/auth/signUp" ||
      pathname === "/auth/signIn/forgetPassword"||
      pathname === "/auth/signIn/forgetPassword/otp" ||
-     pathname === "/auth/signIn/forgetPassword/otp/resetPassword";
+     pathname === "/auth/signIn/forgetPassword/otp/resetPassword"||
+     pathname === "/auth/signUp/verifyRegisterOtp";
 
   return (
     <>

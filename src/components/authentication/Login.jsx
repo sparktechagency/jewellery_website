@@ -1,11 +1,37 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Checkbox, Form, Input } from "antd"
 import Link from "next/link"
+import { useLoginUserMutation } from '@/redux/Api/userAPi'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
+
+
 const SignInSection = () => {
-    const onFinish=(value)=>{
-        console.log(value)
-      }
+const [loginUser]= useLoginUserMutation();
+const router = useRouter()
+ const [loading, setLoading] = useState(false); 
+   const onFinish = async (values) => {
+    const data = {
+      email: values.email,
+      password: values.password,
+    };
+    setLoading(true);  
+    try {
+      const response = await loginUser(data).unwrap();
+      console.log(response)
+      toast.success(response.message);
+      
+      localStorage.setItem("accessToken", response.accessToken);
+      setLoading(false)
+      
+      router.push('/')
+    } catch (error) {
+      toast.error(error.data.message);
+      setLoading(false)
+      console.log(error);
+    }
+  }
   return (
     <div>
          <div className="w-full max-w-[1500px] m-auto">
@@ -80,11 +106,11 @@ const SignInSection = () => {
                   <button
                     type="primary"
                     htmlType="submit"
-                    
+                    loading={loading} 
              
                     className="w-full py-2 bg-black text-white"
                   >
-                    { "Sign In"}
+                      {loading ? "Loading..." : "Sign In"}
                   </button>
                 </Form.Item>
               </Form>

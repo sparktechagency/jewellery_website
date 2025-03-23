@@ -3,55 +3,40 @@
 import React, { useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import Link from "next/link";
-
+import { useSignUpMutation } from "../../redux/Api/userAPi"
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 // import BaseUrl from "@/components/baseApi/BaseApi";
 // import { toast } from "sonner";
 // import { useLocale } from "next-intl";
 
 const Register = () => {
-//   const [loading, setLoading] = useState(false); 
-//   const locale = useLocale();
-//   const onFinish = async (values) => {
-//     setLoading(true); // Start loading
-//     const payload = {
-//       password: values.password,
-//       confirmPassword: values.confirmPassword,
-//       userData: {
-//         username: values.username,
-//         phone: values.phone,
-//         email: values.email,
-//       },
-//     };
-
-//     try {
-//       const response = await fetch(`${BaseUrl}/user/register-user`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(payload),
-//       });
-
-//       const responseData = await response.json();
+  const [loading, setLoading] = useState(false); 
+  const [signUp] = useSignUpMutation();
+const router = useRouter();
+const onFinish = async (values) => {
+  const data ={
+    name: values.name,
+    email: values.email,
+    password: values.password
+  }
+  console.log(data)
+  setLoading(true);       
+    try {
+      const response = await signUp(data).unwrap();
+      console.log(response);
+      localStorage.setItem("email", values.email);
+      toast.success(response.message);
       
-
-//       if (response.ok && responseData.success) {
-//         toast.success(responseData.message);
-//         window.location.href = `/${locale}/signIn`; 
-//       } else {
-//         toast.error(responseData.message);
-//         console.error("Error:", responseData);
-//       }
-//     } catch (error) {
-//       toast.error("An unexpected error occurred. Please try again later.");
-//       console.error("Unexpected Error:", error);
-//     } finally {
-//       setLoading(false); // Stop loading
-//     }
-//   };
-//   const onFinishFailed = (errorInfo) => {
-//     toast.error("Failed:", errorInfo);
-//   };
+      setLoading(false)
+      router.push("/auth/signUp/verifyRegisterOtp");
+      
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center  md:pt-0 px-4 justify-center bg-white">
@@ -66,13 +51,13 @@ const Register = () => {
                 initialValues={{
                   remember: true,
                 }}
-                // onFinish={onFinish}
+                onFinish={onFinish}
                 // onFinishFailed={onFinishFailed}
                 autoComplete="off"
                 layout="vertical"
               >
                 <Form.Item
-                  name="username"
+                  name="name"
                   label="Name"
                   rules={[
                     {
@@ -177,10 +162,10 @@ const Register = () => {
                 <button
                     type="primary"
                     htmlType="submit"
-                    // loading={loading} // Show loading state
+                    loading={loading} // Show loading state
                     className="w-full py-2 hover:bg-none bg-black text-white "
                   >
-                    Submit
+                    {loading ? "Loading..." : "Submit"}
                   </button>
                 </Form.Item>
               </Form>

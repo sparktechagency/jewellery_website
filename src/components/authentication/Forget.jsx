@@ -2,45 +2,32 @@
 
 import React from "react";
 import { Form, Input, Button, message } from "antd";
-
-
-
+import { useForgotPasswordMutation } from "@/redux/Api/userAPi";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Forget = () => {
-//   const [loading, setLoading] = React.useState(false);
-//   const locale = useLocale();
-
-//   const onFinish = (values) => {
-//     setLoading(true); // Disable button & show loading spinner
-
-//     const payload = { email: values.email };
-
-//     fetch(`${BaseUrl}/auth/forget-password`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(payload),
-//     })
-//       .then((response) => response.json())
-//       .then((responseData) => {
-//         if (responseData.success) {
-//           localStorage.setItem("userEmail", values.email);
-//           message.success(responseData.message || "Password reset link sent!");
-//           window.location.href = `/${locale}/signIn/forgetpass/otp`;
-//         } else {
-//           message.error(responseData.message || "Failed to send reset link.");
-//         }
-//       })
-//       .catch(() => {
-//         message.error("An unexpected error occurred. Please try again later.");
-//       })
-//       .finally(() => {
-//         setLoading(false); // Re-enable button
-//       });
-//   };
-
-//   const onFinishFailed = (errorInfo) => {
-    
-//   };
+  const [loading, setLoading] = React.useState(false);
+  const [forgetPassword] = useForgotPasswordMutation();
+const router = useRouter();
+  const onFinish = async (values) => {
+    const data = {
+      email: values.email,
+    };
+    setLoading(true);
+    try {
+      const response = await forgetPassword(data).unwrap();
+      console.log(response);
+      localStorage.setItem("email", values.email);
+      toast.success(response.message);
+      router.push("/auth/signIn/forgetPassword/otp");
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center md:pt-0 px-4 justify-center bg-white">
@@ -55,7 +42,7 @@ const Forget = () => {
               <Form
                 name="forgetPassword"
                 layout="vertical"
-                // onFinish={onFinish}
+                onFinish={onFinish}
                 // onFinishFailed={onFinishFailed}
               >
                 <Form.Item
@@ -66,7 +53,11 @@ const Forget = () => {
                     { type: "email", message: "Invalid email address" },
                   ]}
                 >
-                  <Input style={{padding:'9px' , borderRadius:'0px'}} className="w-full px-4 py-2 border  rounded-md" placeholder="Enter your Email" />
+                  <Input
+                    style={{ padding: "9px", borderRadius: "0px" }}
+                    className="w-full px-4 py-2 border  rounded-md"
+                    placeholder="Enter your Email"
+                  />
                 </Form.Item>
 
                 <Form.Item>
@@ -74,9 +65,9 @@ const Forget = () => {
                     type="primary"
                     htmlType="submit"
                     className="w-full py-2 bg-black text-white"
-                    
+                    loading={loading} 
                   >
-                    Submit
+                    {loading ? "Loading..." : "Submit"}
                   </button>
                 </Form.Item>
               </Form>

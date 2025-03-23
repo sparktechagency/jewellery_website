@@ -2,7 +2,7 @@ import {Geist} from 'next/font/google'
 import "./globals.css";
 import ReduxProvider from "@/provider/ReduxProvider";
 import ClientLayout from "./layout/ClientLayout";
-
+import { ToastContainer } from 'react-toastify';
 const geist = Geist({
   subsets:['latin']
 })
@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
       >
         <ReduxProvider>
           <div className="">
+          <ToastContainer />
             <ClientLayout>{children}</ClientLayout>
           </div>
         </ReduxProvider>

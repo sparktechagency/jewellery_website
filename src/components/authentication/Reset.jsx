@@ -1,60 +1,39 @@
 "use client";
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
+import { useResetPasswordMutation } from "@/redux/Api/userAPi";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 
 const Reset = () => {
 //   const locale = useLocale();
-//   const [loading, setLoading] = useState(false);
+const router = useRouter();
+  const [loading, setLoading] = useState(false);
+const [resetPassword] = useResetPasswordMutation()
 
-//   const onFinish = async (values) => {
-//     const email = localStorage.getItem("userEmail"); // Retrieve the email from localStorage
-//     if (!email) {
-//       message.error("Email not found. Please restart the reset process.");
-//       return;
-//     }
 
-//     const payload = {
-//       email,
-//       password: values.password,
-//       confirmPassword: values.confirmPassword,
-//     };
 
-//     setLoading(true); // Start loading
+const onFinish = async (values) => {
+  const data = {
+    email: localStorage.getItem("email"),
+    password: values.password,
+    token: localStorage.getItem("token"),
+  };
+  setLoading(true);
+  try {
+    const response = await resetPassword(data).unwrap();
+    console.log(response);
+    toast.success(response.message);
+    router.push("/auth/signIn");
+    setLoading(false);
+  } catch (error) {
+    toast.error(error.data.message);
+    console.log(error);
+    setLoading(false);
+  }
+}
 
-//     try {
-//       const response = await fetch(`${BaseUrl}/auth/reset-password`, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(payload),
-//       });
-
-//       const responseData = await response.json();
-
-//       if (response.ok && responseData.success) {
-//         toast.success(responseData.message );
-       
-
-//         // Save tokens to localStorage
-//         localStorage.setItem("accessToken", responseData.data.accessToken);
-//         localStorage.setItem("refreshToken", responseData.data.refreshToken);
-
-//         // Redirect to login or dashboard
-//         window.location.href = `/${locale}/signIn`; // Update URL as needed
-//       } else {
-//         toast.error(responseData.message || "Failed to reset password.");
-//         console.error("Error:", responseData);
-//       }
-//     } catch (error) {
-//       message.error("An unexpected error occurred. Please try again later.");
-//       console.error("Unexpected Error:", error);
-//     } finally {
-//       setLoading(false); // Stop loading
-//     }
-//   };
-
-//   const onFinishFailed = (errorInfo) => {
-//   };
 
   return (
     <div className="items-center px-4 justify-center flex min-h-screen bg-white">
@@ -68,7 +47,7 @@ const Reset = () => {
           </h3>
           <Form
             name="reset-password"
-            // onFinish={onFinish}
+            onFinish={onFinish}
             // onFinishFailed={onFinishFailed}
             autoComplete="off"
             layout="vertical"
@@ -107,10 +86,11 @@ const Reset = () => {
                 htmlType="submit"
                 block
                 size="large"
+                loading={loading}
                 className="w-full py-2 bg-black text-white"
                 
               >
-                Reset
+                {loading ? "Loading..." : "Reset"}
               </button>
             </Form.Item>
           </Form>

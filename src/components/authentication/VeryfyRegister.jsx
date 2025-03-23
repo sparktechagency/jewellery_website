@@ -1,39 +1,39 @@
 "use client";
 import React, { useState } from "react";
-import { Button, message } from "antd";
+import { Button} from "antd";
 import OTPInput from "react-otp-input";
-import { useVerifyOtpMutation } from "@/redux/Api/userAPi";
-import { useRouter } from "next/navigation";
+import { useVerifyOtpMutation } from "../../redux/Api/userAPi";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
+const VeryfyRegister = () => {
+//   const locale = useLocale();
+const router = useRouter();
+const [loading, setLoading] = useState(false); 
+  const [otp, setOtp] = useState("");
+  const [verifyOtp] = useVerifyOtpMutation();
 
-const Verify = () => {
-
-  const router = useRouter();
-  const [loading, setLoading] = useState(false); 
-    const [otp, setOtp] = useState("");
-    const [verifyOtp] = useVerifyOtpMutation();
+const handleVerify = async () => {
+   const data = {
+      otp: otp,
+      email: localStorage.getItem("email"),
+    };
   
-  const handleVerify = async () => {
-     const data = {
-        otp: otp,
-        email: localStorage.getItem("email"),
-      };
+    setLoading(true);     
+    try {
+      const response = await verifyOtp(data).unwrap();
+      console.log(response);
+      toast.success(response.message);
+      router.push("/auth/signIn");
     
-      setLoading(true);     
-      try {
-        const response = await verifyOtp(data).unwrap();
-        console.log(response);
-        toast.success(response.message);
-        router.push("/auth/signIn/forgetPassword/otp/resetPassword");
-        localStorage.setItem("token", response?.passwordResetToken);
-        setLoading(false);     
-      } catch (error) {
-        toast.error(error.data.message);
-        console.log(error);
-        setLoading(false);
-      }    
-     }
+      setLoading(false);     
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+      setLoading(false);
+    }    
+   }
+
   return (
     <div className="items-center justify-center px-4 flex min-h-screen bg-white">
       <div className="flex justify-center">
@@ -90,4 +90,4 @@ const Verify = () => {
   );
 };
 
-export default Verify;
+export default VeryfyRegister;

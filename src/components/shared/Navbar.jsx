@@ -13,8 +13,10 @@ import { Button, Drawer, Dropdown, Space } from "antd";
 import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import AppoinmentModal from "./AppoinmentModal";
+import { useRouter } from "next/navigation";
 const Navbar = ({ pathname }) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const [openResponsive, setOpenResponsive] = useState(false);
   const showDrawer = () => {
     setOpen(true);
@@ -22,6 +24,12 @@ const Navbar = ({ pathname }) => {
   const onClose = () => {
     setOpen(false);
   };
+  const handleLogOut = () => {
+    localStorage.removeItem("accessToken");
+    router.push("/auth/signIn");
+ 
+  };
+
 
   const items = [
     {
@@ -33,7 +41,10 @@ const Navbar = ({ pathname }) => {
       key: "1",
     },
     {
-      label: <Link href="/auth/signIn">Log Out</Link>,
+      label: <button onClick={() => {
+        handleLogOut();
+    
+      }}>Log Out</button>,
       key: "2",
     },
   ];
@@ -105,6 +116,7 @@ const Navbar = ({ pathname }) => {
             <div className="flex gap-2">
               <AiOutlineUser className="" />
               <Dropdown
+              
                 menu={{
                   items,
                 }}
