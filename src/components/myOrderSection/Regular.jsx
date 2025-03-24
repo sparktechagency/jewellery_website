@@ -1,9 +1,11 @@
+
 import React from "react";
 import img1 from '../../../public/ring/img1.png'
 import img2 from '../../../public/ring/img2.png'
 import img3 from '../../../public/ring/img3.png'
 import img4 from '../../../public/ring/img4.png'
 import Image from "next/image";
+
 const orders = [
   {
     orderNumber: "#123456",
@@ -63,6 +65,8 @@ const orders = [
 ];
 
 const OrderTable = () => {
+
+
   return (
     <div className=" mt-6 overflow-x-auto">
       <table className="w-full  ">

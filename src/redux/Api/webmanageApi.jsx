@@ -111,6 +111,16 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
+      getMyOrder: builder.query({
+        query: () => {
+          return {
+            url: `/orders`,
+            method: "GET",
+          };
+        },
+        providesTags: ["videos"],
+      }),
+
    
 
       addContact: builder.mutation({
@@ -135,6 +145,9 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
+
+
+
       
   }),
 });
@@ -152,5 +165,6 @@ useGetNotificationQuery,
 useGetLawQuery,
 useGetCategoryQuery,
 useAddContactMutation,
+useGetMyOrderQuery
 
 } = faq;

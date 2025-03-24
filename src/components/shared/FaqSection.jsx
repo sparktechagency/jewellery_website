@@ -11,8 +11,6 @@ const FaqSection = () => {
   if (isLoading) {
     return <div className="text-center text-white">Loading...</div>;
   }
-
-  // Check if faq exists and map the data
   const items = faq?.map((item, index) => ({
     key: item._id,
     label: item.question,
