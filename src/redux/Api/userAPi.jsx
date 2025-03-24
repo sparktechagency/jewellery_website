@@ -26,12 +26,13 @@ const useApi = baseApi.injectEndpoints({
     getProfile: builder.query({
       query: () => {
         return {
-          url: "/admin/profile",
+          url: "/profile",
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
     }),
+
     getAllUserManagement: builder.query({
       query: () => {
         return {
@@ -81,7 +82,7 @@ const useApi = baseApi.injectEndpoints({
     updateProfile: builder.mutation({
       query: (data) => {
         return {
-          url: "/admin/edit-profile",
+          url: "/profile/edit",
           method: "PATCH",
           body: data,
         };
@@ -91,8 +92,8 @@ const useApi = baseApi.injectEndpoints({
     changePassword: builder.mutation({
       query: (data) => {
         return {
-          url: "/auth/change-password",
-          method: "PUT",
+          url: "/profile/change-password",
+          method: "POST",
           body: data,
         };
       },

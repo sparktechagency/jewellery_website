@@ -3,26 +3,18 @@ import { baseApi } from "./baseApi";
 const faq = baseApi.injectEndpoints({
   endpoints: (builder) => ({
      /** Setting APIs */
-     getFaq: builder.query({
-        query: () => {
-            return {
-                url: '/manage/get-faq',
-                method: 'GET'
-            }
-        },
-        providesTags: ['videos']
-    }),
+  
 
     
-    getAbout: builder.query({
-        query: () => {
-          return {
-            url: "/manage/get-about-us",
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+     getAbout: builder.query({
+      query: ({ page }) => {
+        return {
+          url: `/info?page=${page}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
   
       getUser: builder.query({
@@ -45,15 +37,7 @@ const faq = baseApi.injectEndpoints({
         invalidatesTags: ["videos"],
       }),
     
-      changePassword: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/auth/change-password",
-            method: "POST",
-            body: data,
-          };
-        },
-      }),
+  
 
       getprivecyConditions: builder.query({
         query: () => {
@@ -119,15 +103,7 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
-      getProfile: builder.query({
-        query: () => {
-          return {
-            url: `/profile`,
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+   
 
       addContact: builder.mutation({
         query: (data) => {
@@ -156,11 +132,11 @@ const faq = baseApi.injectEndpoints({
 });
 
 export const {
-useGetFaqQuery,
+
 useGetAboutQuery,
 useGetUserQuery,
 useUpdateProfileeMutation,
-useChangePasswordMutation,
+
 useGetprivecyConditionsQuery,
 useGetTermsContuctQuery,
 usePostFeedbackMutation,
@@ -168,5 +144,5 @@ useGetNotificationQuery,
 useGetLawQuery,
 useGetCategoryQuery,
 useAddContactMutation,
-useGetProfileQuery,
+
 } = faq;

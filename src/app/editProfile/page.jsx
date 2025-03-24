@@ -1,8 +1,13 @@
+"use client";
 import React from 'react'
 import hero from "../../../public/shared/nnn.jpg";
 import Image from 'next/image';
 import EditProfileSection from '../../components/shared/EditProfileSection';
+import mainUrl from '@/components/shared/mainUrl';
+import { useGetProfileQuery } from '@/redux/Api/userAPi';
+
 const page = () => {
+const { data: profile } = useGetProfileQuery();
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
@@ -24,7 +29,7 @@ const page = () => {
           <div className="absolute px-4 lg:px-0 inset-0 flex max-w-2xl items-center ">
             <div className="">
               <div className="md:pl-20">
-                <p className="text-xl">Leslie Alexander</p>
+                <p className="text-xl">{profile?.name}</p>
                 <div className="text-3xl font-semibold md:text-5xl ">
                   <h1 className="">My Account</h1>
                 </div>

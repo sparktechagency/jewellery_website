@@ -5,23 +5,41 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from "next/link";
-import { useGetProfileQuery } from "@/redux/Api/userAPi";
+import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/Api/userAPi";
+import { toast } from "react-toastify";
 const EditProfileSection = () => {
   const { data: profile } = useGetProfileQuery();
   console.log(profile);
+  const[updateProfile] = useUpdateProfileMutation();
 
-  const [form] = Form.useForm(); // Create a form instance
+  const [form] = Form.useForm(); 
 
-  // Set initial values in form after the profile data is loaded
+
   useEffect(() => {
     if (profile) {
       form.setFieldsValue({
         name: profile.name,
         email: profile.email,
-        number: profile.phone,
+        phone: profile.phone,
       });
     }
   }, [profile, form]);
+
+  const onEditProfile = async (values) => {
+    const data = new FormData();
+    data.append("name", values.name);
+    data.append("phone", values.phone);
+     try {
+          const response = await updateProfile(data).unwrap();
+          console.log(response)
+          toast.success(response.message);
+
+        } catch (error) {
+          toast.error(error.data.message);
+         
+          console.log(error);
+        }
+  };
   return (
     <div>
       <div>
@@ -69,7 +87,7 @@ const EditProfileSection = () => {
 
           <div className="col-span-6  md:pl-6 mt-9 md:mt-0">
             <h1 className="text-xl font-semibold pb-4">Edit Profile</h1>
-            <Form layout="vertical" form={form}>
+            <Form onFinish={onEditProfile} layout="vertical" form={form}>
             <Form.Item name="name" label="Name">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
@@ -80,13 +98,14 @@ const EditProfileSection = () => {
 
               <Form.Item name="email" label="Email">
                 <Input
+                disabled
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter Email"
                   rules={[{ required: true, message: "Please write a Email" }]}
                 />
               </Form.Item>
 
-              <Form.Item name="number" label="Phone Number">
+              <Form.Item name="phone" label="Phone Number">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter Phone Number"

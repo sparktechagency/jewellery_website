@@ -1,11 +1,48 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Radio, Button } from "antd";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from "next/link";
+import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/Api/userAPi";
+import { toast } from "react-toastify";
 const EditAddress = () => {
+    const { data: profile } = useGetProfileQuery();
+    console.log(profile);
+    const[updateProfile] = useUpdateProfileMutation();
+  
+    const [form] = Form.useForm(); 
+  
+  
+    useEffect(() => {
+      if (profile?.shipping_address) {
+        form.setFieldsValue({
+          street_address: profile?.shipping_address.street_address,
+          state: profile?.shipping_address.state,
+          zip_code: profile?.shipping_address.zip_code,
+          city: profile?.shipping_address.city,
+        });
+      }
+    }, [profile, form]);
+  
+    const onEditProfile = async (values) => {
+      const data = new FormData();
+      data.append("street_address", values.street_address);
+      data.append("state", values.state);
+      data.append("zip_code", values.zip_code);
+      data.append("city", values.city);
+       try {
+            const response = await updateProfile(data).unwrap();
+            console.log(response)
+            toast.success(response.message);
+  
+          } catch (error) {
+            toast.error(error.data.message);
+           
+            console.log(error);
+          }
+    };
   return (
     <div>
       <div>
@@ -52,8 +89,8 @@ const EditAddress = () => {
 
           <div className="col-span-6  md:pl-6 mt-9 md:mt-0">
             <h1 className="text-xl font-semibold pb-4">Shipping Address</h1>
-            <Form layout="vertical">
-              <Form.Item name="street" label="Street Address">
+            <Form onFinish={onEditProfile} layout="vertical" form={form}>
+              <Form.Item name="street_address" label="Street Address">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter your street address"
@@ -73,7 +110,7 @@ const EditAddress = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="zip" label="Zip Code">
+              <Form.Item name="zip_code" label="Zip Code">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter zip code"
