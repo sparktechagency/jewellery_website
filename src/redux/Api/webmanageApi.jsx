@@ -109,6 +109,37 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
+      getCategory: builder.query({
+        query: () => {
+          return {
+            url: `/categories`,
+            method: "GET",
+          };
+        },
+        providesTags: ["videos"],
+      }),
+
+      addContact: builder.mutation({
+        query: (data) => {
+          return {
+            url: "/contact",
+            method: "POST",
+            body: data,
+          };
+        },
+      }),
+
+
+      getAllCategory: builder.query({
+        query: (id) => {
+          return {
+            url: `/categories/${id}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["videos"],
+      }),
+
       
   }),
 });
@@ -123,5 +154,7 @@ useGetprivecyConditionsQuery,
 useGetTermsContuctQuery,
 usePostFeedbackMutation,
 useGetNotificationQuery,
-useGetLawQuery
+useGetLawQuery,
+useGetCategoryQuery,
+useAddContactMutation,
 } = faq;

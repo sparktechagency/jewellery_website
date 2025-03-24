@@ -11,7 +11,9 @@ import { MdStar } from 'react-icons/md'
 import Image from 'next/image'
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-const SubCategories = () => {
+import Link from 'next/link'
+const SubCategories = ({categorys}) => {
+  console.log(categorys)
     const category = [
             {
               img: img1,
@@ -112,19 +114,19 @@ const SubCategories = () => {
                   aria-label="Category Slide"
                   className="w-full"
                 >
-                  {category.map((item, index) => (
+                  {categorys?.subcategories?.map((item, index) => (
                     <SplideSlide key={index} className="">
                     <div className="text-center ">
                       <div className="flex justify-center">
-                        <Image
-                          className="md:h-[220px] h-[145px] object-cover"
+                        <Link href={item._id}><Image
+                          className="md:h-[220px] h-[145px] object-cover rounded"
                           width={400}
                           height={200}
-                          src={item.img}
+                          src={item.img_url}
                           alt=""
-                        />
+                        /></Link>
                       </div>
-                      <h1 className="text-xl">{item.title}</h1>
+                      <h1 className="text-xl">{item.name}</h1>
                     </div>
                   </SplideSlide>
                   ))}

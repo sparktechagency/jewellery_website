@@ -4,7 +4,27 @@ import { Form, Input, Radio, Button } from "antd";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
+import { useAddContactMutation } from "@/redux/Api/webmanageApi";
+import { toast } from "react-toastify";
 const Contact = () => {
+  const [addContact] = useAddContactMutation();
+
+  const onFinish = async (values) => {
+    const data = {
+      name: values.name,
+      phone: values.phone,
+      email: values.email,
+      message: values.message,
+    };
+    try {
+      const response = await addContact(data).unwrap();
+      console.log(response);
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -40,8 +60,8 @@ const Contact = () => {
           </div>
 
           <div className="col-span-7   md:pl-6 mt-9 md:mt-0">
-            <Form layout="vertical">
-              <Form.Item name="fullName" label="Full Name">
+            <Form onFinish={onFinish} layout="vertical">
+              <Form.Item name="name" label="Full Name">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter your Full Name"
@@ -57,7 +77,7 @@ const Contact = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="number" label="Phone Number">
+              <Form.Item name="phone" label="Phone Number">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter Phone Number"

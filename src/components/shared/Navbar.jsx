@@ -2,12 +2,10 @@
 import { MdOutlinePhone } from "react-icons/md";
 import { RiCalendar2Line } from "react-icons/ri";
 import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
-
 import { IoBagHandleOutline } from "react-icons/io5";
-
 import { LuHeart } from "react-icons/lu";
 import Link from "next/link";
-
+import { useGetCategoryQuery } from "@/redux/Api/webmanageApi";
 import { DownOutlined } from "@ant-design/icons";
 import { Button, Drawer, Dropdown, Space } from "antd";
 import { useState } from "react";
@@ -15,6 +13,8 @@ import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import AppoinmentModal from "./AppoinmentModal";
 import { useRouter } from "next/navigation";
 const Navbar = ({ pathname }) => {
+  const {data:category} = useGetCategoryQuery();
+ 
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const [openResponsive, setOpenResponsive] = useState(false);
@@ -48,6 +48,13 @@ const Navbar = ({ pathname }) => {
       key: "2",
     },
   ];
+
+  const categoryItems = category?.map((cat) => ({
+    title: cat.name, 
+    path: `/${cat._id}`,
+  })) || [];
+
+
 
   const navItems = [
     { title: "Home", path: "/" },
@@ -153,7 +160,7 @@ const Navbar = ({ pathname }) => {
                 maskClosable={true}
               >
                 <div className="flex flex-col  justify-center ">
-                  {navItems.map((item, index) => (
+                  {categoryItems.map((item, index) => (
                     <div key={index}>
                       <Link
                         href={item.path}
@@ -191,7 +198,7 @@ const Navbar = ({ pathname }) => {
 
       <div className="hidden lg:block">
         <div className="flex gap-16 justify-center mt-9">
-          {navItems.map((item, index) => (
+          {categoryItems.map((item, index) => (
             <div key={index}>
               <Link
                 href={item.path}

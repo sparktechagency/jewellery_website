@@ -17,6 +17,8 @@ import img44 from "../../../public/ring/img4.jpg";
 import img55 from "../../../public/ring/img5.jpg";
 import img66 from "../../../public/ring/img6.jpg";
 
+import mainUrl from "../../components/shared/mainUrl";
+
 const data = {
   ring: {
     title: "Rings",
@@ -42,84 +44,87 @@ const data = {
     title: "Pendants",
     img: img66,
   },
-  
 };
 
 const shops = [
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img2,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img6,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img3,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img6,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img5,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img6,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    
-  ];
+  {
+    img: img1,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img4,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img2,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img1,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img6,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img3,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img1,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img4,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img6,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img5,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img4,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+  {
+    img: img6,
+    title: "Willow Diamond Engagement Ring",
+    price: "$10.99",
+  },
+];
 
 const page = async ({ params }) => {
   const { id } = await params;
+  const category = await mainUrl(`/categories/${id}`);
+
+  
+
   // const id = params.get("id")
+
   console.log(id);
-  const componentData = data[id]
-  console.log({componentData});
+  const componentData = data[id];
+  console.log({ componentData });
 
   return (
     <div className="container mx-auto mt-9 px-4 lg:px-0">
       <div>
-        <h1 className="pb-4">Home/{componentData?.title}</h1>
+        <h1 className="pb-4">Home/{category?.name}</h1>
         <div
           className="relative bg-cover bg-center md:h-[55vh] h-[200px] -mt-[1px]"
           style={{
@@ -127,7 +132,7 @@ const page = async ({ params }) => {
           }}
         >
           <Image
-            src={componentData?.img}
+            src={category?.img_url}
             className="rounded-2xl"
             alt="Hero Image"
             layout="fill"
@@ -138,30 +143,23 @@ const page = async ({ params }) => {
             <div className="">
               <div className="md:pl-20">
                 <div className="text-3xl font-semibold md:text-5xl ">
-                  <h1 className="">{componentData?.title}</h1>
+                  <h1 className="">{category?.name}</h1>
                 </div>
                 <p className="md:py-5 py-2 text-sm  text-gray-600 max-w-2xl">
-                  Discover timeless elegance with our stunning collection of
-                  rings, designed for every occasion—from engagement to everyday
-                  luxury.
+                  {category?.details}
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <SubCategories></SubCategories>
+      <SubCategories categorys={category}></SubCategories>
       <div className="">
-       
         <Filter></Filter>
       </div>
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
-        {shops.map((item, index) => (
-          <div key={index}>
-            <CardShop item={item}></CardShop>
-          </div>
-        ))}
+      <div className=" ">
+        <CardShop id={id}></CardShop>
       </div>
     </div>
   );
