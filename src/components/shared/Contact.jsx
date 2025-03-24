@@ -6,9 +6,11 @@ import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { useAddContactMutation } from "@/redux/Api/webmanageApi";
 import { toast } from "react-toastify";
+import { useGetProfileQuery } from "@/redux/Api/userAPi";
 const Contact = () => {
   const [addContact] = useAddContactMutation();
-
+  const { data: profile } = useGetProfileQuery();
+  console.log(profile?.email);
   const onFinish = async (values) => {
     const data = {
       name: values.name,
@@ -61,18 +63,23 @@ const Contact = () => {
 
           <div className="col-span-7   md:pl-6 mt-9 md:mt-0">
             <Form onFinish={onFinish} layout="vertical">
-              <Form.Item name="name" label="Full Name">
+              <Form.Item
+                name="name"
+                label="Full Name"
+               
+              >
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
-                  placeholder="Enter your Full Name"
+                  placeholder={profile?.name || "Enter Name"}
                   rules={[{ required: true, message: "Please write a Name" }]}
                 />
               </Form.Item>
 
               <Form.Item name="email" label="Email">
                 <Input
+                 initialValue={profile?.email} 
                   style={{ padding: "9px", borderRadius: "0px" }}
-                  placeholder="Enter Email"
+                  placeholder={profile?.email || "Enter Email"}
                   rules={[{ required: true, message: "Please write a Email" }]}
                 />
               </Form.Item>
@@ -101,7 +108,7 @@ const Contact = () => {
                 type="primary"
                 className="w-full bg-black text-white py-2"
               >
-                Pay Now
+                Message Sent
               </button>
             </Form>
           </div>

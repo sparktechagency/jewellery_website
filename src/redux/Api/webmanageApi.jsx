@@ -119,6 +119,16 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
+      getProfile: builder.query({
+        query: () => {
+          return {
+            url: `/profile`,
+            method: "GET",
+          };
+        },
+        providesTags: ["videos"],
+      }),
+
       addContact: builder.mutation({
         query: (data) => {
           return {
@@ -128,6 +138,7 @@ const faq = baseApi.injectEndpoints({
           };
         },
       }),
+      
 
 
       getAllCategory: builder.query({
@@ -157,4 +168,5 @@ useGetNotificationQuery,
 useGetLawQuery,
 useGetCategoryQuery,
 useAddContactMutation,
+useGetProfileQuery,
 } = faq;

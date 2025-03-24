@@ -1,11 +1,27 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Radio, Button } from "antd";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from "next/link";
+import { useGetProfileQuery } from "@/redux/Api/userAPi";
 const EditProfileSection = () => {
+  const { data: profile } = useGetProfileQuery();
+  console.log(profile);
+
+  const [form] = Form.useForm(); // Create a form instance
+
+  // Set initial values in form after the profile data is loaded
+  useEffect(() => {
+    if (profile) {
+      form.setFieldsValue({
+        name: profile.name,
+        email: profile.email,
+        number: profile.phone,
+      });
+    }
+  }, [profile, form]);
   return (
     <div>
       <div>
@@ -53,12 +69,12 @@ const EditProfileSection = () => {
 
           <div className="col-span-6  md:pl-6 mt-9 md:mt-0">
             <h1 className="text-xl font-semibold pb-4">Edit Profile</h1>
-            <Form layout="vertical">
-              <Form.Item name="fullName" label="Full Name">
+            <Form layout="vertical" form={form}>
+            <Form.Item name="name" label="Name">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
-                  placeholder="Enter your Full Name"
-                  rules={[{ required: true, message: "Please write a Name" }]}
+                  placeholder="Enter name"
+                  rules={[{ required: true, message: "Please write a Email" }]}
                 />
               </Form.Item>
 

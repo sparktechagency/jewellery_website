@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "antd";
 import {
@@ -9,8 +10,11 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from "next/link";
+import { useGetProfileQuery } from "@/redux/Api/userAPi";
 
 const ProfileDetails = () => {
+  const { data: profile } = useGetProfileQuery();
+
   return (
     <div className=" mt-10 md:grid grid-cols-12 gap-6">
       {/* Left Section */}
@@ -65,15 +69,15 @@ const ProfileDetails = () => {
           <div className="mt-1 space-y-4">
             <p>
               <span className="">Full Name:</span>{" "}
-              <h1 className="font-semibold">Leslie Alexander</h1>
+              <h1 className="font-semibold">{profile?.name}</h1>
             </p>
             <p>
               <span className="">Email:</span>{" "}
-              <h1 className="font-semibold">debra.holt@example.com</h1>
+              <h1 className="font-semibold">{profile?.email}</h1>
             </p>
             <p>
               <span className="">Phone Number:</span>{" "}
-              <h1 className="font-semibold">(208) 555-0112</h1>
+              <h1 className="font-semibold">{profile?.phone}</h1>
             </p>
           </div>
 
@@ -103,7 +107,7 @@ const ProfileDetails = () => {
           <p className="">
             <span className="font-medium">Shipping Address:</span>
             <br />
-            2118 Thornridge Syracuse, Connecticut 35624
+            {profile?.shipping_address?.street_address}, {profile?.shipping_address?.city}, {profile?.shipping_address?.state}, {profile?.shipping_address?.zip_code}
           </p>
           <div>
             <Link href={'/changeAddress'}><button className="mt-2 cursor-pointer border px-7 py-2 border-gray-400">
