@@ -17,6 +17,14 @@ const faq = baseApi.injectEndpoints({
     }),
 
   
+    getAllFaq: builder.query({
+      query: () => ({
+        url: '/faq',
+        method: "GET",
+      }),
+      providesTags: ["videos"],
+    }),
+
       getUser: builder.query({
         query: () => ({
           url: '/user/get-my-profile',
@@ -136,7 +144,7 @@ export const {
 useGetAboutQuery,
 useGetUserQuery,
 useUpdateProfileeMutation,
-
+useGetAllFaqQuery,
 useGetprivecyConditionsQuery,
 useGetTermsContuctQuery,
 usePostFeedbackMutation,

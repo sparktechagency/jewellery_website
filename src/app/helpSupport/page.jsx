@@ -3,7 +3,7 @@ import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
 const page = async() => {
-  const about = await mainUrl(`/info?page=about-us`);
+  const about = await mainUrl(`/info?page=help`);
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
