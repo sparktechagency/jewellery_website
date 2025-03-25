@@ -121,6 +121,16 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
+      getMyCustomOrder: builder.query({
+        query: () => {
+          return {
+            url: `/orders?type=custom`,
+            method: "GET",
+          };
+        },
+        providesTags: ["videos"],
+      }),
+
    
 
       addContact: builder.mutation({
@@ -145,6 +155,37 @@ const faq = baseApi.injectEndpoints({
         providesTags: ["videos"],
       }),
 
+      addOrderCustom: builder.mutation({
+        query: (data) => {
+          return {
+            url: "/orders/custom",
+            method: "POST",
+            body: data,
+          };
+        },
+        invalidatesTags: ["updateProfile"],
+      }),
+
+      addAppointment: builder.mutation({
+        query: (data) => {
+          return {
+            url: "/appointment",
+            method: "POST",
+            body: data,
+          };
+        },
+        invalidatesTags: ["updateProfile"],
+      }),
+
+      getUnavailable: builder.query({
+        query: ({month,year}) => {
+          return {
+            url: `/appointment?month=${month}&year=${year}`,
+            method: "GET",
+          };
+        },
+        providesTags: ["videos"],
+      }),
 
 
 
@@ -165,6 +206,10 @@ useGetNotificationQuery,
 useGetLawQuery,
 useGetCategoryQuery,
 useAddContactMutation,
-useGetMyOrderQuery
+useGetMyOrderQuery,
+useGetMyCustomOrderQuery,
+useAddOrderCustomMutation,
+useGetUnavailableQuery,
+useAddAppointmentMutation
 
 } = faq;

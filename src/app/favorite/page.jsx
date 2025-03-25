@@ -8,6 +8,8 @@ import img3 from "../../../public/ring/img3.png";
 import img4 from "../../../public/ring/img4.png";
 import img5 from "../../../public/ring/img5.png";
 import img6 from "../../../public/ring/img6.png";
+import { FiHeart } from "react-icons/fi";
+import Link from "next/link";
 const page = () => {
   const shops = [
     {
@@ -105,7 +107,29 @@ const page = () => {
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-4 ">
         {shops.map((item, index) => (
           <div key={index}>
-            <CardShop item={item}></CardShop>
+            
+            
+        <div key={index}>
+          <div>
+            <div className="relative">
+              <Link href={"/productDetails"}>
+                <Image
+                  width={900}
+                  height={400}
+                  className=" md:h-[360px] object-cover"
+                  src={item.img}
+                  alt=""
+                />
+              </Link>
+              <div className="absolute cursor-pointer top-0 right-0 pr-2 pt-2 text-xl">
+                <FiHeart />
+              </div>
+            </div>
+            <h1 className=" pt-2">{item?.title}</h1>
+            <p className="text-sm">{item?.price}</p>
+          </div>
+        </div>
+    
           </div>
         ))}
       </div>

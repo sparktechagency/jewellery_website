@@ -1,14 +1,58 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Upload, Typography, Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import ChatBox from "./ChatBox";
+import { useAddOrderCustomMutation } from "@/redux/Api/webmanageApi";
+import { toast } from "react-toastify";
 
 const { Title } = Typography;
 
 const Custom = () => {
-  const onFinish = (values) => {
+const[addOrder] = useAddOrderCustomMutation()
+  const [fileList, setFileList] = useState([]);
+  const [form] = Form.useForm();
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+
+  const onFinish = async (values) => {
     console.log("Received values:", values);
+    const formData = new FormData();
+
+    formData.append("type", values?.type);
+    formData.append("name", values?.name);
+    formData.append("email", values?.email);
+    formData.append("phone", values?.phone);
+    formData.append("address", values?.address);
+    formData.append("jewelry_type", values?.jewelry_type);
+    formData.append("description", values?.description);
+    fileList.forEach((file) => {
+      formData.append("image", file.originFileObj);
+    });
+    try {
+          const response = await addOrder(formData).unwrap();
+          console.log(response)
+          toast.success(response.message);
+
+        } catch (error) {
+          toast.error(error.data.message);
+        }
+
   };
 
   return (
@@ -40,20 +84,20 @@ const Custom = () => {
         </ul>
       </div>
 
-      {/* Right Column: Form */}
       <div className="flex-1 space-y-6">
         <Title level={3}>Input Details for Custom/Repair</Title>
         <Form
+        form={form}
           name="customForm"
           onFinish={onFinish}
-          labelCol={{ span: 24 }} // Full width for labels
-          wrapperCol={{ span: 24 }} // Full width for inputs
-          labelAlign="left" // Makes labels appear vertically above inputs
+          labelCol={{ span: 24 }} 
+          wrapperCol={{ span: 24 }} 
+          labelAlign="left" 
           className="space-y-4"
         >
           <Form.Item
             
-            name="fullName"
+            name="type"
             rules={[
               { required: true, message: "Please input your full name!" },
             ]}
@@ -62,14 +106,14 @@ const Custom = () => {
               name="radiogroup"
               defaultValue={1}
               options={[
-                { value: 1, label: "Custom" },
-                { value: 2, label: "Repair" },
+                { value: 'custom', label: "Custom" },
+                { value: 'repair', label: "Repair" },
               ]}
             />
           </Form.Item>
           <Form.Item
             label="Full Name"
-            name="fullName"
+            name="name"
             rules={[
               { required: true, message: "Please input your full name!" },
             ]}
@@ -94,7 +138,7 @@ const Custom = () => {
 
           <Form.Item
             label="Phone Number"
-            name="phoneNumber"
+            name="phone"
             rules={[
               { required: true, message: "Please input your phone number!" },
             ]}
@@ -125,7 +169,7 @@ const Custom = () => {
 
           <Form.Item
             label="Jewelry Type"
-            name="jewelryType"
+            name="jewelry_type"
             rules={[{ required: true, message: "Please input jewelry type!" }]}
           >
             <Input
@@ -144,28 +188,18 @@ const Custom = () => {
             />
           </Form.Item>
 
-          <Form.Item
-            label="Upload Image"
-            name="upload"
-            valuePropName="fileList"
-          >
+          <Form.Item label="Photos">
             <Upload
-              name="file"
-              action="/upload"
-              listType="picture"
-              showUploadList={{ showPreviewIcon: false }}
-              maxCount={1}
+            style={{ borderRadius: "0px" }}
+              listType="picture-card"
+              fileList={fileList}
+              onChange={onChange}
+              onPreview={onPreview}
+              multiple={true}
             >
-              <Button
-                style={{ borderRadius: "0px" }}
-                icon={<UploadOutlined />}
-                className="bg-gray-800 text-white"
-              >
-                Upload Image
-              </Button>
+              {fileList.length < 1 && "+ Upload"}
             </Upload>
           </Form.Item>
-
           <Form.Item>
             <button
               type="primary"

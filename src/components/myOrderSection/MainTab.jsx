@@ -2,9 +2,13 @@
 import React, { useState } from 'react'
 import Regular from './Regular';
 import Custom from './Custom';
-
+import { useGetMyCustomOrderQuery, useGetMyOrderQuery } from '../../redux/Api/webmanageApi'
 const MainTab = () => {
     const [selectedTab, setSelectedTab] = useState("all");
+
+    const {data:myOrder} = useGetMyOrderQuery()
+    const {data:myCustomOrder} = useGetMyCustomOrderQuery()
+
 
     
   return (
@@ -43,12 +47,12 @@ const MainTab = () => {
         <div className=" ">
         {selectedTab === "all" && (
           <div>
-           <Regular></Regular>
+           <Regular myOrder={myOrder}></Regular>
           </div>
         )}
         {selectedTab === "submitted" && (
           <div>
-            <Custom></Custom>
+            <Custom myCustomOrder={myCustomOrder}></Custom>
           </div>
         )}
       </div>
