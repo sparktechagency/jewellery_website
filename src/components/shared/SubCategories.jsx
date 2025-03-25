@@ -36,6 +36,8 @@ const SubCategories = ({ categorys, categoryId }) => {
     page: 1,
     limit,
   });
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,6 +59,22 @@ const SubCategories = ({ categorys, categoryId }) => {
       );
 
       setProducts(fetched);
+
+      if (min === 0 && max === 0 && fetched?.products?.length > 0) {
+        let tempMin = Infinity;
+        let tempMax = -Infinity;
+
+        fetched.products.forEach((product) => {
+          const currentMax = Math.max(product.price, product.discount_price);
+          const currentMin = Math.min(product.price, product.discount_price);
+
+          if (currentMax > tempMax) tempMax = currentMax;
+          if (currentMin < tempMin) tempMin = currentMin;
+        });
+
+        setMin(tempMin);
+        setMax(tempMax);
+      }
     };
 
     fetchProducts();
@@ -156,6 +174,8 @@ const SubCategories = ({ categorys, categoryId }) => {
           showing={products?.products?.length || 0}
           filters={filters}
           setFilters={setFilters}
+          min={min}
+          max={max}
         />
       </div>
 

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { IoFilterSharp } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
-export const Filter = ({ showing, filters, setFilters }) => {
+export const Filter = ({ showing, filters, setFilters, min, max }) => {
   const [showFilter, setShowFilter] = useState(false);
   return (
     <div className="md:flex justify-between items-center md:pt-20 pt-5">
@@ -38,33 +38,39 @@ export const Filter = ({ showing, filters, setFilters }) => {
                 <label className="block text-lg ">Price Range</label>
 
                 {/* ✅ Slider */}
-                {/* <Slider
+                <Slider
                   range
                   draggableTrack
-                  min={0}
-                  max={2500}
-                  value={[filters.price_min, filters.price_max]}
-                  onChange={handleSliderChange}
+                  min={min}
+                  max={max}
+                  value={[filters.price_min || min, filters.price_max || max]}
+                  onChange={([min, max]) =>
+                    setFilters((p) => ({
+                      ...p,
+                      price_min: min,
+                      price_max: max,
+                    }))
+                  }
                 />
 
                 <div className="flex gap-4 mt-2">
                   <input
                     type="number"
                     className="w-full border p-1 "
-                    value={filters.price_min}
+                    value={filters.price_min || min}
                     // onChange={(e) => handleInputChange(0, e)}
-                    min={0}
-                    max={priceRange[1] || 2500}
+                    min={min}
+                    max={max}
                   />
                   <input
                     type="number"
                     className="w-full border p-1 "
-                    value={filters.price_max}
+                    value={filters.price_max || max}
                     // onChange={(e) => handleInputChange(1, e)}
-                    min={priceRange[0] || 0}
-                    max={2500}
+                    min={min}
+                    max={max}
                   />
-                </div> */}
+                </div>
                 <div>
                   <h1 className="py-2 pt-4 text-lg">Availability</h1>
                   <div className="flex flex-col gap-2">
@@ -117,11 +123,6 @@ export const Filter = ({ showing, filters, setFilters }) => {
                   />
                 </div>
               </div>
-
-              {/* ✅ Submit Button */}
-              <button className="bg-black text-white px-4 py-2 w-full  mt-2">
-                Apply
-              </button>
             </div>
           )}
         </div>

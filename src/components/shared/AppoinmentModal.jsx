@@ -5,7 +5,6 @@ import { useAddAppointmentMutation, useGetUnavailableQuery } from "@/redux/Api/w
 
 const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log(selectedDate)
   const [form] = Form.useForm();
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
