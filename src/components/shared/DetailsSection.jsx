@@ -2,13 +2,16 @@
 import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  removeFromCart,
+  updateColor,
+  updateQuantity,
+  updateSize,
+} from "../../redux/slices/cartSlice";
 
 const DetailsSection = ({ product }) => {
-  const [quantity, setQuantity] = useState(1);
-
-  const increaseQuantity = () => setQuantity(quantity + 1);
-  const decreaseQuantity = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
-
   const savings =
     ((product?.price - product?.discount_price) / product?.price) * 100;
 
@@ -23,8 +26,46 @@ const DetailsSection = ({ product }) => {
       ? product.ratings.reduce((sum, rating) => sum + rating, 0) /
         product.ratings.length
       : 0;
-  console.log(product, averageRating);
 
+  const dispatch = useDispatch();
+
+  const handleColor = (color) => {
+    dispatch(updateColor({ ...product, color }));
+  };
+
+  const handleSize = (size) => {
+    dispatch(updateSize({ ...product, size }));
+  };
+
+  const cart = useSelector((store) => store.cart).find(
+    (item) => item._id === product._id
+  );
+
+  const handleAddToCart = () => {
+    if (cart) {
+      dispatch(removeFromCart(product));
+    } else {
+      dispatch(addToCart(product));
+    }
+  };
+
+  const quantity = cart?.quantity || 0;
+
+  const increaseQuantity = () => {
+    dispatch(
+      updateQuantity({
+        ...product,
+        quantity: quantity + 1,
+      })
+    );
+  };
+  const decreaseQuantity = () =>
+    dispatch(
+      updateQuantity({
+        ...product,
+        quantity: quantity - 1,
+      })
+    );
   return (
     <div>
       <div>
@@ -80,12 +121,15 @@ const DetailsSection = ({ product }) => {
             <div>
               <p className="font-semibold">Color</p>
               <div className="flex space-x-2">
-                {product?.colors?.map((size) => (
+                {product?.colors?.map((color) => (
                   <button
-                    key={size}
-                    className="md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200"
+                    onClick={() => handleColor(color)}
+                    key={color}
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
+                      cart?.color === color && "bg-gray-200"
+                    }`}
                   >
-                    {size}
+                    {color}
                   </button>
                 ))}
               </div>
@@ -98,8 +142,11 @@ const DetailsSection = ({ product }) => {
               <div className="flex space-x-2">
                 {product?.sizes?.map((size) => (
                   <button
+                    onClick={() => handleSize(size)}
                     key={size}
-                    className="md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200"
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
+                      cart?.size === size && "bg-gray-200"
+                    }`}
                   >
                     {size}
                   </button>
@@ -112,14 +159,14 @@ const DetailsSection = ({ product }) => {
             <div className=" flex items-center space-x-4">
               <div className="flex items-center space-x-4 border py-1 md:py-2">
                 <button
-                  className="md:w-11 w-8 border-r  text-lg "
+                  className="md:w-11 w-8 border-r  text-lg cursor-pointer"
                   onClick={decreaseQuantity}
                 >
                   -
                 </button>
                 <p className="md:px-4 px-2 ">{quantity}</p>
                 <button
-                  className="md:w-11 w-8 border-l text-lg "
+                  className="md:w-11 w-8 border-l text-lg cursor-pointer"
                   onClick={increaseQuantity}
                 >
                   +
@@ -129,8 +176,11 @@ const DetailsSection = ({ product }) => {
 
             {/* Add to Cart Button */}
             <div className=" w-full">
-              <button className="w-full md:py-[11px] py-[7px] bg-black text-white font-semibold ">
-                Add To Cart
+              <button
+                onClick={handleAddToCart}
+                className={`w-full md:py-[11px] py-[7px] bg-black text-white font-semibold cursor-pointer`}
+              >
+                {!cart ? "Add To Cart" : "Added To Cart"}
               </button>
             </div>
             <button className="border px-4 text-2xl ">

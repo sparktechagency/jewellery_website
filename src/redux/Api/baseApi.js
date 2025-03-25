@@ -2,7 +2,7 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// const baseUrl = "https://api.kidsknowrights.com";  
+// const baseUrl = "https://api.kidsknowrights.com";
 const baseUrl = "http://10.0.60.129:3000";
 // Helper function to get the token
 const getToken = () => {
@@ -26,7 +26,7 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["profile", "event", "videos"],
+  tagTypes: ["profile", "event", "videos", "updateProfile"],
   endpoints: () => ({}),
 });
 

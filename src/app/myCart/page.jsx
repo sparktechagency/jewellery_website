@@ -1,11 +1,13 @@
-import React from 'react'
-import hero from '../../../public/shared/sss.jpg'
-import Image from 'next/image'
-import AddCart from '../../components/cart/AddCart'
+"use client";
+import React from "react";
+import hero from "../../../public/shared/sss.jpg";
+import Image from "next/image";
+import AddCart from "../../components/cart/AddCart";
+
 const page = () => {
   return (
-    <div className='container m-auto mt-9 px-4 lg:px-0'>
-        <div>
+    <div className="container m-auto mt-9 px-4 lg:px-0">
+      <div>
         <h1 className="pb-4">Home/Cart</h1>
         <div
           className="relative bg-cover bg-center md:h-[55vh] h-[200px] -mt-[1px]"
@@ -34,7 +36,7 @@ const page = () => {
       </div>
       <AddCart></AddCart>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
