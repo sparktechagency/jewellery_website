@@ -38,7 +38,7 @@ export const Filter = ({ showing, filters, setFilters }) => {
                 <label className="block text-lg ">Price Range</label>
 
                 {/* ✅ Slider */}
-                <Slider
+                {/* <Slider
                   range
                   draggableTrack
                   min={0}
@@ -64,7 +64,7 @@ export const Filter = ({ showing, filters, setFilters }) => {
                     min={priceRange[0] || 0}
                     max={2500}
                   />
-                </div>
+                </div> */}
                 <div>
                   <h1 className="py-2 pt-4 text-lg">Availability</h1>
                   <div className="flex flex-col gap-2">
