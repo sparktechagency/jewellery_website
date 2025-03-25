@@ -11,8 +11,10 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import CardShop from "./CardShop";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import {  useGetReviewTotalQuery } from "@/redux/Api/webmanageApi";
 
-const DetailsDescription = ({ product }) => {
+const DetailsDescription = ({ product,id }) => {
+  const { data: reviewData } = useGetReviewTotalQuery(id);
   const [activeTab, setActiveTab] = useState("description");
   const category = [
     {
@@ -87,7 +89,7 @@ const DetailsDescription = ({ product }) => {
           }`}
           onClick={() => setActiveTab("reviews")}
         >
-          Reviews (48)
+          Reviews {reviewData?.pagination?.totalReviews || 0}
         </button>
       </div>
 
@@ -102,7 +104,7 @@ const DetailsDescription = ({ product }) => {
 
         {activeTab === "reviews" && (
           <div>
-            <ReviewTab></ReviewTab>
+            <ReviewTab id = {id} product={product}></ReviewTab>
           </div>
         )}
       </div>

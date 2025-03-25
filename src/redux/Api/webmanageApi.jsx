@@ -183,10 +183,41 @@ const faq = baseApi.injectEndpoints({
       },
       invalidatesTags: ["updateProfile"],
     }),
+
+    addReview: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/products/review",
+          method: "POST",
+          body:data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+
     getFavorites: builder.query({
       query: () => {
         return {
           url: `/products/favorites`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getReview: builder.query({
+      query: ({id, page, limit, sort, rating}) => {
+        return {
+          url: `/products/review?product_id=${id}&page=${page}&limit=${limit}&sort=${sort}&rating=${rating}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+    getReviewTotal: builder.query({
+      query: (id) => {
+        return {
+          url: `/products/review?product_id=${id}`,
           method: "GET",
         };
       },
@@ -213,5 +244,8 @@ export const {
   useGetUnavailableQuery,
   useAddAppointmentMutation,
   useAddFavoriteMutation,
-  useGetFavoritesQuery
+  useGetFavoritesQuery,
+  useAddReviewMutation,
+  useGetReviewQuery,
+  useGetReviewTotalQuery
 } = faq;

@@ -13,6 +13,7 @@ import { FiHeart } from "react-icons/fi";
 import Link from "next/link";
 import { useAddFavoriteMutation, useGetFavoritesQuery } from "@/redux/Api/webmanageApi";
 import { toast } from "react-toastify";
+import { FaHeart } from "react-icons/fa";
 const page = () => {
   const { data: favorite } = useGetFavoritesQuery();
   console.log(favorite?.products)
@@ -61,7 +62,7 @@ const page = () => {
           </div>
         </div>
       </div>
-      <h1 className=" pt-16">Showing 58 result</h1>
+      <h1 className=" pt-16">Showing {favorite?.products?.length} result</h1>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-4 ">
         {favorite?.products?.map((item, index) => (
           <div key={index}>
@@ -99,9 +100,9 @@ const page = () => {
                 </Link>
                 <div
                   onClick={() => handleFavorite(item._id)}
-                  className="absolute cursor-pointer top-0 right-0  flexitems-center p-1 mr-1 mt-1 rounded-full bg-white text-xl"
+                  className="absolute cursor-pointer top-0 right-0  flexitems-center p-1 mr-1 mt-1 rounded-full bg-white text-red-600 text-xl"
                 >
-                  <FiHeart />
+                  <FaHeart />
                 </div>
               </div>
               <h1 className=" pt-2">{item?.name}</h1>

@@ -48,7 +48,7 @@ const Page = async ({ params }) => {
       </div>
 
       {/* Description Section */}
-      <DetailsDescription product={product} />
+      <DetailsDescription product={product} id={id}/>
     </div>
   );
 };

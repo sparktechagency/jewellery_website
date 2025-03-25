@@ -1,10 +1,55 @@
-import React from "react";
-import { MdStar } from "react-icons/md";
-import { Form, Input, Button, Rate, Select } from "antd";
-const ReviewTab = () => {
-  const onFinish = (values) => {
-    console.log("Received values:", values);
+"use client";
+
+import React, { useState } from "react";
+import { MdStar, MdStarOutline } from "react-icons/md";
+import { Form, Input, Button, Rate, Select, Pagination } from "antd";
+import {
+  useAddReviewMutation,
+  useGetReviewQuery,
+} from "../../redux/Api/webmanageApi";
+import { toast } from "react-toastify";
+const ReviewTab = ({ id , product}) => {
+  console.log(id);
+  const [sortOrder, setSortOrder] = useState("");
+  const [filterType, setFilterType] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
+  const { data: reviewData } = useGetReviewQuery({id,  page: currentPage,
+    limit: pageSize, sort: sortOrder, rating:filterType,});
+  console.log(reviewData);
+  const [addReview] = useAddReviewMutation();
+
+  const handleRatingChange = (value) => {
+    setFilterType(value);
   };
+
+  const handleShortChange = (value) => {
+    setSortOrder(value);
+  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const onFinish = async (values) => {
+    const data = {
+      review: values.review,
+      email: values.email,
+      name: values.name,
+      rating: values.rating,
+      product_id: id,
+    };
+    console.log("Received values:", values);
+    try {
+      const response = await addReview(data).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
+  const averageRating =
+    product.ratings.length > 0
+      ? product.ratings.reduce((sum, rating) => sum + rating, 0) /
+        product.ratings.length
+      : 0;
   return (
     <div>
       <div className="w-full md:p-4 p-2 bg-[#F5F5F5] ">
@@ -12,12 +57,14 @@ const ReviewTab = () => {
         <div className="bg-white p-6 text-center">
           <h2 className=" font-bold">
             <div className="flex gap-1 justify-center items-center pt-5">
-              <span className="text-3xl"> 4.5 </span>
-              <MdStar />
-              <MdStar />
-              <MdStar />
-              <MdStar />
-              <MdStar />
+              <span className="text-3xl">{averageRating?.toFixed(1)}</span>
+              {[...Array(5)].map((_, index) =>
+                              index < averageRating ? (
+                                <MdStar key={index} />
+                              ) : (
+                                <MdStarOutline key={index} />
+                              )
+                            )}
             </div>
           </h2>
           <p className="text-gray-600">Overall Rating</p>
@@ -28,23 +75,48 @@ const ReviewTab = () => {
           <div>
             <h1 className="pb-2">Rating</h1>
             <Select
-              labelInValue
-              defaultValue={{
-                value: "lucy",
-                label: "Lucy (101)",
-              }}
+              onChange={handleRatingChange}
+              placeholder="Select Rating"
               style={{
                 width: 220,
               }}
-              // onChange={handleChange}
+              
               options={[
                 {
-                  value: "jack",
-                  label: "Jack (100)",
+                  value: "1",
+                  label: "Rating 1",
                 },
                 {
-                  value: "lucy",
-                  label: "Lucy (101)",
+                  value: "1.5",
+                  label: "Rating 1.5",
+                },
+                {
+                  value: "2",
+                  label: "Rating 2",
+                },
+                {
+                  value: "2.5",
+                  label: "Rating 2.5",
+                },
+                {
+                  value: "3",
+                  label: "Rating 3",
+                },
+                {
+                  value: "3.5",
+                  label: "Rating 3.5",
+                },
+                {
+                  value: "4",
+                  label: "Rating 4",
+                },
+                {
+                  value: "4.5",
+                  label: "Rating 4.5",
+                },
+                {
+                  value: "5",
+                  label: "Rating 5",
                 },
               ]}
             />
@@ -52,24 +124,15 @@ const ReviewTab = () => {
           <div>
             <h1 className="pb-2">Sort By</h1>
             <Select
-              labelInValue
-              defaultValue={{
-                value: "lucy",
-                label: "Lucy (101)",
-              }}
+            placeholder='Sort By'
+              onChange={handleShortChange}
               style={{
                 width: 220,
               }}
-              // onChange={handleChange}
+             
               options={[
-                {
-                  value: "jack",
-                  label: "Jack (100)",
-                },
-                {
-                  value: "lucy",
-                  label: "Lucy (101)",
-                },
+                { value: "asc", label: "Most Recent" },
+                { value: "desc", label: "Oldest" },
               ]}
             />
           </div>
@@ -77,32 +140,44 @@ const ReviewTab = () => {
 
         {/* Reviews List */}
         <div className="mt-6 space-y-4">
-          {[1, 2, 3].map((review, index) => (
-            <div
-              key={index}
-              className="bg-white p-4 shadow flex items-center gap-4"
-            >
-              <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
-              <div>
-                <h3 className="font-semibold">User Name</h3>
-                <p className="text-sm text-gray-500">05 January, 2025</p>
+          {reviewData?.reviews?.map((review, index) => {
+            const formattedDate = new Date(
+              review?.createdAt
+            ).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            });
+
+            return (
+              <div
+                key={index}
+                className="bg-white p-4 shadow flex items-center gap-4"
+              >
+                <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${review?.name}`} alt="" />
                 <div>
-                  <p className="text-yellow-500">★★★★☆</p>
-                  <p className="text-gray-600 mt-2">
-                    This is a sample review text showcasing user feedback.
-                  </p>
+                  <h3 className="font-semibold">{review?.name}</h3>
+                  <p className="text-sm text-gray-500">{formattedDate}</p>
+                  <div>
+                    <Rate disabled allowHalf defaultValue={review?.rating} />
+                    <p className="text-gray-600 mt-2">{review?.review}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center mt-6 space-x-4">
-          <button className="p-2 bg-gray-300 rounded">&lt;</button>
-          <span className="text-gray-600">3 of 24</span>
-          <button className="p-2 bg-gray-300 rounded">&gt;</button>
-        </div>
+        <div className="mt-4 flex justify-center">
+                <Pagination
+                  current={currentPage}
+                  pageSize={pageSize}
+                  total={reviewData?.pagination?.totalReviews || 0} // Updated to use meta.totalCount
+                  onChange={handlePageChange}
+                  showSizeChanger={false}
+                />
+              </div>
       </div>
 
       <div className="mt-11">
@@ -121,7 +196,10 @@ const ReviewTab = () => {
               name="name"
               rules={[{ required: true, message: "Please enter your name" }]}
             >
-              <Input style={{borderRadius:'0px', padding:'10px'}} placeholder="Enter your name" />
+              <Input
+                style={{ borderRadius: "0px", padding: "10px" }}
+                placeholder="Enter your name"
+              />
             </Form.Item>
 
             <Form.Item
@@ -135,7 +213,10 @@ const ReviewTab = () => {
                 },
               ]}
             >
-              <Input style={{borderRadius:'0px', padding:'10px'}} placeholder="Enter your email" />
+              <Input
+                style={{ borderRadius: "0px", padding: "10px" }}
+                placeholder="Enter your email"
+              />
             </Form.Item>
           </div>
 
@@ -145,7 +226,11 @@ const ReviewTab = () => {
             name="review"
             rules={[{ required: true, message: "Please write a review" }]}
           >
-            <Input.TextArea style={{borderRadius:'0px'}} rows={4} placeholder="Write your review here..." />
+            <Input.TextArea
+              style={{ borderRadius: "0px" }}
+              rows={4}
+              placeholder="Write your review here..."
+            />
           </Form.Item>
 
           {/* Submit Button */}
