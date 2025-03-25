@@ -1,8 +1,29 @@
+"use client";
+
+import { useAddFavoriteMutation } from "@/redux/Api/webmanageApi";
 import Image from "next/image";
 import Link from "next/link";
 import { FiHeart } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const CardShop = ({ item }) => {
+  const [addFavorite] = useAddFavoriteMutation();
+  console.log(item);
+
+  const handleFavorite = async (record) => {
+    console.log(record);
+    const data = {
+      product_id: record,
+      type: "add",
+    };
+    try {
+      const response = await addFavorite(data).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
+
   return (
     <div>
       <div className="relative">
@@ -15,7 +36,10 @@ const CardShop = ({ item }) => {
             alt=""
           />
         </Link>
-        <div className="absolute cursor-pointer top-0 right-0 pr-2 pt-2 text-xl">
+        <div
+          onClick={() => handleFavorite(item._id)}
+          className="absolute cursor-pointer top-0 right-0  flexitems-center p-1 mr-1 mt-1 rounded-full bg-white text-xl"
+        >
           <FiHeart />
         </div>
       </div>

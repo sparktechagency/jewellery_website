@@ -2,11 +2,9 @@ import { baseApi } from "./baseApi";
 
 const faq = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-     /** Setting APIs */
-  
+    /** Setting APIs */
 
-    
-     getAbout: builder.query({
+    getAbout: builder.query({
       query: ({ page }) => {
         return {
           url: `/info?page=${page}`,
@@ -16,200 +14,204 @@ const faq = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }),
 
-  
     getAllFaq: builder.query({
       query: () => ({
-        url: '/faq',
+        url: "/faq",
         method: "GET",
       }),
-      providesTags: ["videos"],
+      providesTags: ["updateProfile"],
     }),
 
-      getUser: builder.query({
-        query: () => ({
-          url: '/user/get-my-profile',
+    getUser: builder.query({
+      query: () => ({
+        url: "/user/get-my-profile",
+        method: "GET",
+      }),
+      providesTags: ["updateProfile"],
+    }),
+
+    updateProfilee: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/normal-user/update-profile",
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+
+    getprivecyConditions: builder.query({
+      query: () => {
+        return {
+          url: "/manage/get-privacy-policy",
           method: "GET",
-        }),
-        providesTags: ["videos"],
-      }),
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
+    getLaw: builder.query({
+      query: () => {
+        return {
+          url: "/manage/get-law-form",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      updateProfilee: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/normal-user/update-profile",
-            method: "PATCH",
-            body: data,
-          };
-        },
-        invalidatesTags: ["videos"],
-      }),
-    
-  
+    getTermsContuct: builder.query({
+      query: () => {
+        return {
+          url: "/manage/get-terms-conditions",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      getprivecyConditions: builder.query({
-        query: () => {
-          return {
-            url: "/manage/get-privacy-policy",
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+    postFeedback: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/feedback/create-feedback",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
 
-      getLaw: builder.query({
-        query: () => {
-          return {
-            url: "/manage/get-law-form",
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+    getNotification: builder.query({
+      query: () => {
+        return {
+          url: "/notification/get-notifications",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
+    getCategory: builder.query({
+      query: () => {
+        return {
+          url: `/categories`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      getTermsContuct: builder.query({
-        query: () => {
-          return {
-            url: "/manage/get-terms-conditions",
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+    getMyOrder: builder.query({
+      query: () => {
+        return {
+          url: `/orders`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      
+    getMyCustomOrder: builder.query({
+      query: () => {
+        return {
+          url: `/orders?type=custom`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      postFeedback: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/feedback/create-feedback",
-            method: "POST",
-            body: data,
-          };
-        },
-      }),
+    addContact: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/contact",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
 
+    getAllCategory: builder.query({
+      query: (id) => {
+        return {
+          url: `/categories/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      getNotification: builder.query({
-        query: () => {
-          return {
-            url: "/notification/get-notifications",
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+    addOrderCustom: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/orders/custom",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
 
-      getCategory: builder.query({
-        query: () => {
-          return {
-            url: `/categories`,
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+    addAppointment: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/appointment",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
 
-      getMyOrder: builder.query({
-        query: () => {
-          return {
-            url: `/orders`,
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
+    getUnavailable: builder.query({
+      query: ({ month, year }) => {
+        return {
+          url: `/appointment?month=${month}&year=${year}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
-      getMyCustomOrder: builder.query({
-        query: () => {
-          return {
-            url: `/orders?type=custom`,
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
-
-   
-
-      addContact: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/contact",
-            method: "POST",
-            body: data,
-          };
-        },
-      }),
-      
-
-
-      getAllCategory: builder.query({
-        query: (id) => {
-          return {
-            url: `/categories/${id}`,
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
-
-      addOrderCustom: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/orders/custom",
-            method: "POST",
-            body: data,
-          };
-        },
-        invalidatesTags: ["updateProfile"],
-      }),
-
-      addAppointment: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/appointment",
-            method: "POST",
-            body: data,
-          };
-        },
-        invalidatesTags: ["updateProfile"],
-      }),
-
-      getUnavailable: builder.query({
-        query: ({month,year}) => {
-          return {
-            url: `/appointment?month=${month}&year=${year}`,
-            method: "GET",
-          };
-        },
-        providesTags: ["videos"],
-      }),
-
-
-
-      
+    addFavorite: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/products/favorites",
+          method: "POST",
+          body:data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+    getFavorites: builder.query({
+      query: () => {
+        return {
+          url: `/products/favorites`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
   }),
 });
 
 export const {
-
-useGetAboutQuery,
-useGetUserQuery,
-useUpdateProfileeMutation,
-useGetAllFaqQuery,
-useGetprivecyConditionsQuery,
-useGetTermsContuctQuery,
-usePostFeedbackMutation,
-useGetNotificationQuery,
-useGetLawQuery,
-useGetCategoryQuery,
-useAddContactMutation,
-useGetMyOrderQuery,
-useGetMyCustomOrderQuery,
-useAddOrderCustomMutation,
-useGetUnavailableQuery,
-useAddAppointmentMutation
-
+  useGetAboutQuery,
+  useGetUserQuery,
+  useUpdateProfileeMutation,
+  useGetAllFaqQuery,
+  useGetprivecyConditionsQuery,
+  useGetTermsContuctQuery,
+  usePostFeedbackMutation,
+  useGetNotificationQuery,
+  useGetLawQuery,
+  useGetCategoryQuery,
+  useAddContactMutation,
+  useGetMyOrderQuery,
+  useGetMyCustomOrderQuery,
+  useAddOrderCustomMutation,
+  useGetUnavailableQuery,
+  useAddAppointmentMutation,
+  useAddFavoriteMutation,
+  useGetFavoritesQuery
 } = faq;
