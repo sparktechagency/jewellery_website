@@ -1,11 +1,13 @@
-import {Geist} from 'next/font/google'
+import { Geist } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/provider/ReduxProvider";
 import ClientLayout from "./layout/ClientLayout";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+
 const geist = Geist({
-  subsets:['latin']
-})
+  subsets: ["latin"],
+});
 const geistSans = {
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -32,10 +34,12 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <div className="">
-          <ToastContainer />
-            <ClientLayout>{children}</ClientLayout>
-          </div>
+          <AntdRegistry>
+            <div className="">
+              <ToastContainer />
+              <ClientLayout>{children}</ClientLayout>
+            </div>
+          </AntdRegistry>
         </ReduxProvider>
       </body>
     </html>

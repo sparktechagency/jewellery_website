@@ -7,6 +7,7 @@ import "@splidejs/react-splide/css";
 import { Filter } from "./Filter";
 import CardShop from "./CardShop";
 import mainUrl from "./mainUrl";
+import { Pagination } from "antd";
 
 const SubCategories = ({ categorys, categoryId }) => {
   const splideRef = useRef(null);
@@ -22,25 +23,44 @@ const SubCategories = ({ categorys, categoryId }) => {
       splideRef.current.splide.go(">");
     }
   };
-
+  const limit = 10;
   const [selectedSubCategory, setSelectedSubCategory] = useState(categoryId);
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    price_min: null,
+    price_max: null,
+    availability: null,
+    rating: null,
+    sort: "low_to_high",
+    page: 1,
+    limit,
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const fetched = await mainUrl(
-        `/products?category=${selectedSubCategory}`
-      ).finally(() => {
-        setLoading(false);
-      });
+      const params = new URLSearchParams();
+      if (selectedSubCategory) params.append("category", selectedSubCategory);
+      if (filters.price_min) params.append("price_min", filters.price_min);
+      if (filters.price_max) params.append("price_max", filters.price_max);
+      if (filters.availability)
+        params.append("availability", filters.availability);
+      if (filters.rating) params.append("rating", filters.rating);
+      if (filters.sort) params.append("sort", filters.sort);
+      if (filters.page) params.append("page", filters.page);
+      if (filters.limit) params.append("limit", filters.limit);
+      const fetched = await mainUrl(`/products?${params.toString()}`).finally(
+        () => {
+          setLoading(false);
+        }
+      );
 
       setProducts(fetched);
     };
 
     fetchProducts();
-  }, [selectedSubCategory]);
+  }, [selectedSubCategory, filters]);
   return (
     <div>
       <div>
@@ -132,7 +152,11 @@ const SubCategories = ({ categorys, categoryId }) => {
         </div>
       </div>
       <div className="">
-        <Filter />
+        <Filter
+          showing={products?.products?.length || 0}
+          filters={filters}
+          setFilters={setFilters}
+        />
       </div>
 
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6">
@@ -145,6 +169,15 @@ const SubCategories = ({ categorys, categoryId }) => {
             <h3>{loading ? "Loading..." : "No Data"}</h3>
           </div>
         )}
+      </div>
+      <div className="mt-4 flex justify-end">
+        <Pagination
+          current={filters.page}
+          pageSize={limit}
+          total={products?.pagination?.totalProducts || 0}
+          onChange={(e) => setFilters((p) => ({ ...p, page: e }))}
+          showSizeChanger={false}
+        />
       </div>
     </div>
   );
