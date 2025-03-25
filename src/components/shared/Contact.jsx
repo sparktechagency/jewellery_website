@@ -10,7 +10,6 @@ import { useGetProfileQuery } from "@/redux/Api/userAPi";
 const Contact = () => {
   const [addContact] = useAddContactMutation();
   const { data: profile } = useGetProfileQuery();
-  console.log(profile?.email);
   const onFinish = async (values) => {
     const data = {
       name: values.name,
@@ -20,7 +19,6 @@ const Contact = () => {
     };
     try {
       const response = await addContact(data).unwrap();
-      console.log(response);
       toast.success(response.message);
     } catch (error) {
       toast.error(error.data.message);

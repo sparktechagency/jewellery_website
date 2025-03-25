@@ -27,7 +27,6 @@ const ChangePassword = () => {
     try {
       const response = await changePassword(data).unwrap();
       toast.success(response.message);
-      console.log(response);
     } catch (error) {
       console.log(error);
       toast.error(error.data.message);

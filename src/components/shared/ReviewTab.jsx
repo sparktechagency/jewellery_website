@@ -2,9 +2,6 @@ import React from "react";
 import { MdStar } from "react-icons/md";
 import { Form, Input, Button, Rate, Select } from "antd";
 const ReviewTab = () => {
-  // const handleChange = (value) => {
-  //     console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-  //   };
   const onFinish = (values) => {
     console.log("Received values:", values);
   };

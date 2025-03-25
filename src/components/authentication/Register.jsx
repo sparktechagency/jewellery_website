@@ -20,11 +20,9 @@ const onFinish = async (values) => {
     email: values.email,
     password: values.password
   }
-  console.log(data)
   setLoading(true);       
     try {
       const response = await signUp(data).unwrap();
-      console.log(response);
       localStorage.setItem("email", values.email);
       toast.success(response.message);
       

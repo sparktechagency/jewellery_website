@@ -76,11 +76,6 @@ const page = () => {
       price: "$10.99",
     },
   ];
-
-  const handleChange = (value) => {
-    console.log(value);
-  };
-
   return (
     <div className="container mx-auto mt-9 px-4 lg:px-0">
       <div>

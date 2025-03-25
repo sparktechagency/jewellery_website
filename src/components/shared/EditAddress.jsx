@@ -9,7 +9,6 @@ import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/Api/userAP
 import { toast } from "react-toastify";
 const EditAddress = () => {
     const { data: profile } = useGetProfileQuery();
-    console.log(profile);
     const[updateProfile] = useUpdateProfileMutation();
   
     const [form] = Form.useForm(); 
@@ -34,12 +33,9 @@ const EditAddress = () => {
       data.append("city", values.city);
        try {
             const response = await updateProfile(data).unwrap();
-            console.log(response)
             toast.success(response.message);
-  
           } catch (error) {
             toast.error(error.data.message);
-           
             console.log(error);
           }
     };

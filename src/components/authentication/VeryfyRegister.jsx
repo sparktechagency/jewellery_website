@@ -22,7 +22,6 @@ const handleVerify = async () => {
     setLoading(true);     
     try {
       const response = await verifyOtp(data).unwrap();
-      console.log(response);
       toast.success(response.message);
       router.push("/auth/signIn");
     

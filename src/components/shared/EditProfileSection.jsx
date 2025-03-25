@@ -5,15 +5,16 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from "next/link";
-import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/Api/userAPi";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+} from "@/redux/Api/userAPi";
 import { toast } from "react-toastify";
 const EditProfileSection = () => {
   const { data: profile } = useGetProfileQuery();
-  console.log(profile);
-  const[updateProfile] = useUpdateProfileMutation();
+  const [updateProfile] = useUpdateProfileMutation();
 
-  const [form] = Form.useForm(); 
-
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (profile) {
@@ -29,16 +30,13 @@ const EditProfileSection = () => {
     const data = new FormData();
     data.append("name", values.name);
     data.append("phone", values.phone);
-     try {
-          const response = await updateProfile(data).unwrap();
-          console.log(response)
-          toast.success(response.message);
-
-        } catch (error) {
-          toast.error(error.data.message);
-         
-          console.log(error);
-        }
+    try {
+      const response = await updateProfile(data).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+    }
   };
   return (
     <div>
@@ -88,7 +86,7 @@ const EditProfileSection = () => {
           <div className="col-span-6  md:pl-6 mt-9 md:mt-0">
             <h1 className="text-xl font-semibold pb-4">Edit Profile</h1>
             <Form onFinish={onEditProfile} layout="vertical" form={form}>
-            <Form.Item name="name" label="Name">
+              <Form.Item name="name" label="Name">
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter name"
@@ -98,7 +96,7 @@ const EditProfileSection = () => {
 
               <Form.Item name="email" label="Email">
                 <Input
-                disabled
+                  disabled
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter Email"
                   rules={[{ required: true, message: "Please write a Email" }]}

@@ -17,7 +17,6 @@ const router = useRouter();
     setLoading(true);
     try {
       const response = await forgetPassword(data).unwrap();
-      console.log(response);
       localStorage.setItem("email", values.email);
       toast.success(response.message);
       router.push("/auth/signIn/forgetPassword/otp");

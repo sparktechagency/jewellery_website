@@ -23,7 +23,6 @@ const Verify = () => {
       setLoading(true);     
       try {
         const response = await verifyOtp(data).unwrap();
-        console.log(response);
         toast.success(response.message);
         router.push("/auth/signIn/forgetPassword/otp/resetPassword");
         localStorage.setItem("token", response?.passwordResetToken);

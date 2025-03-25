@@ -19,7 +19,6 @@ const router = useRouter()
     setLoading(true);  
     try {
       const response = await loginUser(data).unwrap();
-      console.log(response)
       toast.success(response.message);
       
       localStorage.setItem("accessToken", response.accessToken);

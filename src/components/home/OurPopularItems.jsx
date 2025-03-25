@@ -111,7 +111,7 @@ const OurPopularItems = () => {
             {category.map((item, index) => (
               <SplideSlide key={index}>
                 <div>
-                  <CardShop item={item}></CardShop>
+                  {/* <CardShop item={item}></CardShop> */}
                 </div>
               </SplideSlide>
             ))}
