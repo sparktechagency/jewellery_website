@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Upload, Typography, Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { useAddOrderCustomMutation } from "@/redux/Api/webmanageApi";
+import { toast } from "react-toastify";
 
 const { Title } = Typography;
 
@@ -186,16 +188,17 @@ const[addOrder] = useAddOrderCustomMutation()
           </Form.Item>
 
           <Form.Item label="Photos">
-            <Upload
-            style={{ borderRadius: "0px" }}
-              listType="picture-card"
-              fileList={fileList}
-              onChange={onChange}
-              onPreview={onPreview}
-              multiple={true}
-            >
-              {fileList.length < 1 && "+ Upload"}
-            </Upload>
+          <Upload
+  style={{ borderRadius: "8px", background: "red", padding: "10px" }}
+  listType="picture-card"
+  fileList={fileList}
+  onChange={onChange}
+  onPreview={onPreview}
+  multiple={true}
+>
+  {fileList.length < 1 && "+ Upload"}
+</Upload>
+
           </Form.Item>
           <Form.Item>
             <button

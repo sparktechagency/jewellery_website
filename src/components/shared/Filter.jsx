@@ -43,7 +43,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                   draggableTrack
                   min={min}
                   max={max}
-                  value={[filters.price_min || min, filters.price_max || max]}
+                  value={[filters?.price_min || min, filters?.price_max || max]}
                   onChange={([min, max]) =>
                     setFilters((p) => ({
                       ...p,
@@ -57,7 +57,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                   <input
                     type="number"
                     className="w-full border p-1 "
-                    value={filters.price_min || min}
+                    value={filters?.price_min || min}
                     onChange={(e) =>
                       setFilters((p) => ({ ...p, price_min: e }))
                     }
@@ -67,7 +67,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                   <input
                     type="number"
                     className="w-full border p-1 "
-                    value={filters.price_max || max}
+                    value={filters?.price_max || max}
                     onChange={(e) =>
                       setFilters((p) => ({ ...p, price_max: e }))
                     }
@@ -80,7 +80,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                   <div className="flex flex-col gap-2">
                     <Checkbox
                       value="in_stock"
-                      checked={filters.availability === "in_stock"}
+                      checked={filters?.availability === "in_stock"}
                       onChange={(e) =>
                         setFilters((p) => ({
                           ...p,
@@ -92,7 +92,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                     </Checkbox>
                     <Checkbox
                       value="stock_out"
-                      checked={filters.availability === "stock_out"}
+                      checked={filters?.availability === "stock_out"}
                       onChange={(e) =>
                         setFilters((p) => ({
                           ...p,
@@ -104,7 +104,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                     </Checkbox>
                     <Checkbox
                       value="upcoming"
-                      checked={filters.availability === "upcoming"}
+                      checked={filters?.availability === "upcoming"}
                       onChange={(e) =>
                         setFilters((p) => ({
                           ...p,
@@ -120,7 +120,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                   <h1 className=" text-lg">Rating</h1>
                   <Rate
                     allowHalf
-                    value={filters.rating}
+                    value={filters?.rating}
                     onChange={(val) =>
                       setFilters((p) => ({ ...p, rating: val }))
                     }
@@ -139,7 +139,7 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
             borderRadius: "0px",
             width: 240,
           }}
-          value={{ value: filters.sort }}
+          value={{ value: filters?.sort }}
           onChange={({ value }) => setFilters((p) => ({ ...p, sort: value }))}
           options={[
             {
