@@ -40,6 +40,7 @@ const OrderTable = ({ myOrder }) => {
                   </p>
                 </div>
               </td>
+             
               <td className="py-4 px-5 font-medium">
                 ${order.ready_made_details.products[0].product_id.price}
               </td>
