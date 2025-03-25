@@ -58,7 +58,9 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                     type="number"
                     className="w-full border p-1 "
                     value={filters.price_min || min}
-                    // onChange={(e) => handleInputChange(0, e)}
+                    onChange={(e) =>
+                      setFilters((p) => ({ ...p, price_min: e }))
+                    }
                     min={min}
                     max={max}
                   />
@@ -66,7 +68,9 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                     type="number"
                     className="w-full border p-1 "
                     value={filters.price_max || max}
-                    // onChange={(e) => handleInputChange(1, e)}
+                    onChange={(e) =>
+                      setFilters((p) => ({ ...p, price_max: e }))
+                    }
                     min={min}
                     max={max}
                   />
