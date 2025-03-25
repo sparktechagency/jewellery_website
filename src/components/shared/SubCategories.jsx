@@ -141,7 +141,7 @@ const SubCategories = ({ categorys, categoryId }) => {
             <CardShop key={product._id} item={product} />
           ))
         ) : (
-          <div className="w-full h-16 grid place-items-center">
+          <div className="w-full h-16 grid place-items-center col-span-4">
             <h3>{loading ? "Loading..." : "No Data"}</h3>
           </div>
         )}
