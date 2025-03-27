@@ -10,8 +10,11 @@ import {
   updateQuantity,
   updateSize,
 } from "../../redux/slices/cartSlice";
+import { useAddFavoriteMutation } from "@/redux/Api/webmanageApi";
+import { toast } from "react-toastify";
 
 const DetailsSection = ({ product }) => {
+  const [addFavorite] = useAddFavoriteMutation();
   const savings =
     ((product?.price - product?.discount_price) / product?.price) * 100;
 
@@ -38,6 +41,20 @@ const DetailsSection = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState(
     cart?.size || product.sizes?.[0] || ""
   );
+
+  const handleFavorite = async (record) => {
+      console.log(record);
+      const data = {
+        product_id: record,
+        type: "add",
+      };
+      try {
+        const response = await addFavorite(data).unwrap();
+        toast.success(response.message);
+      } catch (error) {
+        toast.error(error.data.message);
+      }
+    };
 
   useEffect(() => {
     if (cart) {
@@ -210,7 +227,7 @@ const DetailsSection = ({ product }) => {
                 {!quantity ? "Add To Cart" : "Added To Cart"}
               </button>
             </div>
-            <button className="border px-4 text-2xl ">
+            <button onClick={() => handleFavorite(product?._id)} className="border px-4 text-2xl ">
               <FaRegHeart />
             </button>
           </div>
