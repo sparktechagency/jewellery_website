@@ -48,7 +48,6 @@ const DetailsSection = ({ product }) => {
       setSelectedSize(product.sizes?.[0] || "");
     }
   }, [cart, product]);
-  
 
   useEffect(() => {
     if (!cart) {
@@ -67,15 +66,17 @@ const DetailsSection = ({ product }) => {
     dispatch(updateSize({ ...product, size }));
   };
 
+  const quantity = cart?.quantity || 0;
+
   const handleAddToCart = () => {
-    if (cart) {
+    if (cart && quantity) {
       dispatch(removeFromCart(product));
     } else {
-      dispatch(addToCart({ ...product, color: selectedColor, size: selectedSize }));
+      dispatch(
+        addToCart({ ...product, color: selectedColor, size: selectedSize })
+      );
     }
   };
-
-  const quantity = cart?.quantity || 0;
 
   const increaseQuantity = () => {
     dispatch(
@@ -147,17 +148,17 @@ const DetailsSection = ({ product }) => {
             <div>
               <p className="font-semibold">Color</p>
               <div className="flex space-x-2">
-              {product?.colors?.map((color) => (
-                <button
-                  onClick={() => handleColor(color)}
-                  key={color}
-                  className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
-                    selectedColor === color && "bg-gray-200"
-                  }`}
-                >
-                  {color}
-                </button>
-              ))}
+                {product?.colors?.map((color) => (
+                  <button
+                    onClick={() => handleColor(color)}
+                    key={color}
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
+                      selectedColor === color && "bg-gray-200"
+                    }`}
+                  >
+                    {color}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -166,17 +167,17 @@ const DetailsSection = ({ product }) => {
             <div>
               <p className="font-semibold">Size</p>
               <div className="flex space-x-2">
-              {product?.sizes?.map((size) => (
-                <button
-                  onClick={() => handleSize(size)}
-                  key={size}
-                  className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
-                    selectedSize === size && "bg-gray-200"
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
+                {product?.sizes?.map((size) => (
+                  <button
+                    onClick={() => handleSize(size)}
+                    key={size}
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
+                      selectedSize === size && "bg-gray-200"
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -206,7 +207,7 @@ const DetailsSection = ({ product }) => {
                 onClick={handleAddToCart}
                 className={`w-full md:py-[11px] py-[7px] bg-black text-white font-semibold cursor-pointer`}
               >
-                {!cart ? "Add To Cart" : "Added To Cart"}
+                {!quantity ? "Add To Cart" : "Added To Cart"}
               </button>
             </div>
             <button className="border px-4 text-2xl ">

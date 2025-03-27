@@ -11,9 +11,9 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import CardShop from "./CardShop";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import {  useGetReviewTotalQuery } from "@/redux/Api/webmanageApi";
+import { useGetReviewTotalQuery } from "@/redux/Api/webmanageApi";
 
-const DetailsDescription = ({ product,id }) => {
+const DetailsDescription = ({ product, id, similarProducts }) => {
   const { data: reviewData } = useGetReviewTotalQuery(id);
   const [activeTab, setActiveTab] = useState("description");
   const category = [
@@ -98,10 +98,10 @@ const DetailsDescription = ({ product,id }) => {
         {activeTab === "description" && (
           <div>
             <div
-            className="text-gray-600"
-            dangerouslySetInnerHTML={{ __html: product.description }}
-          />
-          <div className="mt-11">
+              className="text-gray-600"
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            />
+            <div className="mt-11">
               <div className="">
                 <div className="flex justify-between mb-6">
                   {/* <Title head={"category"} title={"Browse By Category"}></Title> */}
@@ -139,24 +139,23 @@ const DetailsDescription = ({ product,id }) => {
                   }}
                   aria-label="Category Slide"
                 >
-                  {category.map((item, index) => (
-                    <SplideSlide key={index}>
-                      <div>
-                        <CardShop item={item}></CardShop>
-                      </div>
-                    </SplideSlide>
-                  ))}
+                  {similarProducts?.length > 0 &&
+                    similarProducts?.map((item, index) => (
+                      <SplideSlide key={index}>
+                        <div>
+                          <CardShop item={item}></CardShop>
+                        </div>
+                      </SplideSlide>
+                    ))}
                 </Splide>
               </div>
             </div>
-
           </div>
-          
         )}
 
         {activeTab === "reviews" && (
           <div>
-            <ReviewTab id = {id} product={product}></ReviewTab>
+            <ReviewTab id={id} product={product}></ReviewTab>
           </div>
         )}
       </div>

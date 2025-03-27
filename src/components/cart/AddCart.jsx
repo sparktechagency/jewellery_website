@@ -80,7 +80,7 @@ const AddCart = () => {
             <div>
               {cart.map((item) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="md:flex justify-between items-center border-b py-4"
                 >
                   <div className="md:flex items-center hidden">

@@ -8,6 +8,15 @@ const cartSlice = createSlice({
       return state.filter((item) => item._id !== action.payload._id);
     },
     addToCart: (state, action) => {
+      const existingItem = state.find(
+        (item) => item._id === action.payload._id
+      );
+      if (existingItem) {
+        if (!existingItem.quantity) {
+          existingItem.quantity = 1;
+        }
+        return;
+      }
       state.push({ ...action.payload, quantity: 1 });
     },
     clearCart: (state, action) => {
@@ -35,7 +44,7 @@ const cartSlice = createSlice({
         (item) => item._id === action.payload._id
       );
       if (!existingItem) {
-        state.push({ ...action.payload, quantity: 1 });
+        state.push({ ...action.payload });
       }
 
       if (item) {
@@ -49,7 +58,7 @@ const cartSlice = createSlice({
         (item) => item._id === action.payload._id
       );
       if (!existingItem) {
-        state.push({ ...action.payload, quantity: 1 });
+        state.push({ ...action.payload });
       }
 
       if (item) {
