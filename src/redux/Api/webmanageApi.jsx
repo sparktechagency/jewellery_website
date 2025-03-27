@@ -234,6 +234,15 @@ const faq = baseApi.injectEndpoints({
       },
       invalidatesTags: ["updateProfile"],
     }),
+    getPopularProduct: builder.query({
+      query: () => {
+        return {
+          url: `/products/popular`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
   }),
 });
 
@@ -259,5 +268,6 @@ export const {
   useAddReviewMutation,
   useGetReviewQuery,
   useGetReviewTotalQuery,
-  useAddOrderSubmitMutation
+  useAddOrderSubmitMutation,
+  useGetPopularProductQuery
 } = faq;

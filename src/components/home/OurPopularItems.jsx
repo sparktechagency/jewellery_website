@@ -11,7 +11,10 @@ import Image from "next/image";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import CardShop from '../../components/shared/CardShop'
+import { useGetPopularProductQuery } from "@/redux/Api/webmanageApi";
 const OurPopularItems = () => {
+  const{data:popularProduct} = useGetPopularProductQuery();
+  console.log(popularProduct)
   const category = [
     {
       img: img1,
@@ -108,10 +111,10 @@ const OurPopularItems = () => {
             }}
             aria-label="Category Slide"
           >
-            {category.map((item, index) => (
+            {popularProduct?.map((item, index) => (
               <SplideSlide key={index}>
                 <div>
-                  {/* <CardShop item={item}></CardShop> */}
+                  <CardShop item={item}></CardShop>
                 </div>
               </SplideSlide>
             ))}

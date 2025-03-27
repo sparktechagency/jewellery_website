@@ -96,10 +96,62 @@ const DetailsDescription = ({ product,id }) => {
       {/* Tab Content */}
       <div className="">
         {activeTab === "description" && (
-          <div
+          <div>
+            <div
             className="text-gray-600"
             dangerouslySetInnerHTML={{ __html: product.description }}
           />
+          <div className="mt-11">
+              <div className="">
+                <div className="flex justify-between mb-6">
+                  {/* <Title head={"category"} title={"Browse By Category"}></Title> */}
+                  <h1 className="text-2xl font-semibold">Related Product</h1>
+                  <div className="flex gap-2  ">
+                    <div onClick={handlePrevClick}>
+                      <div className=" rounded-full text-2xl p-2 text-black cursor-pointer">
+                        <IoIosArrowBack />
+                      </div>
+                    </div>
+                    <div onClick={handleNextClick}>
+                      <div className="   rounded-full text-2xl p-2 text-black cursor-pointer">
+                        <IoIosArrowForward />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+              </div>
+
+              <div>
+                <Splide
+                  ref={splideRef}
+                  options={{
+                    type: "loop",
+                    perPage: 5,
+                    gap: "1rem",
+                    arrows: false,
+                    pagination: false,
+                    breakpoints: {
+                      1024: { perPage: 3 },
+                      768: { perPage: 2 },
+                      640: { perPage: 1 },
+                    },
+                  }}
+                  aria-label="Category Slide"
+                >
+                  {category.map((item, index) => (
+                    <SplideSlide key={index}>
+                      <div>
+                        <CardShop item={item}></CardShop>
+                      </div>
+                    </SplideSlide>
+                  ))}
+                </Splide>
+              </div>
+            </div>
+
+          </div>
+          
         )}
 
         {activeTab === "reviews" && (
