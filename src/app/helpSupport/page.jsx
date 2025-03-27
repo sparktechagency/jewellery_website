@@ -1,8 +1,7 @@
-import React from "react";
-import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
-const page = async() => {
+
+const Page = async () => {
   const about = await mainUrl(`/info?page=help`);
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
@@ -15,7 +14,7 @@ const page = async() => {
           }}
         >
           <Image
-            src={hero}
+            src="/shared/sss.jpg"
             className="rounded-2xl"
             alt="Hero Image"
             layout="fill"
@@ -34,16 +33,16 @@ const page = async() => {
         </div>
       </div>
       <div>
-      <div className="mt-5">
-      {about?.content ? (
-          <div dangerouslySetInnerHTML={{ __html: about?.content  }} />
-        ) : (
-          <NoData /> // Render NoData when description is missing
-        )}
-      </div>
+        <div className="mt-5">
+          {about?.content ? (
+            <div dangerouslySetInnerHTML={{ __html: about?.content }} />
+          ) : (
+            <NoData />
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;

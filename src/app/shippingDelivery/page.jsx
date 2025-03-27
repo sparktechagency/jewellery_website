@@ -1,8 +1,8 @@
-import React from "react";
 import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
-const page = async () => {
+
+const Page = async () => {
   const about = await mainUrl(`/info?page=shipping`);
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
@@ -44,4 +44,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;
