@@ -87,7 +87,7 @@ const page = () => {
           }}
         >
           <Image
-            className="rounded-2xl "
+            className="rounded-2xl"
             src={hero}
             alt="Hero Image"
             layout="fill"

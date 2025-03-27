@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,24 +28,50 @@ const DetailsSection = ({ product }) => {
       : 0;
 
   const dispatch = useDispatch();
+  const cart = useSelector((store) => store.cart).find(
+    (item) => item._id === product._id
+  );
+
+  const [selectedColor, setSelectedColor] = useState(
+    cart?.color || product.colors?.[0] || ""
+  );
+  const [selectedSize, setSelectedSize] = useState(
+    cart?.size || product.sizes?.[0] || ""
+  );
+
+  useEffect(() => {
+    if (cart) {
+      setSelectedColor(cart.color);
+      setSelectedSize(cart.size);
+    } else {
+      setSelectedColor(product.colors?.[0] || "");
+      setSelectedSize(product.sizes?.[0] || "");
+    }
+  }, [cart, product]);
+  
+
+  useEffect(() => {
+    if (!cart) {
+      dispatch(updateColor({ ...product, color: selectedColor }));
+      dispatch(updateSize({ ...product, size: selectedSize }));
+    }
+  }, [dispatch, product, selectedColor, selectedSize, cart]);
 
   const handleColor = (color) => {
+    setSelectedColor(color);
     dispatch(updateColor({ ...product, color }));
   };
 
   const handleSize = (size) => {
+    setSelectedSize(size);
     dispatch(updateSize({ ...product, size }));
   };
-
-  const cart = useSelector((store) => store.cart).find(
-    (item) => item._id === product._id
-  );
 
   const handleAddToCart = () => {
     if (cart) {
       dispatch(removeFromCart(product));
     } else {
-      dispatch(addToCart(product));
+      dispatch(addToCart({ ...product, color: selectedColor, size: selectedSize }));
     }
   };
 
@@ -121,17 +147,17 @@ const DetailsSection = ({ product }) => {
             <div>
               <p className="font-semibold">Color</p>
               <div className="flex space-x-2">
-                {product?.colors?.map((color) => (
-                  <button
-                    onClick={() => handleColor(color)}
-                    key={color}
-                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
-                      cart?.color === color && "bg-gray-200"
-                    }`}
-                  >
-                    {color}
-                  </button>
-                ))}
+              {product?.colors?.map((color) => (
+                <button
+                  onClick={() => handleColor(color)}
+                  key={color}
+                  className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
+                    selectedColor === color && "bg-gray-200"
+                  }`}
+                >
+                  {color}
+                </button>
+              ))}
               </div>
             </div>
           </div>
@@ -140,17 +166,17 @@ const DetailsSection = ({ product }) => {
             <div>
               <p className="font-semibold">Size</p>
               <div className="flex space-x-2">
-                {product?.sizes?.map((size) => (
-                  <button
-                    onClick={() => handleSize(size)}
-                    key={size}
-                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
-                      cart?.size === size && "bg-gray-200"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+              {product?.sizes?.map((size) => (
+                <button
+                  onClick={() => handleSize(size)}
+                  key={size}
+                  className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
+                    selectedSize === size && "bg-gray-200"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
               </div>
             </div>
           </div>

@@ -32,12 +32,10 @@ export const Filter = ({ showing, filters, setFilters, min, max }) => {
                 </button>
               </div>
 
-              {/* Example Filter Inputs */}
+
 
               <div className="mb-3">
                 <label className="block text-lg ">Price Range</label>
-
-                {/* ✅ Slider */}
                 <Slider
                   range
                   draggableTrack

@@ -12,9 +12,10 @@ import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import AppoinmentModal from "./AppoinmentModal";
 import { useRouter } from "next/navigation";
+import { useGetProfileQuery } from "@/redux/Api/userAPi";
 const Navbar = ({ pathname }) => {
   const { data: category } = useGetCategoryQuery();
-
+const { data: profile } = useGetProfileQuery();
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const [openResponsive, setOpenResponsive] = useState(false);
@@ -120,7 +121,7 @@ const Navbar = ({ pathname }) => {
                     className="-mt-1 cursor-pointer"
                     onClick={(e) => e.preventDefault()}
                   >
-                    Mr.Robin
+                    {profile?.name}
                     <DownOutlined classID="ml-2" />
                   </a>
                 </Dropdown>
@@ -147,6 +148,9 @@ const Navbar = ({ pathname }) => {
                   maskClosable={true}
                 >
                   <div className="flex flex-col  justify-center ">
+                  <div className="text-black  hover:bg-gray-100 border-b py-3 px-1">
+               <Link href={'/'}><h1 className="text-black">Home</h1></Link>
+               </div>
                     {categoryItems.map((item, index) => (
                       <div key={index}>
                         <Link
@@ -161,6 +165,9 @@ const Navbar = ({ pathname }) => {
                         </Link>
                       </div>
                     ))}
+                   <div className="text-black  hover:bg-gray-100 border-b py-3 px-1">
+               <Link href={'/customize'}><h1 className="text-black">Customize</h1></Link>
+               </div>
                     <div className="flex gap-2 bg-gray-100 py-3 px-1 mt-3">
                       <AiOutlineUser className="" />
                       <Dropdown
@@ -174,7 +181,7 @@ const Navbar = ({ pathname }) => {
                           onClick={(e) => e.preventDefault()}
                         >
                           <span className="">
-                            Mr.Robin
+                            {profile?.name}
                             <DownOutlined classID="ml-2" />
                           </span>
                         </button>
@@ -189,8 +196,12 @@ const Navbar = ({ pathname }) => {
 
         <div className="hidden lg:block">
           <div className="flex gap-16 justify-center mt-9">
+          <div className="flex gap-4">
+               <Link href={'/'}>Home</Link>
+               </div>
             {categoryItems.map((item, index) => (
               <div key={index}>
+               
                 <Link
                   href={item.path}
                   className={`
@@ -201,6 +212,9 @@ const Navbar = ({ pathname }) => {
                 </Link>
               </div>
             ))}
+            <div className="flex gap-4">
+               <Link href={'/customize'}>Customize</Link>
+               </div>
           </div>
         </div>
         <AppoinmentModal

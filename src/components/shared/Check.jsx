@@ -9,8 +9,16 @@ import img3 from "../../../public/home/pop3.png";
 import Visa from "../../../public/ring/visa.png";
 import Master from "../../../public/ring/money.png";
 import Paypal from "../../../public/ring/paypal.png";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useAddOrderSubmitMutation } from "@/redux/Api/webmanageApi";
+import { useRouter } from "next/navigation";
 
 export const Check = () => {
+  const router = useRouter()
+  const [addOrder] = useAddOrderSubmitMutation()
+  const cart = useSelector((store) => store.cart);
+  console.log(cart)
   const products = [
     {
       id: 1,
@@ -27,6 +35,38 @@ export const Check = () => {
       quantity: 1,
     },
   ];
+  const fee = 10.00
+  const totalPrice = cart.reduce((acc, item) => {
+    const price = item.discount_price ? item.discount_price : item.price;
+    return acc + price * item.quantity;
+  }, 0);
+
+  
+
+   const onFinish = async (values) => {
+    const data = {
+      shipping_address: values.shipping_address,
+      zip: values.zip,
+      city: values.city,
+      state: values.state, 
+      products: cart.map(product => ({
+        id: product._id,  
+        color: product.color,
+        size: product.size,
+        quantity: product.quantity,
+      }))
+    };
+    console.log(data)
+      try {
+        const response = await addOrder(data).unwrap();
+        toast.success(response.message);
+        console.log(response?.stripe_url)
+        window.open(response?.stripe_url, '_blank')
+
+      } catch (error) {
+        toast.error(error.data.message);
+      }
+    };
   return (
     <div>
       <div className=" mt-10 md:grid grid-cols-12 gap-6">
@@ -41,19 +81,24 @@ export const Check = () => {
           </div>
 
           <div className="border-b">
-            {products.map((item) => (
+            {cart?.map((item) => (
               <div key={item.id} className="flex items-center  py-4">
                 <Image
-                  src={item.image}
-                  width={70}
-                  height={70}
+                  src={item.image_urls?.[0]}
+                  width={80}
+                  height={80}
                   alt={item.name}
                 />
                 <div className="flex-1 px-3">
                   <p className="font-medium">{item.name}</p>
                   <p className="text-gray-500">Qty: {item.quantity}</p>
                 </div>
-                <p className="">${(item.price * item.quantity).toFixed(2)}</p>
+                <p className=""> {Number(
+                        (item.discount_price || item.price) * item.quantity
+                      ).toLocaleString("en-US", {
+                        currency: "USD",
+                        style: "currency",
+                      })}</p>
               </div>
             ))}
           </div>
@@ -61,15 +106,24 @@ export const Check = () => {
           <div className="py-4">
             <div className="flex justify-between  ">
               <p>Sub Total:</p>
-              <p>$158.00</p>
+              <p> {Number(totalPrice).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}</p>
             </div>
             <div className="flex justify-between border-b py-4">
               <p>Shipping Fee:</p>
-              <p>$0.00</p>
+              <p>{Number(fee).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}</p>
             </div>
             <div className="flex justify-between  text-lg">
               <p>Total:</p>
-              <p>$158.00</p>
+              <p>{Number(totalPrice+fee).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}</p>
             </div>
           </div>
         </div>
@@ -77,8 +131,8 @@ export const Check = () => {
         {/* Shipping & Payment */}
         <div className="col-span-7  md:border-l md:pl-6 mt-9 md:mt-0">
           <h2 className="text-lg font-semibold pb-4">Shipping Address</h2>
-          <Form layout="vertical">
-            <Form.Item name="street" label="Street Address">
+          <Form layout="vertical" onFinish={onFinish}>
+            <Form.Item name="shipping_address" label="Street Address">
               <Input
                 style={{ padding: "9px", borderRadius: "0px" }}
                 placeholder="Enter your street address"
@@ -105,7 +159,7 @@ export const Check = () => {
               />
             </Form.Item>
 
-            <h2 className="text-lg font-semibold pt-4 pb-2">Payment Options</h2>
+            {/* <h2 className="text-lg font-semibold pt-4 pb-2">Payment Options</h2>
             <Form.Item name="payment">
               <Radio.Group className="flex items-center gap-4">
                 <Radio value="visa">
@@ -164,9 +218,9 @@ export const Check = () => {
                   placeholder="Input here"
                 />
               </Form.Item>
-            </div>
+            </div> */}
 
-            <button type="primary" className="w-full bg-black text-white py-2">
+            <button type="submit" className="w-full bg-black text-white py-2">
               Pay Now
             </button>
           </Form>

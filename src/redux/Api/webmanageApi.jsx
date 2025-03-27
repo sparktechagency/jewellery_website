@@ -223,6 +223,17 @@ const faq = baseApi.injectEndpoints({
       },
       providesTags: ["updateProfile"],
     }),
+
+    addOrderSubmit: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/orders",
+          method: "POST",
+          body:data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
   }),
 });
 
@@ -247,5 +258,6 @@ export const {
   useGetFavoritesQuery,
   useAddReviewMutation,
   useGetReviewQuery,
-  useGetReviewTotalQuery
+  useGetReviewTotalQuery,
+  useAddOrderSubmitMutation
 } = faq;
