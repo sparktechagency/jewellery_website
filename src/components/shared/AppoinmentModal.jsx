@@ -1,24 +1,76 @@
 "use client";
-import { Calendar, Form, Input, Modal, TimePicker, theme } from "antd";
-import React, { useState } from "react";
-import { useAddAppointmentMutation, useGetUnavailableQuery } from "@/redux/Api/webmanageApi";
+import { Calendar, Form, Input, Modal, TimePicker, message, theme } from "antd";
+import { useState } from "react";
+import {
+  useAddAppointmentMutation,
+  useGetUnavailableQuery,
+} from "@/redux/Api/webmanageApi";
+import dayjs from "dayjs";
+import { toast } from "react-toastify";
+import { useForm } from "antd/es/form/Form";
 
 const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [form] = Form.useForm();
+  const [activeTab, setActiveTab] = useState(0);
+  const [appointmentData, setAppointmentData] = useState();
 
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const tabContent = [
+    <TabOne
+      setActiveTab={setActiveTab}
+      setAppointmentData={setAppointmentData}
+    />,
+    <TabTwo
+      setActiveTab={setActiveTab}
+      appointmentData={appointmentData}
+      setAppointmentData={setAppointmentData}
+      setOpenResponsive={setOpenResponsive}
+    />,
+  ];
+
+  return (
+    <Modal
+      title=""
+      centered
+      open={openResponsive}
+      onCancel={() => setOpenResponsive(false)}
+      footer={null}
+      width={{
+        xs: "90%",
+        sm: "80%",
+        md: "60%",
+        lg: "50%",
+        xl: "40%",
+        xxl: "30%",
+      }}
+    >
+      <div>
+        <h1 className="text-xl font-semibold text-center pb-4">
+          Book An Appointment
+        </h1>
+        <div className="bg-[#F5F5F5] p-4">
+          <h1>Showroom Location</h1>
+          <p>Dhaka, Banasree</p>
+        </div>
+        {tabContent[activeTab]}
+      </div>
+    </Modal>
+  );
+};
+
+export default AppoinmentModal;
+
+const TabOne = ({ setActiveTab, setAppointmentData }) => {
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [currentMonth, setCurrentMonth] = useState(dayjs().month() + 1);
+  const [currentYear, setCurrentYear] = useState(dayjs().year());
 
   const { data: unAvailableAppointment } = useGetUnavailableQuery({
     month: currentMonth,
     year: currentYear,
   });
-  const [appApointment] = useAddAppointmentMutation();
-  
+
   const unavailableDates =
-    unAvailableAppointment?.availableTimes?.map(
-      (item) => new Date(item.start).toISOString().split("T")[0]
+    unAvailableAppointment?.availableTimes?.map((item) =>
+      dayjs(item.start).format("YYYY-MM-DD")
     ) || [];
 
   const disabledDate = (current) => {
@@ -27,31 +79,22 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
   };
 
   const onFinish = (values) => {
+    const startDateTime = dayjs(
+      `${selectedDate.format("YYYY-MM-DD")}T${values.start.format("HH:mm:ss")}`
+    );
+    const endDateTime = dayjs(
+      `${selectedDate.format("YYYY-MM-DD")}T${values.end.format("HH:mm:ss")}`
+    );
 
-    const formatDateTime = (date, time) => {
-      console.log(date,time)
-      if (!date || !time) return null;
-      const formattedTime = time.format("HH:mm:ss");
-      const dateTime = new Date(`${date}T${formattedTime}`);
-      console.log(`${date}T${formattedTime}`)
-      return dateTime.toISOString();
+    const tab1Data = {
+      start: startDateTime.isValid() ? startDateTime.toISOString() : null,
+      end: endDateTime.isValid() ? endDateTime.toISOString() : null,
     };
 
-    const appointmentData = {
-      start: formatDateTime(selectedDate, values.fromTime),
-      end: formatDateTime(selectedDate, values.toTime),
-      name: values.fullName,
-      email: values.email,
-      phone: values.number,
-      notes: values.message || "",
-    };
-    
-    console.log("Appointment Data:", appointmentData);
+    setAppointmentData((p) => ({ ...p, ...tab1Data }));
+    setActiveTab(1);
   };
-  
-  const [activeTab, setActiveTab] = useState(0);
-
-  const tabContent = [
+  return (
     <div key="1">
       <h1 className="text-xl font-semibold pt-5">Select Date & Time</h1>
       <Calendar
@@ -61,14 +104,19 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
           setCurrentMonth(value.month() + 1);
           setCurrentYear(value.year());
         }}
-        onSelect={(value) => setSelectedDate(value.format("YYYY-MM-DD"))}
+        onSelect={(value) => setSelectedDate(value)}
         disabledDate={disabledDate}
       />
-      <div className="md:grid grid-cols-2 gap-3 mt-11">
+      <Form onFinish={onFinish} className="md:grid grid-cols-2 gap-3 mt-11">
+        <h1 className="text-lg font-semibold pb-2 col-span-2">
+          Available Time
+        </h1>
         <div>
-          <h1 className="text-lg font-semibold pb-2">Available Time</h1>
           <h1>From</h1>
-          <Form.Item name="fromTime" rules={[{ required: true, message: "Please select start time" }]}>
+          <Form.Item
+            name="start"
+            rules={[{ required: true, message: "Please select start time" }]}
+          >
             <TimePicker
               style={{ borderRadius: "0px" }}
               className="w-full"
@@ -78,8 +126,11 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
           </Form.Item>
         </div>
         <div>
-          <h1 className="text-lg font-semibold pb-2 pt-5 md:pt-0">To</h1>
-          <Form.Item name="toTime" rules={[{ required: true, message: "Please select end time" }]}>
+          <h1>To</h1>
+          <Form.Item
+            name="end"
+            rules={[{ required: true, message: "Please select end time" }]}
+          >
             <TimePicker
               style={{ borderRadius: "0px" }}
               className="w-full"
@@ -88,28 +139,75 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
             />
           </Form.Item>
         </div>
-      </div>
-      <button
-        className="w-full bg-black text-white py-2 mt-6 cursor-pointer"
-        onClick={() => setActiveTab(1)}
-      >
-        Continue
-      </button>
-    </div>,
+        <button
+          className="col-span-2 w-full bg-black text-white py-2 mt-6 cursor-pointer"
+          type="submit"
+        >
+          Continue
+        </button>
+      </Form>
+    </div>
+  );
+};
+
+const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
+  const [form] = useForm();
+  const [addApointment] = useAddAppointmentMutation();
+
+  console.log(appointmentData);
+
+  const onFinish = async (values) => {
+    const postData = { ...values, ...appointmentData };
+    try {
+      const response = await addApointment(postData).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+    } finally {
+      setOpenResponsive(false);
+      form.resetFields();
+    }
+  };
+  return (
     <div key="2">
       <h1 className="text-xl font-semibold pt-5 pb-4">Personal Information</h1>
-      <Form layout="vertical" form={form} onFinish={onFinish}>
-        <Form.Item name="fullName" label="Name" rules={[{ required: true, message: "Please write a Name" }]}>
-          <Input style={{ padding: "9px", borderRadius: "0px" }} placeholder="Enter your Full Name" />
+      <Form form={form} layout="vertical" onFinish={onFinish}>
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[{ required: true, message: "Please write a Name" }]}
+        >
+          <Input
+            style={{ padding: "9px", borderRadius: "0px" }}
+            placeholder="Enter your Full Name"
+          />
         </Form.Item>
-        <Form.Item name="email" label="Email" rules={[{ required: true, message: "Please write an Email" }]}>
-          <Input style={{ padding: "9px", borderRadius: "0px" }} placeholder="Enter Email" />
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[{ required: true, message: "Please write an Email" }]}
+        >
+          <Input
+            style={{ padding: "9px", borderRadius: "0px" }}
+            placeholder="Enter Email"
+          />
         </Form.Item>
-        <Form.Item name="number" label="Phone Number" rules={[{ required: true, message: "Please write a Number" }]}>
-          <Input style={{ padding: "9px", borderRadius: "0px" }} placeholder="Enter Phone Number" />
+        <Form.Item
+          name="phone"
+          label="Phone Number"
+          rules={[{ required: true, message: "Please write a Number" }]}
+        >
+          <Input
+            style={{ padding: "9px", borderRadius: "0px" }}
+            placeholder="Enter Phone Number"
+          />
         </Form.Item>
-        <Form.Item label="Note (Optional)" name="message">
-          <Input.TextArea style={{ borderRadius: "0px" }} rows={4} placeholder="Write your review here..." />
+        <Form.Item label="Note (Optional)" name="notes">
+          <Input.TextArea
+            style={{ borderRadius: "0px" }}
+            rows={4}
+            placeholder="Write your review here..."
+          />
         </Form.Item>
         <div className="grid grid-cols-2 gap-3">
           <button
@@ -125,27 +223,5 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
         </div>
       </Form>
     </div>
-  ];
-
-  return (
-    <Modal
-      title=""
-      centered
-      open={openResponsive}
-      onCancel={() => setOpenResponsive(false)}
-      footer={null}
-      width={{ xs: "90%", sm: "80%", md: "60%", lg: "50%", xl: "40%", xxl: "30%" }}
-    >
-      <div>
-        <h1 className="text-xl font-semibold text-center pb-4">Book An Appointment</h1>
-        <div className="bg-[#F5F5F5] p-4">
-          <h1>Showroom Location</h1>
-          <p>Dhaka, Banasree</p>
-        </div>
-        {tabContent[activeTab]}
-      </div>
-    </Modal>
   );
 };
-
-export default AppoinmentModal;
