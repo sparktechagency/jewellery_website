@@ -154,8 +154,6 @@ const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
   const [form] = useForm();
   const [addApointment] = useAddAppointmentMutation();
 
-  console.log(appointmentData);
-
   const onFinish = async (values) => {
     const postData = { ...values, ...appointmentData };
     try {
@@ -166,6 +164,7 @@ const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
     } finally {
       setOpenResponsive(false);
       form.resetFields();
+      setActiveTab(0);
     }
   };
   return (
