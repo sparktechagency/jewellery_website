@@ -1,81 +1,71 @@
-import React from "react";
-import RingHero from "../../components/ringSection/RingHero";
+"use client";
+import { useEffect, useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
 import hero from "../../../public/ring/hero.jpg";
 import Image from "next/image";
-import img1 from "../../../public/ring/img1.png";
-import img2 from "../../../public/ring/img2.png";
-import img3 from "../../../public/ring/img3.png";
-import img4 from "../../../public/ring/img4.png";
-import img5 from "../../../public/ring/img5.png";
-import img6 from "../../../public/ring/img6.png";
 import RingCategory from "../../components/ringSection/RingCategory";
 import CardShop from "../../components/shared/CardShop";
-import { IoFilterSharp } from "react-icons/io5";
-import { Dropdown, Select } from "antd";
+import { Pagination } from "antd";
 import { Filter } from "../../components/shared/Filter";
-const page = () => {
-  const shops = [
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img2,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img6,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img3,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img6,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img5,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-    {
-      img: img6,
-      title: "Willow Diamond Engagement Ring",
-      price: "$10.99",
-    },
-  ];
+import mainUrl from "../../components/shared/mainUrl";
+
+const Page = () => {
+  const limit = 10;
+  const [products, setProducts] = useState();
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    query: "",
+    price_min: null,
+    price_max: null,
+    availability: null,
+    rating: null,
+    sort: "low_to_high",
+    page: 1,
+    limit,
+  });
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (filters.query) params.append("query", filters.query);
+      if (filters.price_min) params.append("price_min", filters.price_min);
+      if (filters.price_max) params.append("price_max", filters.price_max);
+      if (filters.availability)
+        params.append("availability", filters.availability);
+      if (filters.rating) params.append("rating", filters.rating);
+      if (filters.sort) params.append("sort", filters.sort);
+      if (filters.page) params.append("page", filters.page);
+      if (filters.limit) params.append("limit", filters.limit);
+      const fetched = await mainUrl(`/products?${params.toString()}`).finally(
+        () => {
+          setLoading(false);
+        }
+      );
+
+      setProducts(fetched);
+
+      if (min === 0 && max === 0 && fetched?.products?.length > 0) {
+        let tempMin = Infinity;
+        let tempMax = -Infinity;
+
+        fetched.products.forEach((product) => {
+          const currentMax = Math.max(product.price, product.discount_price);
+          const currentMin = Math.min(product.price, product.discount_price);
+
+          if (currentMax > tempMax) tempMax = currentMax;
+          if (currentMin < tempMin) tempMin = currentMin;
+        });
+
+        setMin(tempMin);
+        setMax(tempMax);
+      }
+    };
+
+    fetchProducts();
+  }, [filters]);
   return (
     <div className="container mx-auto mt-9 px-4 lg:px-0">
       <div>
@@ -96,26 +86,59 @@ const page = () => {
           />
 
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white md:px-32">
-            <RingHero></RingHero>
+            <div className="">
+              <div className="absolute ">
+                <SearchOutlined
+                  className="mt-3 ml-3"
+                  style={{ color: "black", fontSize: "22px" }}
+                />
+              </div>
+              <input
+                value={filters.query}
+                onChange={(e) =>
+                  setFilters((p) => ({ ...p, query: e.target.value }))
+                }
+                className="bg-white p-3 md:min-w-2xl pl-11 text-black"
+                type="text"
+              />
+            </div>
           </div>
         </div>
       </div>
       <RingCategory></RingCategory>
 
       <div className="">
-        
-        <Filter></Filter>
+        <Filter
+          showing={products?.products?.length || 0}
+          filters={filters}
+          setFilters={setFilters}
+          min={min}
+          max={max}
+        />
       </div>
 
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
-        {shops.map((item, index) => (
-          <div key={index}>
-            <CardShop item={item}></CardShop>
+        {products?.products?.length > 0 ? (
+          products.products.map((product) => (
+            <CardShop key={product._id} item={product} />
+          ))
+        ) : (
+          <div className="w-full h-16 grid place-items-center col-span-4">
+            <h3>{loading ? "Loading..." : "No Data"}</h3>
           </div>
-        ))}
+        )}
+      </div>
+      <div className="mt-4 flex justify-end">
+        <Pagination
+          current={filters.page}
+          pageSize={limit}
+          total={products?.pagination?.totalProducts || 0}
+          onChange={(e) => setFilters((p) => ({ ...p, page: e }))}
+          showSizeChanger={false}
+        />
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
