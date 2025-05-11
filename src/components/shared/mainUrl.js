@@ -1,5 +1,5 @@
 const mainUrl = async (url) => {
-   const response = await fetch(`https://jewellery-backend-u0ok.onrender.com${url}`);
+   const response = await fetch(`https://api.cathysjewelry.net${url}`);
    
    if (!response.ok) {
      throw new Error(`HTTP error! status: ${response.status}`);
