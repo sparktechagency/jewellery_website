@@ -1,9 +1,18 @@
+"use client";
 import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
+import { useEffect, useState } from "react";
 
-const Page = async () => {
-  const about = await mainUrl(`/info?page=shipping`);
+const Page = () => {
+  const [about, setAbout] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const about = await mainUrl(`/info?page=shipping`);
+      setAbout(about);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
@@ -33,13 +42,13 @@ const Page = async () => {
           </div>
         </div>
       </div>
-     <div>
-     {about?.content ? (
-          <div dangerouslySetInnerHTML={{ __html: about?.content  }} />
+      <div>
+        {about && about?.content ? (
+          <div dangerouslySetInnerHTML={{ __html: about?.content }} />
         ) : (
           <div>No data </div>
         )}
-     </div>
+      </div>
     </div>
   );
 };
