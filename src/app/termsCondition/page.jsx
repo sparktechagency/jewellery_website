@@ -3,7 +3,14 @@ import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
 const page =async () => {
-  const about = await mainUrl(`/info?page=terms`);
+   let about = null;
+
+  try {
+    about = await mainUrl(`/info?page=terms`);
+  } catch (error) {
+    console.error("Failed to fetch Terms content:", error);
+    // You can also log this to a monitoring service
+  }
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>

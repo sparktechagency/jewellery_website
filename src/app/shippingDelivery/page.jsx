@@ -3,7 +3,13 @@ import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
 
 const Page = async () => {
-  const about = await mainUrl(`/info?page=shipping`);
+  let about = null;
+
+  try {
+    about = await mainUrl(`/info?page=shipping`);
+  } catch (error) {
+    console.error("Failed to fetch Shipping content:", error);
+  }
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
