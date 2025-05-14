@@ -1,16 +1,17 @@
-import React from "react";
+"use client";
 import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
-const page =async () => {
-   let about = null;
-
-  try {
-    about = await mainUrl(`/info?page=terms`);
-  } catch (error) {
-    console.error("Failed to fetch Terms content:", error);
-    // You can also log this to a monitoring service
-  }
+import { useEffect, useState } from "react";
+const page = () => {
+  const [about, setAbout] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const about = await mainUrl(`/info?page=terms`);
+      setAbout(about);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
@@ -40,11 +41,11 @@ const page =async () => {
           </div>
         </div>
       </div>
-      {about?.content ? (
-          <div dangerouslySetInnerHTML={{ __html: about?.content  }} />
-        ) : (
-          <div>No data </div>
-        )}
+      {about && about?.content ? (
+        <div dangerouslySetInnerHTML={{ __html: about?.content }} />
+      ) : (
+        <div>No data </div>
+      )}
     </div>
   );
 };

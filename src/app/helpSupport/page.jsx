@@ -1,13 +1,17 @@
+"use client";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
+import { useEffect, useState } from "react";
 
-const Page = async () => {
-  let about = null;
-  try {
-    about = await mainUrl(`/info?page=help`);
-  } catch (error) {
-    console.error("Failed to fetch Help content:", error);
-  }
+const Page = () => {
+  const [about, setAbout] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await mainUrl(`/info?page=help`);
+      setAbout(response);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
@@ -39,10 +43,10 @@ const Page = async () => {
       </div>
       <div>
         <div className="mt-5">
-          {about?.content ? (
+          {about && about?.content ? (
             <div dangerouslySetInnerHTML={{ __html: about?.content }} />
           ) : (
-            <NoData />
+            <div>No data </div>
           )}
         </div>
       </div>

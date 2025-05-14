@@ -114,15 +114,15 @@ const SubCategories = ({ categorys, categoryId }) => {
                   <Splide
                     ref={splideRef}
                     options={{
-                      type: "loop",
-                      perPage: 6,
+                      type: categorys?.subcategories?.length > 1 ? "loop" : "slide",
+                      perPage: Math.min(6, categorys?.subcategories?.length || 1),
                       gap: "1rem",
                       arrows: false,
                       pagination: false,
                       breakpoints: {
-                        1724: { perPage: 6 },
-                        968: { perPage: 3 },
-                        640: { perPage: 2 },
+                        1724: { perPage: Math.min(6, categorys?.subcategories?.length || 1) },
+                        968: { perPage: Math.min(3, categorys?.subcategories?.length || 1) },
+                        640: { perPage: Math.min(2, categorys?.subcategories?.length || 1) },
                       },
                     }}
                     aria-label="Category Slide"
@@ -145,9 +145,8 @@ const SubCategories = ({ categorys, categoryId }) => {
                             </button>
                           </div>
                           <h1
-                            className={`text-xl ${
-                              selectedSubCategory === item._id && "underline"
-                            }`}
+                            className={`text-xl ${selectedSubCategory === item._id && "underline"
+                              }`}
                           >
                             {item.name}
                           </h1>
