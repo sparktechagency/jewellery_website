@@ -1,9 +1,8 @@
-import React from "react";
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, updateQuantity } from "../../redux/slices/cartSlice";
+import { addToCart, deleteOneProduct, removeFromCart, updateQuantity } from "../../redux/slices/cartSlice";
 
 // const products = [
 //   {
@@ -30,33 +29,41 @@ import { removeFromCart, updateQuantity } from "../../redux/slices/cartSlice";
 // ];
 
 const AddCart = () => {
-  const cart = useSelector((store) => store.cart);
+  const cart = useSelector((store) => store.cart.products);
+  const totalPrice = useSelector((store) => store.cart.total);
 
-  const totalPrice = cart.reduce((acc, item) => {
-    const price = item.discount_price ? item.discount_price : item.price;
-    return acc + price * item.quantity;
-  }, 0);
+
+  // const totalPrice = cart.reduce((acc, item) => {
+  //   const price = item.discount_price ? item.discount_price : item.price;
+  //   return acc + price * item.quantity;
+  // }, 0);
 
   const dispatch = useDispatch();
+
   const handleMinus = (product) => {
     dispatch(
-      updateQuantity({
-        ...product,
-        quantity: product.quantity - 1,
-      })
+      removeFromCart(
+        product,
+      )
     );
   };
+
   const handlePlus = (product) => {
     dispatch(
-      updateQuantity({
-        ...product,
-        quantity: product.quantity + 1,
-      })
+      addToCart(
+        product,
+      )
     );
   };
+
   const handleRemove = (product) => {
-    dispatch(removeFromCart(product));
+    dispatch(
+      deleteOneProduct(
+        product,
+      )
+    );
   };
+
   return (
     <div className="mt-16">
       <h2 className="text-lg font-semibold pb-4">Product</h2>
@@ -135,14 +142,14 @@ const AddCart = () => {
                     <div className="flex items-center">
                       <button
                         onClick={() => handleMinus(item)}
-                        className="px-2 py-1 border"
+                        className="px-2 py-1 border cursor-pointer"
                       >
                         -
                       </button>
                       <span className="px-3">{item.quantity}</span>
                       <button
                         onClick={() => handlePlus(item)}
-                        className="px-2 py-1 border"
+                        className="px-2 py-1 border cursor-pointer"
                       >
                         +
                       </button>
@@ -157,7 +164,7 @@ const AddCart = () => {
                     </p>
                     <button
                       onClick={() => handleRemove(item)}
-                      className="text-red-500"
+                      className="text-red-500 cursor-pointer"
                     >
                       <FaTrash />
                     </button>

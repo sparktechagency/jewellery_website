@@ -17,56 +17,40 @@ import { useRouter } from "next/navigation";
 export const Check = () => {
   const router = useRouter()
   const [addOrder] = useAddOrderSubmitMutation()
-  const cart = useSelector((store) => store.cart);
+  const cart = useSelector((store) => store.cart.products);
+  const totalPrice = useSelector((store) => store.cart.total);
   console.log(cart)
-  const products = [
-    {
-      id: 1,
-      image: img1,
-      name: "Willow Diamond Engagement Ring",
-      price: 80,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      image: img2,
-      name: "Solitaire Lab Diamond Pendant",
-      price: 78,
-      quantity: 1,
-    },
-  ];
   const fee = 10.00
-  const totalPrice = cart.reduce((acc, item) => {
-    const price = item.discount_price ? item.discount_price : item.price;
-    return acc + price * item.quantity;
-  }, 0);
+  // const totalPrice = cart.reduce((acc, item) => {
+  //   const price = item.discount_price ? item.discount_price : item.price;
+  //   return acc + price * item.quantity;
+  // }, 0);
 
-  
 
-   const onFinish = async (values) => {
+
+  const onFinish = async (values) => {
     const data = {
       shipping_address: values.shipping_address,
       zip: values.zip,
       city: values.city,
-      state: values.state, 
+      state: values.state,
       products: cart.map(product => ({
-        id: product._id,  
+        id: product._id,
         color: product.color,
         size: product.size,
         quantity: product.quantity,
       }))
     };
-    console.log(data)
-      try {
-        const response = await addOrder(data).unwrap();
-        toast.success(response.message);
-        console.log(response?.stripe_url)
-        window.open(response?.stripe_url, '_blank')
+    try {
+      const response = await addOrder(data).unwrap();
+      toast.success(response.message);
+      console.log(response?.stripe_url)
+      window.open(response?.stripe_url, '_blank')
 
-      } catch (error) {
-        toast.error(error.data.message);
-      }
-    };
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
   return (
     <div>
       <div className=" mt-10 md:grid grid-cols-12 gap-6">
@@ -94,11 +78,11 @@ export const Check = () => {
                   <p className="text-gray-500">Qty: {item.quantity}</p>
                 </div>
                 <p className=""> {Number(
-                        (item.discount_price || item.price) * item.quantity
-                      ).toLocaleString("en-US", {
-                        currency: "USD",
-                        style: "currency",
-                      })}</p>
+                  (item.discount_price || item.price) * item.quantity
+                ).toLocaleString("en-US", {
+                  currency: "USD",
+                  style: "currency",
+                })}</p>
               </div>
             ))}
           </div>
@@ -120,7 +104,7 @@ export const Check = () => {
             </div>
             <div className="flex justify-between  text-lg">
               <p>Total:</p>
-              <p>{Number(totalPrice+fee).toLocaleString("en-US", {
+              <p>{Number(totalPrice + fee).toLocaleString("en-US", {
                 style: "currency",
                 currency: "USD",
               })}</p>
@@ -220,7 +204,7 @@ export const Check = () => {
               </Form.Item>
             </div> */}
 
-            <button type="submit" className="w-full bg-black text-white py-2">
+            <button type="submit" className="w-full bg-black text-white py-2 cursor-pointer">
               Pay Now
             </button>
           </Form>

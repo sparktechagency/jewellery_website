@@ -4,6 +4,8 @@ import ReduxProvider from "@/provider/ReduxProvider";
 import ClientLayout from "./layout/ClientLayout";
 import { ToastContainer } from "react-toastify";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ConfigProvider } from "antd";
+import { mainTheme } from "@/theme/ant-theme";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -32,16 +34,23 @@ export default function RootLayout({ children }) {
     <html lang="en" className={geist.className}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        cz-shortcut-listen="true"
+        monica-id="ofpnmcalabcbjgholdjcjblkibolbppb"
+        monica-version="7.9.5"
+        data-new-gr-c-s-check-loaded="14.1239.0"
+        data-gr-ext-installed=""
       >
-        <ReduxProvider>
-          <AntdRegistry>
-            <div className="">
-              <ToastContainer />
-              <ClientLayout>{children}</ClientLayout>
-            </div>
-          </AntdRegistry>
-        </ReduxProvider>
+        <ConfigProvider theme={mainTheme}>
+          <ReduxProvider>
+            <AntdRegistry>
+              <div className="">
+                <ToastContainer />
+                <ClientLayout>{children}</ClientLayout>
+              </div>
+            </AntdRegistry>
+          </ReduxProvider>
+        </ConfigProvider>
       </body>
-    </html>
+    </html >
   );
 }
