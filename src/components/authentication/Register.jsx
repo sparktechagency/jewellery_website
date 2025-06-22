@@ -161,7 +161,7 @@ const onFinish = async (values) => {
                     type="primary"
                     htmlType="submit"
                     loading={loading} // Show loading state
-                    className="w-full py-2 hover:bg-none bg-black text-white "
+                    className="w-full py-2 hover:bg-none bg-black text-white cursor-pointer"
                   >
                     {loading ? "Loading..." : "Submit"}
                   </button>

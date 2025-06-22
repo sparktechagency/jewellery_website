@@ -65,7 +65,7 @@ const handleVerify = async () => {
             type="primary"
             block
             size="large"
-            className="w-full py-2 bg-black text-white"
+            className="w-full py-2 bg-black text-white cursor-pointer"
             loading={loading} // Show loading spinner when verifying
             onClick={handleVerify}
           >

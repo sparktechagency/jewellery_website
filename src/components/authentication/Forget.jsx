@@ -63,7 +63,7 @@ const router = useRouter();
                   <button
                     type="primary"
                     htmlType="submit"
-                    className="w-full py-2 bg-black text-white"
+                    className="w-full py-2 bg-black text-white cursor-pointer"
                     loading={loading} 
                   >
                     {loading ? "Loading..." : "Submit"}

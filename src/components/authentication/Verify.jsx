@@ -76,7 +76,7 @@ const Verify = () => {
             You have not received the email?{" "}
             <button
               type="link"
-              className="font-semibold cursor-pointer"
+              className="font-semibold cursor-pointer cursor-pointer"
             //   loading={resendLoading} // Show loading spinner when resending
             //   onClick={handleResend}
             >
