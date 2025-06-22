@@ -1,14 +1,14 @@
 "use client";
-import React from "react";
+
 import Image from "next/image";
-import { Form, Input, Radio, Button } from "antd";
-import { FaRegCreditCard } from "react-icons/fa";
-import img1 from "../../../public/home/pop1.png";
-import img2 from "../../../public/home/pop2.png";
-import img3 from "../../../public/home/pop3.png";
-import Visa from "../../../public/ring/visa.png";
-import Master from "../../../public/ring/money.png";
-import Paypal from "../../../public/ring/paypal.png";
+import { Form, Input, } from "antd";
+// import { FaRegCreditCard } from "react-icons/fa";
+// import img1 from "../../../public/home/pop1.png";
+// import img2 from "../../../public/home/pop2.png";
+// import img3 from "../../../public/home/pop3.png";
+// import Visa from "../../../public/ring/visa.png";
+// import Master from "../../../public/ring/money.png";
+// import Paypal from "../../../public/ring/paypal.png";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useAddOrderSubmitMutation } from "@/redux/Api/webmanageApi";

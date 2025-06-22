@@ -1,13 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+
 import { FaRegHeart } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addToCart,
-  removeFromCart,
+  addToCartForNagivate,
   updateColor,
-  updateQuantity,
   updateSize,
 } from "../../redux/slices/cartSlice";
 import { useAddFavoriteMutation } from "@/redux/Api/webmanageApi";
@@ -17,7 +15,7 @@ import Link from "next/link";
 const DetailsSection = ({ product }) => {
 
   console.log('product from shop', product);
-  const [addFavorite] = useAddFavoriteMutation();
+  const [ addFavorite ] = useAddFavoriteMutation();
   const savings =
     ((product?.price - product?.discount_price) / product?.price) * 100;
 
@@ -38,13 +36,6 @@ const DetailsSection = ({ product }) => {
     (item) => item._id === product._id
   );
 
-  const [selectedColor, setSelectedColor] = useState(
-    cart?.color || product.colors?.[0] || ""
-  );
-  const [selectedSize, setSelectedSize] = useState(
-    cart?.size || product.sizes?.[0] || ""
-  );
-
   const handleFavorite = async (record) => {
     console.log(record);
     const data = {
@@ -59,58 +50,62 @@ const DetailsSection = ({ product }) => {
     }
   };
 
-  useEffect(() => {
-    if (cart) {
-      setSelectedColor(cart.color);
-      setSelectedSize(cart.size);
-    } else {
-      setSelectedColor(product.colors?.[0] || "");
-      setSelectedSize(product.sizes?.[0] || "");
-    }
-  }, [cart, product]);
+  // useEffect(() => {
+  //   if (cart) {
+  //     setSelectedColor(cart.color);
+  //     setSelectedSize(cart.size);
+  //   } else {
+  //     setSelectedColor(product.colors?.[0] || "");
+  //     setSelectedSize(product.sizes?.[0] || "");
+  //   }
+  // }, [cart, product]);
 
-  useEffect(() => {
-    if (!cart) {
-      dispatch(updateColor({ ...product, color: selectedColor }));
-      dispatch(updateSize({ ...product, size: selectedSize }));
-    }
-  }, [dispatch, product, selectedColor, selectedSize, cart]);
+  // useEffect(() => {
+  //   if (!cart) {
+  //     dispatch(updateColor({ ...product, color: selectedColor }));
+  //     dispatch(updateSize({ ...product, size: selectedSize }));
+  //   }
+  // }, [dispatch, product, selectedColor, selectedSize, cart]);
 
   const handleColor = (color) => {
-    setSelectedColor(color);
     dispatch(updateColor({ ...product, color }));
   };
 
   const handleSize = (size) => {
-    setSelectedSize(size);
+    // setSelectedSize(size);
+    console.log(size);
     dispatch(updateSize({ ...product, size }));
   };
 
-  const quantity = cart?.quantity || 0;
+  // const quantity = cart?.quantity || 0;
 
-  const handleAddToCart = () => {
-    if (cart && quantity) {
-      dispatch(removeFromCart(product));
-    } else {
-      dispatch(
-        addToCart({ ...product, color: selectedColor, size: selectedSize })
-      );
-    }
-  };
+  // const handleAddToCart = () => {
+  //   if (cart && quantity) {
+  //     dispatch(removeFromCart(product));
+  //   } else {
+  //     dispatch(
+  //       addToCart({ ...product, color: selectedColor, size: selectedSize })
+  //     );
+  //   }
+  // };
 
   const increaseQuantity = () => {
     dispatch(
-      addToCart(
+      addToCartForNagivate(
         product,
       )
     );
   };
-  const decreaseQuantity = () =>
-    dispatch(
-      removeFromCart(
-        product,
-      )
-    );
+
+  // if(!cart.size){
+  //   return message.success('Please select a size');
+  // }
+  // const decreaseQuantity = () =>
+  //   dispatch(
+  //     removeFromCart(
+  //       product,
+  //     )
+  //   );
   return (
     <div>
       <div>
@@ -171,7 +166,7 @@ const DetailsSection = ({ product }) => {
                   <button
                     onClick={() => handleColor(color)}
                     key={color}
-                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${selectedColor === color && "bg-gray-200"
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${cart?.color === color && "bg-gray-200"
                       }`}
                   >
                     {color}
@@ -189,7 +184,7 @@ const DetailsSection = ({ product }) => {
                   <button
                     onClick={() => handleSize(size)}
                     key={size}
-                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${selectedSize === size && "bg-gray-200"
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${cart?.size === size && "bg-gray-200"
                       }`}
                   >
                     {size}

@@ -184,6 +184,7 @@ const AddCart = () => {
                 style: "currency",
                 currency: "USD",
               })}
+              {/* ${totalPrice} */}
             </p>
             <Link href={"/checkOut"}>
               {" "}

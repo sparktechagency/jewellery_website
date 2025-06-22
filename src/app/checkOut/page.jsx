@@ -1,7 +1,7 @@
-import React from "react";
 import { Check } from "../../components/shared/Check";
 import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
+
 const page = () => {
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">

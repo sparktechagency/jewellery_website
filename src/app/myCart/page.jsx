@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import AddCart from "../../components/cart/AddCart";
