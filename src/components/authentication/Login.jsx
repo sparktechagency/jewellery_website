@@ -1,29 +1,30 @@
 "use client"
-import React, { useState } from 'react'
-import { Button, Checkbox, Form, Input } from "antd"
+import { useState } from 'react'
+import { Checkbox, Form, Input } from "antd"
 import Link from "next/link"
 import { useLoginUserMutation } from '@/redux/Api/userAPi'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-
+import Cookies from "js-cookie";
 
 const SignInSection = () => {
-const [loginUser]= useLoginUserMutation();
-const router = useRouter()
- const [loading, setLoading] = useState(false); 
-   const onFinish = async (values) => {
+  const [loginUser] = useLoginUserMutation();
+  const router = useRouter()
+  const [loading, setLoading] = useState(false);
+  const onFinish = async (values) => {
     const data = {
       email: values.email,
       password: values.password,
     };
-    setLoading(true);  
+    setLoading(true);
     try {
       const response = await loginUser(data).unwrap();
       toast.success(response.message);
-      
+
       localStorage.setItem("accessToken", response.accessToken);
+      Cookies.set('jewellery-web-token', response.accessToken)
       setLoading(false)
-      
+
       router.push('/')
     } catch (error) {
       toast.error(error.data.message);
@@ -33,7 +34,7 @@ const router = useRouter()
   }
   return (
     <div>
-         <div className="w-full max-w-[1500px] m-auto">
+      <div className="w-full max-w-[1500px] m-auto">
         <div className="gap-5">
           <div className="lg:flex lg:justify-center">
             <div className="bg-white lg:w-[500px] md:px-16 px-5 py-16 border">
@@ -65,14 +66,14 @@ const router = useRouter()
                   ]}
                 >
                   <Input
-                  style={{padding:'9px' , borderRadius:'0px'}}
+                    style={{ padding: '9px', borderRadius: '0px' }}
                     placeholder="Enter your Email"
                     className="w-full px-4  border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </Form.Item>
 
                 <Form.Item
-                
+
                   name="password"
                   label="Password"
                   rules={[
@@ -83,7 +84,7 @@ const router = useRouter()
                   ]}
                 >
                   <Input.Password
-                  style={{padding:'9px' , borderRadius:'0px'}}
+                    style={{ padding: '9px', borderRadius: '0px' }}
                     placeholder="Enter your password"
                     className="w-full px-4 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
@@ -95,7 +96,7 @@ const router = useRouter()
                   </Form.Item>
                   <Link
                     href={"/auth/signIn/forgetPassword"}
-                    
+
                   >
                     <span className="text-sm  text-black">Forget password?</span>
                   </Link>
@@ -104,12 +105,12 @@ const router = useRouter()
                 <Form.Item>
                   <button
                     type="primary"
-                    htmlType="submit"
-                    loading={loading} 
-             
-                    className="w-full py-2 bg-black text-white"
+                    htmltype="submit"
+                    loading={loading}
+
+                    className="w-full py-2 bg-black text-white cursor-pointer"
                   >
-                      {loading ? "Loading..." : "Sign In"}
+                    {loading ? "Loading..." : "Sign In"}
                   </button>
                 </Form.Item>
               </Form>

@@ -86,7 +86,7 @@ const onFinish = async (values) => {
                 block
                 size="large"
                 loading={loading}
-                className="w-full py-2 bg-black text-white"
+                className="w-full py-2 bg-black text-white cursor-pointer"
                 
               >
                 {loading ? "Loading..." : "Reset"}
