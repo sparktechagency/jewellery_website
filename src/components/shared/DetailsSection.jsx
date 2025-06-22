@@ -1,20 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import { FaRegHeart } from "react-icons/fa";
 import { MdStar, MdStarOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addToCart,
-  removeFromCart,
+  addToCartForNagivate,
   updateColor,
-  updateQuantity,
   updateSize,
 } from "../../redux/slices/cartSlice";
 import { useAddFavoriteMutation } from "@/redux/Api/webmanageApi";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const DetailsSection = ({ product }) => {
-  const [addFavorite] = useAddFavoriteMutation();
+
+  console.log('product from shop', product);
+  const [ addFavorite ] = useAddFavoriteMutation();
   const savings =
     ((product?.price - product?.discount_price) / product?.price) * 100;
 
@@ -27,102 +28,98 @@ const DetailsSection = ({ product }) => {
   const averageRating =
     product.ratings.length > 0
       ? product.ratings.reduce((sum, rating) => sum + rating, 0) /
-        product.ratings.length
+      product.ratings.length
       : 0;
 
   const dispatch = useDispatch();
-  const cart = useSelector((store) => store.cart).find(
+  const cart = useSelector((store) => store.cart.products).find(
     (item) => item._id === product._id
   );
 
-  const [selectedColor, setSelectedColor] = useState(
-    cart?.color || product.colors?.[0] || ""
-  );
-  const [selectedSize, setSelectedSize] = useState(
-    cart?.size || product.sizes?.[0] || ""
-  );
-
   const handleFavorite = async (record) => {
-      console.log(record);
-      const data = {
-        product_id: record,
-        type: "add",
-      };
-      try {
-        const response = await addFavorite(data).unwrap();
-        toast.success(response.message);
-      } catch (error) {
-        toast.error(error.data.message);
-      }
+    console.log(record);
+    const data = {
+      product_id: record,
+      type: "add",
     };
-
-  useEffect(() => {
-    if (cart) {
-      setSelectedColor(cart.color);
-      setSelectedSize(cart.size);
-    } else {
-      setSelectedColor(product.colors?.[0] || "");
-      setSelectedSize(product.sizes?.[0] || "");
+    try {
+      const response = await addFavorite(data).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
     }
-  }, [cart, product]);
+  };
 
-  useEffect(() => {
-    if (!cart) {
-      dispatch(updateColor({ ...product, color: selectedColor }));
-      dispatch(updateSize({ ...product, size: selectedSize }));
-    }
-  }, [dispatch, product, selectedColor, selectedSize, cart]);
+  // useEffect(() => {
+  //   if (cart) {
+  //     setSelectedColor(cart.color);
+  //     setSelectedSize(cart.size);
+  //   } else {
+  //     setSelectedColor(product.colors?.[0] || "");
+  //     setSelectedSize(product.sizes?.[0] || "");
+  //   }
+  // }, [cart, product]);
+
+  // useEffect(() => {
+  //   if (!cart) {
+  //     dispatch(updateColor({ ...product, color: selectedColor }));
+  //     dispatch(updateSize({ ...product, size: selectedSize }));
+  //   }
+  // }, [dispatch, product, selectedColor, selectedSize, cart]);
 
   const handleColor = (color) => {
-    setSelectedColor(color);
     dispatch(updateColor({ ...product, color }));
   };
 
   const handleSize = (size) => {
-    setSelectedSize(size);
+    // setSelectedSize(size);
+    console.log(size);
     dispatch(updateSize({ ...product, size }));
   };
 
-  const quantity = cart?.quantity || 0;
+  // const quantity = cart?.quantity || 0;
 
-  const handleAddToCart = () => {
-    if (cart && quantity) {
-      dispatch(removeFromCart(product));
-    } else {
-      dispatch(
-        addToCart({ ...product, color: selectedColor, size: selectedSize })
-      );
-    }
-  };
+  // const handleAddToCart = () => {
+  //   if (cart && quantity) {
+  //     dispatch(removeFromCart(product));
+  //   } else {
+  //     dispatch(
+  //       addToCart({ ...product, color: selectedColor, size: selectedSize })
+  //     );
+  //   }
+  // };
 
   const increaseQuantity = () => {
     dispatch(
-      updateQuantity({
-        ...product,
-        quantity: quantity + 1,
-      })
+      addToCartForNagivate(
+        product,
+      )
     );
   };
-  const decreaseQuantity = () =>
-    dispatch(
-      updateQuantity({
-        ...product,
-        quantity: quantity - 1,
-      })
-    );
+
+  // if(!cart.size){
+  //   return message.success('Please select a size');
+  // }
+  // const decreaseQuantity = () =>
+  //   dispatch(
+  //     removeFromCart(
+  //       product,
+  //     )
+  //   );
   return (
     <div>
       <div>
-        {product.discount_price && (
+        {product?.discount_price && (
           <button className="px-4 py-1 mt-9 lg:mt-0 border border-black rounded-full">
             Save {savings.toFixed(2)}%
           </button>
         )}
-        <h1 className="text-2xl font-semibold py-5">{product.name}</h1>
+        <h1>Working</h1>
+        <h1 className="text-2xl font-semibold py-5">{product?.name}</h1>
         <div className="flex items-center gap-5 ">
           <div>
             <button className="rounded px-4  py-1 bg-gray-200">
-              {availability?.[product.availability]}
+              {availability?.[product?.availability]}
             </button>
           </div>
           <div>
@@ -152,7 +149,7 @@ const DetailsSection = ({ product }) => {
           </h1>
           {product?.discount_price && (
             <del className="text-gray-600 text-sm">
-              {Number(product?.price).toLocaleString("en-US", {
+              {Number(product?.discount_price).toLocaleString("en-US", {
                 style: "currency",
                 currency: "USD",
               })}
@@ -169,9 +166,8 @@ const DetailsSection = ({ product }) => {
                   <button
                     onClick={() => handleColor(color)}
                     key={color}
-                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
-                      selectedColor === color && "bg-gray-200"
-                    }`}
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${cart?.color === color && "bg-gray-200"
+                      }`}
                   >
                     {color}
                   </button>
@@ -188,9 +184,8 @@ const DetailsSection = ({ product }) => {
                   <button
                     onClick={() => handleSize(size)}
                     key={size}
-                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${
-                      selectedSize === size && "bg-gray-200"
-                    }`}
+                    className={`cursor-pointer md:px-4 px-2 md:py-2 py-1 border text-sm hover:bg-gray-200 ${cart?.size === size && "bg-gray-200"
+                      }`}
                   >
                     {size}
                   </button>
@@ -200,7 +195,7 @@ const DetailsSection = ({ product }) => {
           </div>
 
           <div className="flex md:gap-4 gap-2 my-5">
-            <div className=" flex items-center space-x-4">
+            {/* <div className=" flex items-center space-x-4">
               <div className="flex items-center space-x-4 border py-1 md:py-2">
                 <button
                   className="md:w-11 w-8 border-r  text-lg cursor-pointer"
@@ -216,18 +211,20 @@ const DetailsSection = ({ product }) => {
                   +
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* Add to Cart Button */}
             <div className=" w-full">
-              <button
-                onClick={handleAddToCart}
-                className={`w-full md:py-[11px] py-[7px] bg-black text-white font-semibold cursor-pointer`}
-              >
-                {!quantity ? "Add To Cart" : "Added To Cart"}
-              </button>
+              <Link href={`/myCart`}>
+                <button
+                  onClick={increaseQuantity}
+                  className={`w-full md:py-[11px] py-[7px] bg-black text-white font-semibold cursor-pointer`}
+                >
+                  {"Add To Cart"}
+                </button>
+              </Link>
             </div>
-            <button onClick={() => handleFavorite(product?._id)} className="border px-4 text-2xl ">
+            <button onClick={() => handleFavorite(product?._id)} className="border px-4 text-2xl cursor-pointer">
               <FaRegHeart />
             </button>
           </div>

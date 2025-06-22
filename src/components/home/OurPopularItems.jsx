@@ -2,12 +2,12 @@
 import React, { useRef } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import img1 from "../../../public/home/pop1.png";
-import img2 from "../../../public/home/pop2.png";
-import img3 from "../../../public/home/pop3.png";
-import img4 from "../../../public/home/pop4.png";
-import Image from "next/image";
+// import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+// import img1 from "../../../public/home/pop1.png";
+// import img2 from "../../../public/home/pop2.png";
+// import img3 from "../../../public/home/pop3.png";
+// import img4 from "../../../public/home/pop4.png";
+// import Image from "next/image";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import CardShop from '../../components/shared/CardShop'
@@ -15,49 +15,7 @@ import { useGetPopularProductQuery } from "@/redux/Api/webmanageApi";
 const OurPopularItems = () => {
   const{data:popularProduct} = useGetPopularProductQuery();
   console.log(popularProduct)
-  const category = [
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-    {
-      img: img2,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
 
-    },
-    {
-      img: img3,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-    {
-      img: img1,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-    {
-      img: img2,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-    {
-      img: img3,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-    {
-      img: img4,
-      title: "Willow Diamond Engagement Ring",
-      price:"$20.00"
-    },
-  ];
   const splideRef = useRef(null);
 
   const handlePrevClick = () => {
