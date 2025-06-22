@@ -1,11 +1,11 @@
 "use client"
-import React, { useState } from 'react'
-import { Button, Checkbox, Form, Input } from "antd"
+import { useState } from 'react'
+import { Checkbox, Form, Input } from "antd"
 import Link from "next/link"
 import { useLoginUserMutation } from '@/redux/Api/userAPi'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-
+import Cookies from "js-cookie";
 
 const SignInSection = () => {
   const [loginUser] = useLoginUserMutation();
@@ -22,6 +22,7 @@ const SignInSection = () => {
       toast.success(response.message);
 
       localStorage.setItem("accessToken", response.accessToken);
+      Cookies.set('jewellery-web-token', response.accessToken)
       setLoading(false)
 
       router.push('/')
