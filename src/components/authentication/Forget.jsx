@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input } from "antd";
 import { useForgotPasswordMutation } from "@/redux/Api/userAPi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 const Forget = () => {
   const [loading, setLoading] = React.useState(false);
   const [forgetPassword] = useForgotPasswordMutation();
-const router = useRouter();
+  const router = useRouter();
   const onFinish = async (values) => {
     const data = {
       email: values.email,

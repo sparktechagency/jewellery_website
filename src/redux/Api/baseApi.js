@@ -4,6 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const baseUrl = "https://api.kidsknowrights.com";
 const baseUrl = "https://api.cathysjewelry.net";
+// const baseUrl = "http://localhost:5000";
 // Helper function to get the token
 const getToken = () => {
   if (typeof window === "undefined") {
@@ -44,10 +45,10 @@ export const fetchServerData = async (endpoint) => {
     },
     {
       signal: new AbortController().signal,
-      dispatch: () => {},
+      dispatch: () => { },
       getState: () => ({}),
       endpoint: "",
-      abort: () => {},
+      abort: () => { },
       type: "query",
       extra: undefined,
     },

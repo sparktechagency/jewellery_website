@@ -1,11 +1,4 @@
 "use client";
-import React from "react";
-import { Button } from "antd";
-import {
-  MailOutlined,
-  PhoneOutlined,
-  EnvironmentOutlined,
-} from "@ant-design/icons";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
@@ -14,7 +7,7 @@ import { useGetProfileQuery } from "@/redux/Api/userAPi";
 
 const ProfileDetails = () => {
   const { data: profile } = useGetProfileQuery();
-
+  console.log(profile);
   return (
     <div className=" mt-10 md:grid grid-cols-12 gap-6">
       {/* Left Section */}
@@ -36,26 +29,36 @@ const ProfileDetails = () => {
           :
         </p>
 
-        <div className="mt-5">
-          <p className="flex items-center mb-2">
-            <span className="mr-2">
-              <FaPhoneAlt />
-            </span>{" "}
-            (307) 555-0133
-          </p>
-          <p className="flex items-center mb-2">
-            <span className="mr-2">
-              <IoMail />
-            </span>{" "}
-            debra.holt@example.com
-          </p>
-          <p className="flex items-center">
-            <span className="mr-2">
-              <FaLocationDot />
-            </span>
-            2118 Thornridge Cir. Syracuse, Connecticut 35624
-          </p>
-        </div>
+        {
+          profile?.shipping_address ?
+            <div className="mt-5">
+              <p className="flex items-center mb-2">
+                <span className="mr-2">
+                  <FaPhoneAlt />
+                </span>{" "}
+                {profile?.phone}
+              </p>
+              <p className="flex items-center mb-2">
+                <span className="mr-2">
+                  <IoMail />
+                </span>{" "}
+                {profile?.email}
+              </p>
+              <p className="flex items-center">
+                <span className="mr-2">
+                  <FaLocationDot />
+                </span>
+                {profile?.shipping_address?.street_address}
+              </p>
+            </div>
+            :
+            <div>
+              <Link href={'/changeAddress'}><button className=" cursor-pointer border px-7 py-2 border-gray-400 mt-5">
+                Update Address
+              </button></Link>
+            </div>
+        }
+
       </div>
 
       {/* Right Section */}

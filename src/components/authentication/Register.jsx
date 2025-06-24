@@ -11,24 +11,25 @@ import { useRouter } from "next/navigation";
 // import { useLocale } from "next-intl";
 
 const Register = () => {
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [signUp] = useSignUpMutation();
-const router = useRouter();
-const onFinish = async (values) => {
-  const data ={
-    name: values.name,
-    email: values.email,
-    password: values.password
-  }
-  setLoading(true);       
+  const router = useRouter();
+  const onFinish = async (values) => {
+    const data = {
+      name: values.name,
+      email: values.email,
+      password: values.password
+    }
+    setLoading(true);
     try {
       const response = await signUp(data).unwrap();
       localStorage.setItem("email", values.email);
       toast.success(response.message);
-      
+      console.log(response);
+
       setLoading(false)
       router.push("/auth/signUp/verifyRegisterOtp");
-      
+
     } catch (error) {
       toast.error(error.data.message);
       console.log(error);
@@ -65,7 +66,7 @@ const onFinish = async (values) => {
                   ]}
                 >
                   <Input
-                  style={{padding:'9px' , borderRadius:'0px'}}
+                    style={{ padding: '9px', borderRadius: '0px' }}
                     placeholder="Enter your Name"
                     className="w-full px-4 py-2 border rounded bg-white text-black"
                   />
@@ -86,7 +87,7 @@ const onFinish = async (values) => {
                   ]}
                 >
                   <Input
-                  style={{padding:'9px' , borderRadius:'0px'}}
+                    style={{ padding: '9px', borderRadius: '0px' }}
                     placeholder="Enter your Email"
                     className="w-full px-4 py-2 border rounded bg-white text-black"
                   />
@@ -122,7 +123,7 @@ const onFinish = async (values) => {
                   ]}
                 >
                   <Input.Password
-                  style={{padding:'9px' , borderRadius:'0px'}}
+                    style={{ padding: '9px', borderRadius: '0px' }}
                     placeholder="Enter your password"
                     className="w-full px-4 py-2 border rounded-md bg-white text-black"
                   />
@@ -157,7 +158,7 @@ const onFinish = async (values) => {
                 </Form.Item> */}
 
                 <Form.Item>
-                <button
+                  <button
                     type="primary"
                     htmlType="submit"
                     loading={loading} // Show loading state
@@ -177,7 +178,7 @@ const onFinish = async (values) => {
           </div>
         </div>
       </div>
-      
+
     </div>
   );
 };
