@@ -178,7 +178,7 @@ const faq = baseApi.injectEndpoints({
         return {
           url: "/products/favorites",
           method: "POST",
-          body:data,
+          body: data,
         };
       },
       invalidatesTags: ["updateProfile"],
@@ -189,7 +189,7 @@ const faq = baseApi.injectEndpoints({
         return {
           url: "/products/review",
           method: "POST",
-          body:data,
+          body: data,
         };
       },
       invalidatesTags: ["updateProfile"],
@@ -206,7 +206,7 @@ const faq = baseApi.injectEndpoints({
     }),
 
     getReview: builder.query({
-      query: ({id, page, limit, sort, rating}) => {
+      query: ({ id, page, limit, sort, rating }) => {
         return {
           url: `/products/review?product_id=${id}&page=${page}&limit=${limit}&sort=${sort}&rating=${rating}`,
           method: "GET",
@@ -229,7 +229,7 @@ const faq = baseApi.injectEndpoints({
         return {
           url: "/orders",
           method: "POST",
-          body:data,
+          body: data,
         };
       },
       invalidatesTags: ["updateProfile"],
@@ -242,6 +242,15 @@ const faq = baseApi.injectEndpoints({
         };
       },
       providesTags: ["updateProfile"],
+    }),
+    getAllProduct: builder.query({
+      query: (params) => {
+        return {
+          url: `/products`,
+          method: "GET",
+          params,
+        };
+      },
     }),
   }),
 });
@@ -269,5 +278,6 @@ export const {
   useGetReviewQuery,
   useGetReviewTotalQuery,
   useAddOrderSubmitMutation,
-  useGetPopularProductQuery
+  useGetPopularProductQuery,
+  useGetAllProductQuery,
 } = faq;
