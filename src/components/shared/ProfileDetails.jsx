@@ -53,7 +53,7 @@ const ProfileDetails = () => {
             </div>
             :
             <div>
-              <Link href={'/changeAddress'}><button className="mt-2 cursor-pointer border px-7 py-2 border-gray-400 mt-5">
+              <Link href={'/changeAddress'}><button className=" cursor-pointer border px-7 py-2 border-gray-400 mt-5">
                 Update Address
               </button></Link>
             </div>

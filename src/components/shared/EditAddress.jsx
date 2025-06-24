@@ -8,37 +8,37 @@ import Link from "next/link";
 import { useGetProfileQuery, useUpdateProfileMutation } from "@/redux/Api/userAPi";
 import { toast } from "react-toastify";
 const EditAddress = () => {
-    const { data: profile } = useGetProfileQuery();
-    const[updateProfile] = useUpdateProfileMutation();
-  
-    const [form] = Form.useForm(); 
-  
-  
-    useEffect(() => {
-      if (profile?.shipping_address) {
-        form.setFieldsValue({
-          street_address: profile?.shipping_address.street_address,
-          state: profile?.shipping_address.state,
-          zip_code: profile?.shipping_address.zip_code,
-          city: profile?.shipping_address.city,
-        });
-      }
-    }, [profile, form]);
-  
-    const onEditProfile = async (values) => {
-      const data = new FormData();
-      data.append("street_address", values.street_address);
-      data.append("state", values.state);
-      data.append("zip_code", values.zip_code);
-      data.append("city", values.city);
-       try {
-            const response = await updateProfile(data).unwrap();
-            toast.success(response.message);
-          } catch (error) {
-            toast.error(error.data.message);
-            console.log(error);
-          }
-    };
+  const { data: profile } = useGetProfileQuery();
+  const [updateProfile] = useUpdateProfileMutation();
+
+  const [form] = Form.useForm();
+
+
+  useEffect(() => {
+    if (profile?.shipping_address) {
+      form.setFieldsValue({
+        street_address: profile?.shipping_address.street_address,
+        state: profile?.shipping_address.state,
+        zip_code: profile?.shipping_address.zip_code,
+        city: profile?.shipping_address.city,
+      });
+    }
+  }, [profile, form]);
+
+  const onEditProfile = async (values) => {
+    const data = new FormData();
+    data.append("street_address", values.street_address);
+    data.append("state", values.state);
+    data.append("zip_code", values.zip_code);
+    data.append("city", values.city);
+    try {
+      const response = await updateProfile(data).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div>
@@ -61,26 +61,35 @@ const EditAddress = () => {
               :
             </p>
 
-            <div className="mt-5">
-              <p className="flex items-center mb-2">
-                <span className="mr-2">
-                  <FaPhoneAlt />
-                </span>{" "}
-                (307) 555-0133
-              </p>
-              <p className="flex items-center mb-2">
-                <span className="mr-2">
-                  <IoMail />
-                </span>{" "}
-                debra.holt@example.com
-              </p>
-              <p className="flex items-center">
-                <span className="mr-2">
-                  <FaLocationDot />
-                </span>
-                2118 Thornridge Cir. Syracuse, Connecticut 35624
-              </p>
-            </div>
+            {
+              profile?.shipping_address ?
+                <div className="mt-5">
+                  <p className="flex items-center mb-2">
+                    <span className="mr-2">
+                      <FaPhoneAlt />
+                    </span>{" "}
+                    {profile?.phone}
+                  </p>
+                  <p className="flex items-center mb-2">
+                    <span className="mr-2">
+                      <IoMail />
+                    </span>{" "}
+                    {profile?.email}
+                  </p>
+                  <p className="flex items-center">
+                    <span className="mr-2">
+                      <FaLocationDot />
+                    </span>
+                    {profile?.shipping_address?.street_address}
+                  </p>
+                </div>
+                :
+                <div>
+                  <Link href={'/changeAddress'}><button className=" cursor-pointer border px-7 py-2 border-gray-400 mt-5">
+                    Update Address
+                  </button></Link>
+                </div>
+            }
           </div>
 
           <div className="col-span-6  md:pl-6 mt-9 md:mt-0">
