@@ -1,4 +1,5 @@
 "use client";
+
 import { MdOutlinePhone } from "react-icons/md";
 import { RiCalendar2Line } from "react-icons/ri";
 import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
@@ -7,12 +8,14 @@ import { LuHeart } from "react-icons/lu";
 import Link from "next/link";
 import { useGetCategoryQuery } from "@/redux/Api/webmanageApi";
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Drawer, Dropdown, Space } from "antd";
+import { Drawer, Dropdown } from "antd";
 import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import AppoinmentModal from "./AppoinmentModal";
 import { useRouter } from "next/navigation";
 import { useGetProfileQuery } from "@/redux/Api/userAPi";
+import Cookies from "js-cookie";
+
 const Navbar = ({ pathname }) => {
   const { data: category } = useGetCategoryQuery();
   const { data: profile } = useGetProfileQuery();
@@ -28,6 +31,8 @@ const Navbar = ({ pathname }) => {
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
     router.push("/auth/signIn");
+    Cookies.remove('jewellery-web-token');
+    // window.location.reload();
   };
 
   const items = [
@@ -157,8 +162,8 @@ const Navbar = ({ pathname }) => {
                         <Link
                           href={item.path}
                           className={`
-              ${pathname === item.path ? " underline" : "hover:underline"}
-            `} >
+                            ${pathname === item.path ? " underline" : "hover:underline"}
+                            `} >
                           <h1 className="text-black  hover:bg-gray-100 border-b py-3 px-1">
                             {item.title}
                           </h1>
@@ -205,8 +210,8 @@ const Navbar = ({ pathname }) => {
                 <Link
                   href={item.path}
                   className={`
-              ${pathname === item.path ? " underline" : "hover:underline"}
-            `}
+                  ${pathname === item.path ? " underline" : "hover:underline"}
+                  `}
                 >
                   {item.title}
                 </Link>
