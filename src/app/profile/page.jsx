@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import React from "react";
 import hero from "../../../public/shared/nnn.jpg";
 import ProfileDetails from "../../components/shared/ProfileDetails";
 import { useGetProfileQuery } from "@/redux/Api/userAPi";
 const page = () => {
   const { data: profile } = useGetProfileQuery();
+
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
