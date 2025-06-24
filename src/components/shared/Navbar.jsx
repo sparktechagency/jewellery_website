@@ -15,10 +15,25 @@ import AppoinmentModal from "./AppoinmentModal";
 import { useRouter } from "next/navigation";
 import { useGetProfileQuery } from "@/redux/Api/userAPi";
 import Cookies from "js-cookie";
+import GlobalSearchModal from "./GlobalSearchModal";
 
 const Navbar = ({ pathname }) => {
   const { data: category } = useGetCategoryQuery();
   const { data: profile } = useGetProfileQuery();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const [openResponsive, setOpenResponsive] = useState(false);
@@ -28,11 +43,14 @@ const Navbar = ({ pathname }) => {
   const onClose = () => {
     setOpen(false);
   };
+
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
-    router.push("/auth/signIn");
     Cookies.remove('jewellery-web-token');
-    // window.location.reload();
+    router.push("/auth/signIn");
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   const items = [
@@ -112,7 +130,9 @@ const Navbar = ({ pathname }) => {
             </div>
           </Link>
           <div className="flex -mt-8 md:mt-0 gap-4 justify-end text-lg">
-            <AiOutlineSearch />
+            <AiOutlineSearch onClick={showModal} className=" cursor-pointer" />
+            <GlobalSearchModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></GlobalSearchModal>
+
 
             <div className="hidden md:block">
               <div className="flex gap-2">
