@@ -6,10 +6,10 @@ import { useGetMyCustomOrderQuery, useGetMyOrderQuery } from '../../redux/Api/we
 const MainTab = () => {
   const [selectedTab, setSelectedTab] = useState("all");
 
-  const { data: myOrder } = useGetMyOrderQuery()
+  const { data: myOrder, isLoading: isLoadingMyOrder } = useGetMyOrderQuery()
   console.log('myOrder', myOrder);
-  const { data: myCustomOrder } = useGetMyCustomOrderQuery()
-
+  const { data: myCustomOrder, isLoading: isLoadingMyCustomOrder } = useGetMyCustomOrderQuery()
+  const isLoading = isLoadingMyOrder || isLoadingMyCustomOrder;
 
   return (
     <div className='mt-11'>
@@ -29,8 +29,8 @@ const MainTab = () => {
         <div
           onClick={() => setSelectedTab("submitted")}
           className={` py-2.5  mx-2 cursor-pointer ${selectedTab === "submitted"
-              ? "border-b text-black"
-              : " "
+            ? "border-b text-black"
+            : " "
             }`}
         >
           <div className="flex justify-between px-5 ">
@@ -43,16 +43,26 @@ const MainTab = () => {
       </div>
 
       <div className=" ">
-        {selectedTab === "all" && (
-          <div>
-            <Regular myOrder={myOrder}></Regular>
-          </div>
-        )}
-        {selectedTab === "submitted" && (
-          <div>
-            <Custom myCustomOrder={myCustomOrder}></Custom>
-          </div>
-        )}
+        {
+          isLoading ?
+            <div className="flex justify-center items-center">
+              <div className="w-12 h-12 border-4 border-t-transparent border-black border-solid rounded-full animate-spin mt-5"></div>
+            </div>
+
+            :
+            <div>
+              {selectedTab === "all" && (
+                <div>
+                  <Regular myOrder={myOrder}></Regular>
+                </div>
+              )}
+              {selectedTab === "submitted" && (
+                <div>
+                  <Custom myCustomOrder={myCustomOrder}></Custom>
+                </div>
+              )}
+            </div>
+        }
       </div>
     </div>
   )
