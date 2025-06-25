@@ -44,6 +44,9 @@ const Navbar = ({ pathname }) => {
     setOpen(false);
   };
 
+  const loggin = Cookies.get('jewellery-web-token')
+  console.log('loggin', loggin);
+
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
     Cookies.remove('jewellery-web-token');
@@ -130,36 +133,46 @@ const Navbar = ({ pathname }) => {
             </div>
           </Link>
           <div className="flex -mt-8 md:mt-0 gap-4 justify-end text-lg">
-            <AiOutlineSearch onClick={showModal} className=" cursor-pointer" />
+            <AiOutlineSearch size={loggin ? 20 : 26} onClick={showModal} className=" cursor-pointer" />
             <GlobalSearchModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></GlobalSearchModal>
 
+            {
+              loggin ?
+                <>
+                  <div className="hidden md:block">
+                    <div className="flex gap-2">
+                      <AiOutlineUser className="" />
+                      <Dropdown
+                        menu={{
+                          items,
+                        }}
+                        trigger={["click"]}
+                      >
+                        <a
+                          className="-mt-1 cursor-pointer"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {profile?.name}
+                          <DownOutlined classID="ml-2" />
+                        </a>
+                      </Dropdown>
+                    </div>
+                  </div>
 
-            <div className="hidden md:block">
-              <div className="flex gap-2">
-                <AiOutlineUser className="" />
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  trigger={["click"]}
-                >
-                  <a
-                    className="-mt-1 cursor-pointer"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {profile?.name}
-                    <DownOutlined classID="ml-2" />
-                  </a>
-                </Dropdown>
-              </div>
-            </div>
-            <Link href={"/favorite"}>
-              <LuHeart />{" "}
-            </Link>
+                  <Link href={"/favorite"}>
+                    <LuHeart />{" "}
+                  </Link>
 
-            <Link href={"/myCart"}>
-              <IoBagHandleOutline />
-            </Link>
+                  <Link href={"/myCart"}>
+                    <IoBagHandleOutline />
+                  </Link>
+                </>
+                :
+                <>
+                  <Link href={"/auth/signIn"}>LogIn</Link>
+                </>
+            }
+
             <div className="block lg:hidden">
               <div className="flex justify-end">
                 <button className="text-2xl" onClick={showDrawer}>
@@ -193,25 +206,32 @@ const Navbar = ({ pathname }) => {
                     <div className="text-black  hover:bg-gray-100 border-b py-3 px-1">
                       <Link href={'/customize'}><h1 className="text-black">Customize</h1></Link>
                     </div>
-                    <div className="flex gap-2 bg-gray-100 py-3 px-1 mt-3">
-                      <AiOutlineUser className="" />
-                      <Dropdown
-                        menu={{
-                          items,
-                        }}
-                        trigger={["click"]}
-                      >
-                        <button
-                          className="-mt-1  cursor-pointer"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <span className="">
-                            {profile?.name}
-                            <DownOutlined classID="ml-2" />
-                          </span>
-                        </button>
-                      </Dropdown>
-                    </div>
+
+                    {
+                      loggin &&
+                      <>
+                        <div className="flex gap-2 bg-gray-100 py-3 px-1 mt-3">
+                          <AiOutlineUser className="" />
+                          <Dropdown
+                            menu={{
+                              items,
+                            }}
+                            trigger={["click"]}
+                          >
+                            <button
+                              className="-mt-1  cursor-pointer"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <span className="">
+                                {profile?.name}
+                                <DownOutlined classID="ml-2" />
+                              </span>
+                            </button>
+                          </Dropdown>
+                        </div>
+                      </>
+                    }
+
                   </div>
                 </Drawer>
               </div>
