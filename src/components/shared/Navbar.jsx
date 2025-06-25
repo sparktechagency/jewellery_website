@@ -177,15 +177,15 @@ const Navbar = ({ pathname }) => {
                     <div className="text-black  hover:bg-gray-100 border-b py-3 px-1">
                       <Link href={'/'}><h1 className="text-black">Home</h1></Link>
                     </div>
-                    {categoryItems.map((item, index) => (
+                    {categoryItems?.map((item, index) => (
                       <div key={index}>
                         <Link
-                          href={item.path}
+                          href={item?.path}
                           className={`
-                            ${pathname === item.path ? " underline " : "hover:underline "}
+                            ${pathname === item?.path ? " underline " : "hover:underline "}
                             `} >
                           <h1 className="text-black  hover:bg-gray-100 border-b py-3 px-1">
-                            {item.title}
+                            {item?.title}
                           </h1>
                         </Link>
                       </div>
