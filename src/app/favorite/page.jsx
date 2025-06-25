@@ -1,37 +1,39 @@
 "use client";
 import Image from "next/image";
-import React from "react";
 import hero from "../../../public/shared/sss.jpg";
-import CardShop from "../../components/shared/CardShop";
-import img1 from "../../../public/ring/img1.png";
-import img2 from "../../../public/ring/img2.png";
-import img3 from "../../../public/ring/img3.png";
-import img4 from "../../../public/ring/img4.png";
-import img5 from "../../../public/ring/img5.png";
-import img6 from "../../../public/ring/img6.png";
-import { FiHeart } from "react-icons/fi";
+// import CardShop from "../../components/shared/CardShop";
+// import img1 from "../../../public/ring/img1.png";
+// import img2 from "../../../public/ring/img2.png";
+// import img3 from "../../../public/ring/img3.png";
+// import img4 from "../../../public/ring/img4.png";
+// import img5 from "../../../public/ring/img5.png";
+// import img6 from "../../../public/ring/img6.png";
+// import { FiHeart } from "react-icons/fi";
 import Link from "next/link";
 import { useAddFavoriteMutation, useGetFavoritesQuery } from "@/redux/Api/webmanageApi";
 import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
+import ProductSkeleton from "../../components/Skeleton/ProductSkeleton";
+
+
 const page = () => {
-  const { data: favorite } = useGetFavoritesQuery();
+  const { data: favorite, isLoading } = useGetFavoritesQuery();
   console.log(favorite?.products)
-    const [addFavorite] = useAddFavoriteMutation();
-    const handleFavorite = async (record) => {
-      console.log(record);
-      const data = {
-        product_id: record,
-        type: "remove",
-      };
-      try {
-        const response = await addFavorite(data).unwrap();
-        toast.success(response.message);
-      } catch (error) {
-        toast.error(error.data.message);
-      }
+  const [addFavorite] = useAddFavoriteMutation();
+  const handleFavorite = async (record) => {
+    console.log(record);
+    const data = {
+      product_id: record,
+      type: "remove",
     };
-  
+    try {
+      const response = await addFavorite(data).unwrap();
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
+
 
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
@@ -63,62 +65,55 @@ const page = () => {
         </div>
       </div>
       <h1 className=" pt-16">Showing {favorite?.products?.length} result</h1>
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-4 ">
-        {favorite?.products?.map((item, index) => (
-          <div key={index}>
-            {/* <div key={index}>
-              <div>
-                <div className="relative">
-                  <Link href={"/productDetails"}>
-                    <Image
-                      width={900}
-                      height={400}
-                      className=" md:h-[360px] object-cover"
-                      src={item.img}
-                      alt=""
-                    />
-                  </Link>
-                  <div className="absolute cursor-pointer top-0 right-0 pr-2 pt-2 text-xl">
-                    <FiHeart />
-                  </div>
-                </div>
-                <h1 className=" pt-2">{item?.title}</h1>
-                <p className="text-sm">{item?.price}</p>
-              </div>
-            </div> */}
+      {
+        isLoading ?
+          <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
 
-            <div>
-              <div className="relative">
-                <Link href={`/productDetails/${item._id}`}>
-                  <Image
-                    width={900}
-                    height={400}
-                    className=" md:h-[360px] object-cover"
-                    src={item?.image_urls[0]}
-                    alt=""
-                  />
-                </Link>
-                <div
-                  onClick={() => handleFavorite(item._id)}
-                  className="absolute cursor-pointer top-0 right-0  flexitems-center p-1 mr-1 mt-1 rounded-full bg-white text-red-600 text-xl"
-                >
-                  <FaHeart />
+          </div>
+          :
+          <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-4 ">
+            {favorite?.products?.map((item, index) => (
+              <div key={index}>
+
+                <div>
+                  <div className="relative">
+                    <Link href={`/productDetails/${item._id}`}>
+                      <Image
+                        width={900}
+                        height={400}
+                        className=" md:h-[360px] object-cover"
+                        src={item?.image_urls[0]}
+                        alt=""
+                      />
+                    </Link>
+                    <div
+                      onClick={() => handleFavorite(item._id)}
+                      className="absolute cursor-pointer top-0 right-0  flexitems-center p-1 mr-1 mt-1 rounded-full bg-white text-red-600 text-xl"
+                    >
+                      <FaHeart />
+                    </div>
+                  </div>
+                  <h1 className=" pt-2">{item?.name}</h1>
+                  <p className="text-sm">
+                    {Number(item?.discount_price || item?.price).toLocaleString(
+                      "en-US",
+                      {
+                        style: "currency",
+                        currency: "USD",
+                      }
+                    )}
+                  </p>
                 </div>
               </div>
-              <h1 className=" pt-2">{item?.name}</h1>
-              <p className="text-sm">
-                {Number(item?.discount_price || item?.price).toLocaleString(
-                  "en-US",
-                  {
-                    style: "currency",
-                    currency: "USD",
-                  }
-                )}
-              </p>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+      }
     </div>
   );
 };

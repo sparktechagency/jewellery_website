@@ -7,12 +7,13 @@ import Link from "next/link";
 import { FiHeart } from "react-icons/fi";
 // import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import missingImage from '../../../public/missing-img.avif'
+import missingImage from "../../../public/missing-img.avif";
+import { Spin, ConfigProvider } from "antd";  // Ensure Spin is properly imported
 
 const CardShop = ({ item }) => {
-  const [addFavorite] = useAddFavoriteMutation();
+  const [addFavorite, { isLoading }] = useAddFavoriteMutation();
   // const dispatch = useDispatch();
-  console.log(item);
+  console.log(item?._id);
 
   // const increaseQuantity = () => {
   //   dispatch(
@@ -22,17 +23,22 @@ const CardShop = ({ item }) => {
   //   );
   // };
 
-  const handleFavorite = async (record) => {
-    console.log(record);
+  const handleFavorite = async (id) => {
+    console.log('clicked favorite', id);
+    // if (!item?._id) {
+    //   toast.error("Invalid product data");
+    //   return;
+    // }
     const data = {
-      product_id: record,
+      product_id: id,  // Use item._id directly, not record
       type: "add",
     };
+
     try {
-      const response = await addFavorite(data).unwrap();
-      toast.success(response.message);
+      const res = await addFavorite(data).unwrap();
+      toast.success(res.message);  // Show success message from response
     } catch (error) {
-      toast.error(error.data.message);
+      toast.error(error?.data?.message || "An error occurred while adding to favorites");
     }
   };
 
@@ -44,19 +50,33 @@ const CardShop = ({ item }) => {
             // onClick={increaseQuantity}
             width={900}
             height={400}
-            className=" md:h-[360px] object-cover"
-            src={item?.image_urls[0]? item?.image_urls[0]: missingImage}
-            alt=""
+            className="md:h-[360px] object-cover"
+            src={item?.image_urls[0] || missingImage} // Fallback to missing image
+            alt={item?.name || "Product Image"}
           />
         </Link>
         <div
-          onClick={() => handleFavorite(item?._id)}
-          className="absolute cursor-pointer top-0 right-0  flexitems-center p-1 mr-1 mt-1 rounded-full bg-white text-xl"
+          onClick={() => handleFavorite(item?._id)} // Calling handleFavorite when clicked
+          className="absolute cursor-pointer top-0 right-0 flex items-center p-2 mr-1 mt-1 rounded-full bg-white text-xl z-10 pointer-events-auto"
         >
-          <FiHeart />
+          {isLoading ? (
+            <ConfigProvider
+              theme={{
+                components: {
+                  Spin: {
+                    colorPrimary: "rgb(51,51,51)",
+                  },
+                },
+              }}
+            >
+              <Spin />
+            </ConfigProvider>
+          ) : (
+            <FiHeart size={26} />
+          )}
         </div>
       </div>
-      <h1 className=" pt-2">{item?.name}</h1>
+      <h1 className="pt-2">{item?.name}</h1>
       <p className="text-sm">
         {Number(item?.discount_price || item?.price).toLocaleString("en-US", {
           style: "currency",

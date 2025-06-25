@@ -12,8 +12,11 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import CardShop from '../../components/shared/CardShop'
 import { useGetPopularProductQuery } from "@/redux/Api/webmanageApi";
+import ProductSkeleton from "../../components/Skeleton/ProductSkeleton";
+
+
 const OurPopularItems = () => {
-  const{data:popularProduct} = useGetPopularProductQuery();
+  const { data: popularProduct, isLoading } = useGetPopularProductQuery();
   console.log(popularProduct)
 
   const splideRef = useRef(null);
@@ -51,33 +54,45 @@ const OurPopularItems = () => {
           </div>
           <div></div>
         </div>
+        {
+          isLoading ?
+            <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
+              <ProductSkeleton></ProductSkeleton>
+              <ProductSkeleton></ProductSkeleton>
+              <ProductSkeleton></ProductSkeleton>
+              <ProductSkeleton></ProductSkeleton>
+              <ProductSkeleton></ProductSkeleton>
 
-        <div>
-          <Splide
-            ref={splideRef}
-            options={{
-              type: "loop",
-              perPage: 5,
-              gap: "1rem",
-              arrows: false,
-              pagination: false,
-              breakpoints: {
-                1024: { perPage: 3 },
-                768: { perPage: 2 },
-                640: { perPage: 1 },
-              },
-            }}
-            aria-label="Category Slide"
-          >
-            {popularProduct?.map((item, index) => (
-              <SplideSlide key={index}>
-                <div>
-                  <CardShop item={item}></CardShop>
-                </div>
-              </SplideSlide>
-            ))}
-          </Splide>
-        </div>
+            </div>
+
+            :
+            <div>
+              <Splide
+                ref={splideRef}
+                options={{
+                  type: "loop",
+                  perPage: 5,
+                  gap: "1rem",
+                  arrows: false,
+                  pagination: false,
+                  breakpoints: {
+                    1024: { perPage: 3 },
+                    768: { perPage: 2 },
+                    640: { perPage: 1 },
+                  },
+                }}
+                aria-label="Category Slide"
+              >
+                {popularProduct?.map((item, index) => (
+                  <SplideSlide key={index}>
+                    <div>
+                      <CardShop item={item}></CardShop>
+                    </div>
+                  </SplideSlide>
+                ))}
+              </Splide>
+            </div>
+        }
       </div>
     </div>
   );
