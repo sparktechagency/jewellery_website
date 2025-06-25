@@ -1,6 +1,5 @@
 import Image from "next/image";
 import SubCategories from "../../components/shared/SubCategories";
-
 import mainUrl from "../../components/shared/mainUrl";
 
 const page = async ({ params }) => {
@@ -30,7 +29,7 @@ const page = async ({ params }) => {
                 <div className="text-3xl font-semibold md:text-5xl ">
                   <h1 className="">{category?.name}</h1>
                 </div>
-                <p className="md:py-5 py-2 text-sm  text-gray-600 max-w-2xl">
+                <p className="md:py-5 py-2 text-sm  text-black max-w-2xl">
                   {category?.details}
                 </p>
               </div>

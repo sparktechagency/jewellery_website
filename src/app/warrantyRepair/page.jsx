@@ -1,9 +1,12 @@
-"use client";
+"use client"
+
 import hero from "../../../public/shared/sss.jpg";
 import Image from "next/image";
 import mainUrl from "@/components/shared/mainUrl";
 import { useEffect, useState } from "react";
-const page = async () => {
+
+
+const WarrantyRepair = () => {
   const [about, setAbout] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -12,6 +15,7 @@ const page = async () => {
     };
     fetchData();
   }, []);
+
   return (
     <div className="container m-auto mt-9 px-4 lg:px-0">
       <div>
@@ -41,7 +45,7 @@ const page = async () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className=" mt-5">
         {about && about?.content ? (
           <div dangerouslySetInnerHTML={{ __html: about?.content }} />
         ) : (
@@ -52,4 +56,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default WarrantyRepair;

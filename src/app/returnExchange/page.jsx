@@ -42,7 +42,7 @@ const page = () => {
         </div>
       </div>
 
-      <div>
+      <div className=" mt-5">
         {about && about?.content ? (
           <div dangerouslySetInnerHTML={{ __html: about?.content }} />
         ) : (
