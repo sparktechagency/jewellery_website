@@ -2,6 +2,7 @@ import React from "react";
 import image from "../../../public/home/hero.jpg";
 import Link from "next/link";
 import Image from "next/image";
+
 const Hero = () => {
   return (
     <div>
@@ -18,6 +19,8 @@ const Hero = () => {
           objectFit="cover"
           objectPosition="center"
         />
+        {/* White overlay */}
+        <div className="absolute inset-0 bg-gray-200 opacity-60 rounded-2xl"></div>
         <div className="absolute px-4 lg:px-0 inset-0 flex items-center container m-auto">
           <div className="">
             <div>
@@ -29,9 +32,11 @@ const Hero = () => {
                 Each piece is a reflection of who you are—express yourself with
                 our collection of fine jewelry made just for you.
               </p>
-              <Link href={'/shop'}><button className="bg-black cursor-pointer px-6 py-2 text-white">
-                Shop Now
-              </button></Link>
+              <Link href={'/shop'}>
+                <button className="bg-black cursor-pointer px-6 py-2 text-white">
+                  Shop Now
+                </button>
+              </Link>
             </div>
           </div>
         </div>
