@@ -182,7 +182,7 @@ const Navbar = ({ pathname }) => {
                         <Link
                           href={item.path}
                           className={`
-                            ${pathname === item.path ? " underline" : "hover:underline"}
+                            ${pathname === item.path ? " underline " : "hover:underline "}
                             `} >
                           <h1 className="text-black  hover:bg-gray-100 border-b py-3 px-1">
                             {item.title}
@@ -222,7 +222,9 @@ const Navbar = ({ pathname }) => {
         <div className="hidden lg:block">
           <div className="flex gap-16 justify-center mt-9">
             <div className="flex gap-4">
-              <Link href={'/'}>Home</Link>
+              <Link href={'/'} className={`
+                  ${pathname === '/' ? " font-bold" : ""}
+                  `}>Home</Link>
             </div>
             {categoryItems.map((item, index) => (
               <div key={index}>
@@ -230,7 +232,7 @@ const Navbar = ({ pathname }) => {
                 <Link
                   href={item.path}
                   className={`
-                  ${pathname === item.path ? " underline" : "hover:underline"}
+                  ${pathname === item.path ? " font-bold" : ""}
                   `}
                 >
                   {item.title}
@@ -238,7 +240,9 @@ const Navbar = ({ pathname }) => {
               </div>
             ))}
             <div className="flex gap-4">
-              <Link href={'/customize'}>Customize</Link>
+              <Link href={'/customize'} className={`
+                  ${pathname === '/customize' ? " font-bold" : ""}
+                  `}>Customize</Link>
             </div>
           </div>
         </div>

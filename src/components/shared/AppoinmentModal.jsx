@@ -43,13 +43,13 @@ const AppoinmentModal = ({ openResponsive, setOpenResponsive }) => {
       }}
     >
       <div>
-        <h1 className="text-xl font-semibold text-center pb-4">
+        {/* <h1 className="text-xl font-semibold text-center pb-4">
           Book An Appointment
         </h1>
         <div className="bg-[#F5F5F5] p-4">
           <h1>Showroom Location</h1>
           <p>Dhaka, Banasree</p>
-        </div>
+        </div> */}
         {tabContent[activeTab]}
       </div>
     </Modal>
@@ -152,7 +152,7 @@ const TabOne = ({ setActiveTab, setAppointmentData }) => {
 
 const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
   const [form] = useForm();
-  const [addApointment] = useAddAppointmentMutation();
+  const [addApointment, { isLoading }] = useAddAppointmentMutation();
 
   const onFinish = async (values) => {
     const postData = { ...values, ...appointmentData };
@@ -201,7 +201,7 @@ const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
             placeholder="Enter Phone Number"
           />
         </Form.Item>
-        <Form.Item label="Note (Optional)" name="notes">
+        <Form.Item label="Note" name="notes"  rules={[{ required: true, message: "Please write note" }]}>
           <Input.TextArea
             style={{ borderRadius: "0px" }}
             rows={4}
@@ -212,12 +212,12 @@ const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
           <button
             type="button"
             onClick={() => setActiveTab(0)}
-            className="w-full border text-black py-2"
+            className="w-full border text-black py-2 cursor-pointer"
           >
             Back
           </button>
-          <button type="submit" className="w-full bg-black text-white py-2">
-            Book
+          <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-2 cursor-pointer">
+            {isLoading ? "Booking..." : "Book"}
           </button>
         </div>
       </Form>

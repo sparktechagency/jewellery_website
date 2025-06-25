@@ -8,6 +8,7 @@ import CardShop from "../../components/shared/CardShop";
 import { Pagination } from "antd";
 import { Filter } from "../../components/shared/Filter";
 import mainUrl from "../../components/shared/mainUrl";
+import ProductSkeleton from "../../components/Skeleton/ProductSkeleton";
 
 const Page = () => {
   const limit = 10;
@@ -116,18 +117,28 @@ const Page = () => {
           max={max}
         />
       </div>
-
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
-        {products?.products?.length > 0 ? (
-          products.products.map((product) => (
-            <CardShop key={product._id} item={product} />
-          ))
-        ) : (
-          <div className="w-full h-16 grid place-items-center col-span-4">
-            <h3>{loading ? "Loading..." : "No Data"}</h3>
+      {
+        loading ?
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
+            <ProductSkeleton></ProductSkeleton>
           </div>
-        )}
-      </div>
+          :
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6 ">
+            {products?.products?.length > 0 ? (
+              products.products.map((product) => (
+                <CardShop key={product._id} item={product} />
+              ))
+            ) : (
+              <div className="w-full h-16 grid place-items-center col-span-4">
+                <h3>{loading ? "Loading..." : "No Data"}</h3>
+              </div>
+            )}
+          </div>
+      }
+
       <div className="mt-4 flex justify-end">
         <Pagination
           current={filters.page}
