@@ -96,6 +96,7 @@ const Page = () => {
               </div>
               <input
                 value={filters.query}
+                placeholder="Search for products..."
                 onChange={(e) =>
                   setFilters((p) => ({ ...p, query: e.target.value }))
                 }

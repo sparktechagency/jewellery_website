@@ -85,6 +85,20 @@ const AddCart = () => {
             </div>
 
             <div>
+              {
+                cart.length < 1 &&
+                <div className="text-center py-4">
+                  <h2 className="text-lg font-semibold">Your cart is empty</h2>
+                  <Link href="/shop">
+                    <button className="bg-black text-white px-4 py-2 mt-4 cursor-pointer">
+                      Go to Shop
+                    </button>
+                  </Link>
+                </div>
+              }
+            </div>
+
+            <div>
               {cart.map((item) => (
                 <div
                   key={item._id}
@@ -188,9 +202,12 @@ const AddCart = () => {
             </p>
             <Link href={"/checkOut"}>
               {" "}
-              <button className="w-full cursor-pointer bg-black text-white py-2 mt-4">
-                Check Out
-              </button>
+              {
+                cart.length > 0 && <button className="w-full cursor-pointer bg-black text-white py-2 mt-4">
+                  Check Out
+                </button>
+              }
+
             </Link>
           </div>
         </div>
