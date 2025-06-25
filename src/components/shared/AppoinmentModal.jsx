@@ -295,6 +295,7 @@ const TabTwo = ({ setActiveTab, appointmentData, setOpenResponsive }) => {
           >
             <Input
               style={{ padding: "9px", borderRadius: "0px" }}
+              type="Number"
               placeholder="Enter Phone Number"
             />
           </Form.Item>

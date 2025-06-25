@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { Button} from "antd";
+import { useState } from "react";
 import OTPInput from "react-otp-input";
 import { useVerifyOtpMutation } from "../../redux/Api/userAPi";
 import { toast } from "react-toastify";

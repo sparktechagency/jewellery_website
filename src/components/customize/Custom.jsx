@@ -180,6 +180,7 @@ const Custom = () => {
             <Form.Item
               label="Phone Number"
               name="phone"
+              type="Number"
               rules={[
                 { required: true, message: "Please input your phone number!" },
               ]}

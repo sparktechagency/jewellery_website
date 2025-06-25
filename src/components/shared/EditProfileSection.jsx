@@ -116,6 +116,7 @@ const EditProfileSection = () => {
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
                   placeholder="Enter Phone Number"
+                  type="Number"
                   rules={[{ required: true, message: "Please write a Number" }]}
                 />
               </Form.Item>
