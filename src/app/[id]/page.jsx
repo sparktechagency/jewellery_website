@@ -23,13 +23,15 @@ const page = async ({ params }) => {
             objectFit="cover"
             objectPosition="center"
           />
+          {/* White overlay */}
+          <div className="absolute inset-0 bg-gray-200 opacity-60 rounded-2xl"></div>
           <div className="absolute px-4 lg:px-0 inset-0 flex items-center ">
             <div className="">
               <div className="md:pl-20">
                 <div className="text-3xl font-semibold md:text-5xl ">
                   <h1 className="">{category?.name}</h1>
                 </div>
-                <p className="md:py-5 py-2 text-sm  text-black max-w-2xl">
+                <p className="md:py-5 py-2 text-sm text-black max-w-2xl">
                   {category?.details}
                 </p>
               </div>

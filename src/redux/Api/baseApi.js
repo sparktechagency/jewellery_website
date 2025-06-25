@@ -1,10 +1,9 @@
-// src/Redux/baseApi.js
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+// API Base URL
+const baseUrl = "https://api.cathysjewelry.net"; // Replace with the actual base URL
 
-// const baseUrl = "https://api.kidsknowrights.com";
-const baseUrl = "https://api.cathysjewelry.net";
-// const baseUrl = "http://localhost:5000";
 // Helper function to get the token
 const getToken = () => {
   if (typeof window === "undefined") {
@@ -15,10 +14,10 @@ const getToken = () => {
   }
 };
 
-export const baseApi = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+// Base Query with Refresh Token
+const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
+  let result = await fetchBaseQuery({
+    baseUrl,
     prepareHeaders: (headers) => {
       const token = getToken();
       if (token) {
@@ -26,40 +25,41 @@ export const baseApi = createApi({
       }
       return headers;
     },
-  }),
-  tagTypes: ["profile", "event", "videos", "updateProfile"],
-  endpoints: () => ({}),
-});
+  })(args, api, extraOptions);
 
-export const fetchServerData = async (endpoint) => {
-  const token = getToken();
+  // Handle API errors with better debugging
+  if (result?.error) {
+    const { status, data } = result.error;
 
-  const baseQuery = fetchBaseQuery({ baseUrl });
+    // Handle 404 or 403 errors
+    // if (status === 404 || status === 403) {
+    //   message.error(data?.message || "Something went wrong.");
+    // }
+    console.log(result.error);
+    // Handle 401 (Unauthorized) - Refresh Token Logic
+    if (status === 401) {
 
-  const result = await baseQuery(
-    {
-      url: endpoint,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-    {
-      signal: new AbortController().signal,
-      dispatch: () => { },
-      getState: () => ({}),
-      endpoint: "",
-      abort: () => { },
-      type: "query",
-      extra: undefined,
-    },
-    {}
-  );
-
-  if (result.error) {
-    throw new Error(result.error.data?.toString() || "Failed to fetch data");
+      Cookies.remove("jewellery-web-token");
+      localStorage.removeItem("accessToken");
+      window.location.href = "/auth/signIn";
+      toast.error("Unauthorized access. Please log in again.");
+    }
   }
 
-  return result.data;
+  return result;
 };
+
+// Create API with endpoints
+export const baseApi = createApi({
+  reducerPath: "baseApi",
+  baseQuery: baseQueryWithRefreshToken,
+  tagTypes: [
+    "profile",
+    "event",
+    "videos",
+    "updateProfile",
+  ], // Add your tagTypes
+  endpoints: () => ({}),
+});
 
 export default baseApi;
