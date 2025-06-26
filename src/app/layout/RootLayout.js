@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+
 import localFont from "next/font/local";
 import "./globals.css";
 import ReduxProvider from "../../provider/ReduxProvider";
