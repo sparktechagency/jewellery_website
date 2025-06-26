@@ -39,10 +39,10 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
     // Handle 401 (Unauthorized) - Refresh Token Logic
     if (status === 401) {
 
-      // Cookies.remove("jewellery-web-token");
-      // localStorage.removeItem("accessToken");
-      // window.location.href = "/auth/signIn";
-      // toast.error("Unauthorized access. Please log in again.");
+      Cookies.remove("jewellery-web-token");
+      localStorage.removeItem("accessToken");
+      window.location.href = "/auth/signIn";
+      toast.error("Unauthorized access. Please log in again.");
     }
   }
 

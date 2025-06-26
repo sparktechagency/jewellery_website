@@ -13,15 +13,14 @@ import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import AppoinmentModal from "./AppoinmentModal";
 import { useRouter } from "next/navigation";
-import { useGetProfileQuery } from "@/redux/Api/userAPi";
+
 import Cookies from "js-cookie";
 import GlobalSearchModal from "./GlobalSearchModal";
 
-const Navbar = ({ pathname }) => {
+const LogOutNavbar = ({ pathname }) => {
   const loggin = Cookies.get('jewellery-web-token');
 
   const { data: category } = useGetCategoryQuery();
-  const { data: profile } = useGetProfileQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -153,7 +152,7 @@ const Navbar = ({ pathname }) => {
                           className="-mt-1 cursor-pointer"
                           onClick={(e) => e.preventDefault()}
                         >
-                          {profile?.name}
+                          {/* {profile?.name} */}
                           <DownOutlined classID="ml-2" />
                         </a>
                       </Dropdown>
@@ -224,7 +223,7 @@ const Navbar = ({ pathname }) => {
                               onClick={(e) => e.preventDefault()}
                             >
                               <span className="">
-                                {profile?.name}
+                                {/* {profile?.name} */}
                                 <DownOutlined classID="ml-2" />
                               </span>
                             </button>
@@ -276,4 +275,4 @@ const Navbar = ({ pathname }) => {
   );
 };
 
-export default Navbar;
+export default LogOutNavbar;
