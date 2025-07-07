@@ -117,8 +117,8 @@ const Register = () => {
                     { required: true, message: "Please set your password!" },
                     {
                       min: 8,
-                      max: 10,
-                      message: "Password must be 8-10 characters long!",
+                      max: 20,
+                      message: "Password must be 8-20 characters long!",
                     },
                   ]}
                 >
