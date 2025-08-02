@@ -159,8 +159,7 @@ const Register = () => {
 
                 <Form.Item>
                   <button
-                    type="primary"
-                    htmlType="submit"
+                    type="submit"
                     loading={loading} // Show loading state
                     className="w-full py-2 hover:bg-none bg-black text-white cursor-pointer"
                   >

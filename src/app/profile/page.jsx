@@ -27,7 +27,7 @@ const page = () => {
           <div className="absolute px-4 lg:px-0 inset-0 flex max-w-2xl items-center ">
             <div className="">
               <div className="md:pl-20">
-                <p className="text-xl">{profile?.name}</p>
+                <div className="text-xl">{profile?.name}</div>
                 <div className="text-3xl font-semibold md:text-5xl ">
                   <h1 className="">My Account</h1>
                 </div>

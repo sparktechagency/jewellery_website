@@ -123,7 +123,7 @@ const EditAddress = () => {
               </Form.Item>
               <button
                 type="primary"
-                className="w-full bg-black text-white py-2"
+                className="w-full bg-black text-white py-2 cursor-pointer"
               >
                 Update
               </button>
