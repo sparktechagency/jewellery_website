@@ -13,7 +13,6 @@ import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import AppoinmentModal from "./AppoinmentModal";
 import { useRouter } from "next/navigation";
-
 import Cookies from "js-cookie";
 import GlobalSearchModal from "./GlobalSearchModal";
 
@@ -90,7 +89,7 @@ const LogOutNavbar = ({ pathname }) => {
     <div>
       <div className="lg:hidden block">
         <div className="flex justify-between px-4 py-1 bg-black text-sm text-white">
-          <Link href={"/contactUs"}>
+          <Link href={"/signout-contactUs"}>
             <div className="flex gap-2 ">
               <MdOutlinePhone className="mt-1" />
               <h1>Contact Us</h1>
@@ -109,7 +108,7 @@ const LogOutNavbar = ({ pathname }) => {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 px-4 lg:px-0">
           <div className="hidden lg:block">
             <div className="flex gap-11">
-              <Link href={"/contactUs"}>
+              <Link href={"/signout-contactUs"}>
                 <div className="flex gap-2 ">
                   <MdOutlinePhone className="mt-1" />
                   <h1>Contact Us</h1>

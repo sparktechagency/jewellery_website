@@ -1,4 +1,3 @@
-import React from 'react'
 import hero from '../../../public/shared/sss.jpg'
 import Image from 'next/image'
 import Contact from '../../components/shared/Contact'
