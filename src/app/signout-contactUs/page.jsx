@@ -3,30 +3,13 @@ import { Form, Input } from "antd";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
-import { useAddContactMutation } from "@/redux/Api/webmanageApi";
-import { toast } from "react-toastify";
-import { useGetProfileQuery } from "@/redux/Api/userAPi";
-const Contact = () => {
-  const [addContact] = useAddContactMutation();
-  const { data: profile } = useGetProfileQuery();
-  const onFinish = async (values) => {
-    const data = {
-      name: values.name,
-      phone: values.phone,
-      email: values.email,
-      message: values.message,
-    };
-    try {
-      const response = await addContact(data).unwrap();
-      toast.success(response.message);
-    } catch (error) {
-      toast.error(error.data.message);
-    }
-  };
+import Link from "next/link";
+
+const SignOutContact = () => {
 
   return (
     <div>
-      <div>
+      <div className=" container mx-auto">
         <div className=" mt-10 md:grid grid-cols-12 gap-6">
           {/* Order Detail */}
           <div className="col-span-5  ">
@@ -59,7 +42,7 @@ const Contact = () => {
           </div>
 
           <div className="col-span-7   md:pl-6 mt-9 md:mt-0">
-            <Form onFinish={onFinish} layout="vertical">
+            <Form layout="vertical">
               <Form.Item
                 name="name"
                 label="Full Name"
@@ -67,16 +50,15 @@ const Contact = () => {
               >
                 <Input
                   style={{ padding: "9px", borderRadius: "0px" }}
-                  placeholder={profile?.name || "Enter Name"}
+                  placeholder={"Enter Name"}
                   rules={[{ required: true, message: "Please write a Name" }]}
                 />
               </Form.Item>
 
               <Form.Item name="email" label="Email">
                 <Input
-                  initialValue={profile?.email}
                   style={{ padding: "9px", borderRadius: "0px" }}
-                  placeholder={profile?.email || "Enter Email"}
+                  placeholder={"Enter Email"}
                   rules={[{ required: true, message: "Please write a Email" }]}
                 />
               </Form.Item>
@@ -101,13 +83,14 @@ const Contact = () => {
                   placeholder="Write your review here..."
                 />
               </Form.Item>
-
-              <button
-                type="primary"
-                className="w-full bg-black text-white py-2  cursor-pointer"
-              >
-                Message Sent
-              </button>
+              <Link href={`/auth/signIn`}>
+                <button
+                  type="primary"
+                  className="w-full bg-black text-white py-2 cursor-pointer"
+                >
+                  Message Sent
+                </button>
+              </Link>
             </Form>
           </div>
         </div>
@@ -116,4 +99,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default SignOutContact;

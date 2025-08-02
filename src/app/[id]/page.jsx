@@ -9,11 +9,10 @@ const page = async ({ params }) => {
     <div className="container mx-auto mt-9 px-4 lg:px-0">
       <div>
         <h1 className="pb-4">Home/{category?.name}</h1>
+
         <div
           className="relative bg-cover bg-center md:h-[55vh] h-[200px] -mt-[1px]"
-          style={{
-            width: "100%",
-          }}
+          style={{ width: "100%" }}
         >
           <Image
             src={category?.img_url}
@@ -23,21 +22,23 @@ const page = async ({ params }) => {
             objectFit="cover"
             objectPosition="center"
           />
-          {/* White overlay */}
-          <div className="absolute inset-0 bg-gray-200 opacity-60 rounded-2xl"></div>
-          <div className="absolute px-4 lg:px-0 inset-0 flex items-center ">
-            <div className="">
-              <div className="md:pl-20">
-                <div className="text-3xl font-semibold md:text-5xl ">
-                  <h1 className="">{category?.name}</h1>
-                </div>
-                <p className="md:py-5 py-2 text-sm text-black max-w-2xl">
-                  {category?.details}
-                </p>
-              </div>
+
+          {/* White overlay with improved opacity for clear readability */}
+          <div className="absolute inset-0 bg-white opacity-80 rounded-2xl"></div>
+
+          <div className="absolute inset-0 px-4 lg:px-0 flex items-center">
+            <div className="md:pl-20">
+              <h1 className="text-3xl md:text-5xl font-semibold text-gray-900 drop-shadow-sm">
+                {category?.name}
+              </h1>
+              <p className="py-2 md:py-5 text-sm md:text-base text-gray-800 max-w-2xl drop-shadow-sm">
+                {category?.details}
+              </p>
             </div>
           </div>
         </div>
+
+
       </div>
       <SubCategories categorys={category} categoryId={id} />
     </div>

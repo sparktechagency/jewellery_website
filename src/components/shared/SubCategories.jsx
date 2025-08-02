@@ -58,6 +58,8 @@ const SubCategories = ({ categorys, categoryId }) => {
         }
       );
 
+      console.log(fetched);
+
       setProducts(fetched);
 
       if (min === 0 && max === 0 && fetched?.products?.length > 0) {
@@ -145,7 +147,7 @@ const SubCategories = ({ categorys, categoryId }) => {
                             </button>
                           </div>
                           <h1
-                            className={`text-xl ${selectedSubCategory === item._id && "underline"
+                            className={`text-xl mt-3 ${selectedSubCategory === item._id && "underline"
                               }`}
                           >
                             {item.name}
@@ -180,7 +182,7 @@ const SubCategories = ({ categorys, categoryId }) => {
 
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 container m-auto mt-6">
         {products?.products?.length > 0 ? (
-          products.products.map((product) => (
+          products.products?.map((product) => (
             <CardShop key={product._id} item={product} />
           ))
         ) : (
