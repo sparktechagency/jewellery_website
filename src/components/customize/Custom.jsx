@@ -1,15 +1,17 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import { Form, Input, ConfigProvider, Upload, Typography, Radio } from "antd";
 import { useAddOrderCustomMutation } from "@/redux/Api/webmanageApi";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const { Title } = Typography;
 
 const Custom = () => {
-  const [addOrder] = useAddOrderCustomMutation()
+  const [addOrder, { isLoading }] = useAddOrderCustomMutation()
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
+  const router = useRouter();
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -44,9 +46,8 @@ const Custom = () => {
     });
     try {
       const response = await addOrder(formData).unwrap();
-      console.log(response)
       toast.success(response.message);
-
+      router.push('/')
     } catch (error) {
       toast.error(error.data.message);
     }
@@ -247,9 +248,10 @@ const Custom = () => {
               <button
                 type="primary"
                 htmlType="submit"
-                className="w-full py-3 bg-black text-white "
+                disabled={isLoading}
+                className="w-full py-3 bg-black text-white cursor-pointer"
               >
-                Place Order
+                {isLoading ? "Loading..." : "Place Order"}
               </button>
             </Form.Item>
           </Form>

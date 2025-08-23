@@ -6,31 +6,31 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 const VeryfyRegister = () => {
-//   const locale = useLocale();
-const router = useRouter();
-const [loading, setLoading] = useState(false); 
+  //   const locale = useLocale();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const [verifyOtp] = useVerifyOtpMutation();
 
-const handleVerify = async () => {
-   const data = {
+  const handleVerify = async () => {
+    const data = {
       otp: otp,
       email: localStorage.getItem("email"),
     };
-  
-    setLoading(true);     
+
+    setLoading(true);
     try {
       const response = await verifyOtp(data).unwrap();
       toast.success(response.message);
       router.push("/auth/signIn");
-    
-      setLoading(false);     
+
+      setLoading(false);
     } catch (error) {
       toast.error(error.data.message);
       console.log(error);
       setLoading(false);
-    }    
-   }
+    }
+  }
 
   return (
     <div className="items-center justify-center px-4 flex min-h-screen bg-white">
@@ -40,7 +40,7 @@ const handleVerify = async () => {
             Check your email
           </h2>
           <h3 className="text-[#333333] text-center mb-5">
-            We sent a reset link to { "your email"}. Enter the 5-digit
+            We sent a reset link to {"your email"}. Enter the 5-digit
             code mentioned in the email.
           </h3>
           <div className="flex justify-center mb-5">
