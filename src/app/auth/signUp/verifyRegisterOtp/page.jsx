@@ -1,4 +1,3 @@
-import React from 'react'
 import VeryfyRegister from '../../../../components/authentication/VeryfyRegister'
 
 const page = () => {

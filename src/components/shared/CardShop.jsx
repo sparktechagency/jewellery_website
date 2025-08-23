@@ -78,11 +78,31 @@ const CardShop = ({ item }) => {
       </div>
       <h1 className="pt-2">{item?.name}</h1>
       <p className="text-sm">
-        {Number(item?.discount_price || item?.price).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}
+        {item?.discount_price ? (
+          <>
+            <span className="text-gray-400 line-through mr-2">
+              {Number(item.price).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </span>
+            <span className="">
+              {Number(item.discount_price).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </span>
+          </>
+        ) : (
+          <span className="">
+            {Number(item?.price).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </span>
+        )}
       </p>
+
     </div>
   );
 };

@@ -3,6 +3,7 @@ import img1 from "../../../public/home/add.png";
 import img2 from "../../../public/home/over.png";
 import img3 from "../../../public/home/pop5.png";
 import Image from "next/image";
+import Link from "next/link";
 const ShopStunning = () => {
   return (
     <div className="container m-auto mt-28 px-4 lg:px-0">
@@ -28,7 +29,7 @@ const ShopStunning = () => {
             From classic studs to statement hoops, shop our bestselling earrings
             designed to add the perfect touch of elegance to any outfit.
           </p>
-          <button className="border px-6 py-2 text-black">Explore Now</button>
+          <Link className=" cursor-pointer" href={`/shop`}><button className="border cursor-pointer px-6 py-2 text-black">Explore Now</button></Link>
         </div>
       </div>
       <div className="flex flex-col-reverse md:flex-row bg-[#F5F5F5] mt-28 ">
@@ -43,12 +44,12 @@ const ShopStunning = () => {
               image of your dream design, and our expert jewelers will craft a
               one-of-a-kind piece tailored just for you.
             </p>
-            <button className="border px-6 py-2 text-black">Explore Now</button>
+            <Link className=" cursor-pointer" href={`/shop`}><button className="border cursor-pointer px-6 py-2 text-black">Explore Now</button></Link>
           </div>
         </div>
-      
-          <Image width={1500} height={600} src={img3} alt="image"/>
-      
+
+        <Image width={1500} height={600} src={img3} alt="image" />
+
       </div>
     </div>
   );

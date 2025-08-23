@@ -136,7 +136,7 @@ const ChangePassword = () => {
 
 
               {/* Submit Button */}
-              <button type="submit" className="w-full bg-black text-white py-2">
+              <button type="submit" className="w-full bg-black text-white py-2 cursor-pointer">
                 Change Password
               </button>
             </Form>
